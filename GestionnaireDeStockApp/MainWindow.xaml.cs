@@ -20,20 +20,9 @@ namespace GestionnaireDeStockApp
             public string Tel { get; set; }
         }
 
-        readonly ObservableCollection<User> users = new ObservableCollection<User>
-        {
-            new User()
-            {
-                Nom = "Hammana",
-                Prénom = "Charif"
-            }
-        };
-
         public MainWindow()
         {
             InitializeComponent();
-
-            GridView.DataContext = users;
         }
 
         private void TopGridBar_MouseDown(object sender, MouseButtonEventArgs e)
