@@ -101,14 +101,15 @@
         </Grid>
 
         <Grid Grid.Column="1" Grid.Row="1" Background="#FFB6B6B6" Name="GridView">
+            <!--
             <DataGrid ItemsSource="{Binding}" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" />
                     <DataGridTextColumn Header="Prénom" Binding="{Binding Prénom}" />
                     <DataGridTextColumn Header="Tel" />
                 </DataGrid.Columns>
-            </DataGrid>
-            <Frame x:Name="MainFrame" Margin="0,0,0,0" NavigationUIVisibility="Visible" Visibility="Hidden"/>
+            </DataGrid>-->
+            <Frame x:Name="MainFrame" Margin="0,0,0,0" NavigationUIVisibility="Visible"/>
         </Grid>
     </Grid>
 </Window>

@@ -61,47 +61,42 @@ namespace GestionnaireDeStockApp
 
         private void AddAnArticleButton_Click(object sender, RoutedEventArgs e)
         {
-            users.Add(new User()
-            {
-                Nom = "Monin",
-                Prénom = "Xavier"
-            });
-            MainFrame.Content = new AddAnArticlePage(@"C:\Users\raikh\OneDrive\Bureau\Numérique\Développement Informatique\CSHARP Development\GestionnaireDeStockApp\GestionnaireDeStockApp\DataBase\Liste des articles.txt");
+            MainFrame.Content = new AddAnArticlePage(@"DataBase\Liste des articles.txt");
         }
 
         private void SearchByRefButton_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new SearchByReferencePage(@"C:\Users\raikh\OneDrive\Bureau\Numérique\Développement Informatique\CSHARP Development\GestionnaireDeStockApp\GestionnaireDeStockApp\DataBase\Liste des articles.txt");
+            MainFrame.Content = new SearchByReferencePage(@"DataBase\Liste des articles.txt");
         }
 
         private void SearchByNameButton_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new SearchByNamePage(@"C:\Users\raikh\OneDrive\Bureau\Numérique\Développement Informatique\CSHARP Development\GestionnaireDeStockApp\GestionnaireDeStockApp\DataBase\Liste des articles.txt");
+            MainFrame.Content = new SearchByNamePage(@"DataBase\Liste des articles.txt");
         }
 
         private void SearchByPrice_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new SearchByPricePage(@"C:\Users\raikh\OneDrive\Bureau\Numérique\Développement Informatique\CSHARP Development\GestionnaireDeStockApp\GestionnaireDeStockApp\DataBase\Liste des articles.txt");
+            MainFrame.Content = new SearchByPricePage(@"DataBase\Liste des articles.txt");
         }
 
         private void SearchInAllDataBaseButton_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new SearchInAllDataBasePage(@"C:\Users\raikh\OneDrive\Bureau\Numérique\Développement Informatique\CSHARP Development\GestionnaireDeStockApp\GestionnaireDeStockApp\DataBase\Liste des articles.txt");
+            MainFrame.Content = new SearchInAllDataBasePage(@"DataBase\Liste des articles.txt");
         }
 
         private void DeleteAnArticle_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new DeleteAnArticlePage(@"C:\Users\raikh\OneDrive\Bureau\Numérique\Développement Informatique\CSHARP Development\GestionnaireDeStockApp\GestionnaireDeStockApp\DataBase\Liste des articles.txt");
+            MainFrame.Content = new DeleteAnArticlePage(@"DataBase\Liste des articles.txt");
         }
 
         private void EditAnArticleButton_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new EditAnArticlePage(@"C:\Users\raikh\OneDrive\Bureau\Numérique\Développement Informatique\CSHARP Development\GestionnaireDeStockApp\GestionnaireDeStockApp\DataBase\Liste des articles.txt");
+            MainFrame.Content = new EditAnArticlePage(@"DataBase\Liste des articles.txt");
         }
 
         private void ShowAllArticlesButton_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new ShowAllArticlesPage(@"C:\Users\raikh\OneDrive\Bureau\Numérique\Développement Informatique\CSHARP Development\GestionnaireDeStockApp\GestionnaireDeStockApp\DataBase\Liste des articles.txt");
+            MainFrame.Content = new ShowAllArticlesPage(@"DataBase\Liste des articles.txt");
         }
 
         private void AccountButton_Click(object sender, RoutedEventArgs e)
