@@ -1,0 +1,114 @@
+﻿<Window x:Class="GestionnaireDeStockApp.MainWindow"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GestionnaireDeStockApp"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d" Height="600" Width="1024" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None"
+        Title="Gestionnaire de stock 1.0" >
+    <Grid Background="#FFCFCFCF">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="TopGridBar" Grid.ColumnSpan="2" Background="#FF8522BD" MouseDown="TopGridBar_MouseDown">
+            <StackPanel x:Name="WindowButtonStackPanel" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="ReduceWindow" Click="ReduceWindow_Click" Width="25" Height="25" Content="{materialDesign:PackIcon Kind=WindowMinimize, Size=24}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White"/>
+                <Button x:Name="ResizeWindow" Click="ResizeWindow_Click" Width="25" Height="25" Content="{materialDesign:PackIcon Kind=Resize, Size=24}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White"/>
+                <Button x:Name="PowerButton" Click="PowerButton_Click" Width="25" Height="26" Content="{materialDesign:PackIcon Kind=Power, Size=24}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White"/>
+            </StackPanel>
+            <StackPanel x:Name="UserButtonStackPanel" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="AlertButton" Width="25" Height="25" Content="{materialDesign:PackIcon Kind=Bell, Size=24}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White"/>
+                <Button x:Name="AccountButton" Width="25" Height="25" Content="{materialDesign:PackIcon Kind=Account, Size=24}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" Click="AccountButton_Click"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="LightGray" Offset="1"/>
+                    <GradientStop Color="#FFE6E6E6" Offset="0"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.Effect>
+                <DropShadowEffect BlurRadius="20" Color="#FFDEDEDE" RenderingBias="Quality" ShadowDepth="1"/>
+            </Grid.Effect>
+
+            <Grid Background="#FFA46FE4">
+                <TextBlock Text="DASHBOARD" FontFamily="WS Simple Gallifreyan" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Foreground="#FFBC96EA"/>
+            </Grid>
+
+            <StackPanel Grid.Row="1">
+                <Button x:Name="AddAnArticleButton" Click="AddAnArticleButton_Click" Margin="10" Background="#FF8522BD" BorderBrush="#FF8522BD" Height="35">
+                    <Grid Width="200">
+                        <materialDesign:PackIcon Kind="Number1BoxMultipleOutline" Foreground="White" VerticalAlignment="Center" Width="40" RenderTransformOrigin="0.349,0.639" Margin="-5"/>
+                        <TextBlock HorizontalAlignment="Center" Text="AJOUTER UN ARTICLE" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" FontFamily="Champagne &amp; Limousines" FontSize="12"/>
+                    </Grid>
+                </Button>
+                <Button x:Name="SearchByRefButton" Click="SearchByRefButton_Click" Margin="10" Background="#FF8522BD" BorderBrush="#FF8522BD" Height="35">
+                    <Grid Width="200">
+                        <materialDesign:PackIcon Kind="Number2BoxMultipleOutline" Foreground="White" VerticalAlignment="Center" Width="40" RenderTransformOrigin="0.349,0.639" Margin="-5"/>
+                        <TextBlock HorizontalAlignment="Center" Text="RECHERCHE PAR REFERENCE" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" FontFamily="Champagne &amp; Limousines" FontSize="12"/>
+                    </Grid>
+                </Button>
+                <Button x:Name="SearchByNameButton" Click="SearchByNameButton_Click" Margin="10" Background="#FF8522BD" BorderBrush="#FF8522BD" Height="35">
+                    <Grid Width="200">
+                        <materialDesign:PackIcon Kind="Number3BoxMultipleOutline" Foreground="White" VerticalAlignment="Center" Width="40" RenderTransformOrigin="0.349,0.639" Margin="-5"/>
+                        <TextBlock HorizontalAlignment="Center" Text="RECHERCHE PAR NOM" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" FontFamily="Champagne &amp; Limousines" FontSize="12"/>
+                    </Grid>
+                </Button>
+                <Button x:Name="SearchByPrice" Click="SearchByPrice_Click" Margin="10" Background="#FF8522BD" BorderBrush="#FF8522BD" Height="35">
+                    <Grid Width="200">
+                        <materialDesign:PackIcon Kind="Number4BoxMultipleOutline" Foreground="White" VerticalAlignment="Center" Width="40" RenderTransformOrigin="0.349,0.639" Margin="-5"/>
+                        <TextBlock HorizontalAlignment="Center" Text="RECHERCHE PAR PRIX" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" FontFamily="Champagne &amp; Limousines" FontSize="12"/>
+                    </Grid>
+                </Button>
+                <Button x:Name="SearchInAllDataBaseButton" Click="SearchInAllDataBaseButton_Click" Margin="10" Background="#FF8522BD" BorderBrush="#FF8522BD" Height="35">
+                    <Grid Width="200">
+                        <materialDesign:PackIcon Kind="Number5BoxMultipleOutline" Foreground="White" VerticalAlignment="Center" Width="40" RenderTransformOrigin="0.349,0.639" Margin="-5"/>
+                        <TextBlock HorizontalAlignment="Center" Text="RECHERCHE DANS LA BDD" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" FontFamily="Champagne &amp; Limousines" FontSize="12"/>
+                    </Grid>
+                </Button>
+                <Button x:Name="DeleteAnArticle" Click="DeleteAnArticle_Click" Margin="10" Background="#FF8522BD" BorderBrush="#FF8522BD" Height="35">
+                    <Grid Width="200">
+                        <materialDesign:PackIcon Kind="Number6BoxMultipleOutline" Foreground="White" VerticalAlignment="Center" Width="40" RenderTransformOrigin="0.349,0.639" Margin="-5"/>
+                        <TextBlock HorizontalAlignment="Center" Text="SUPPRIMER UN ARTICLE" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" FontFamily="Champagne &amp; Limousines" FontSize="12"/>
+                    </Grid>
+                </Button>
+                <Button x:Name="EditAnArticleButton" Click="EditAnArticleButton_Click" Margin="10" Background="#FF8522BD" BorderBrush="#FF8522BD" Height="35">
+                    <Grid Width="200">
+                        <materialDesign:PackIcon Kind="Number7BoxMultipleOutline" Foreground="White" VerticalAlignment="Center" Width="40" RenderTransformOrigin="0.349,0.639" Margin="-5"/>
+                        <TextBlock HorizontalAlignment="Center" Text="MODIFIER UN ARTCILE" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" FontFamily="Champagne &amp; Limousines" FontSize="12"/>
+                    </Grid>
+                </Button>
+                <Button x:Name="ShowAllArticlesButton" Click="ShowAllArticlesButton_Click" Margin="10" Background="#FF8522BD" BorderBrush="#FF8522BD" Height="35">
+                    <Grid Width="200">
+                        <materialDesign:PackIcon Kind="Number8BoxMultipleOutline" Foreground="White" VerticalAlignment="Center" Width="40" RenderTransformOrigin="0.349,0.639" Margin="-5"/>
+                        <TextBlock HorizontalAlignment="Center" Text="AFFICHER TOUS LES ARTICLES" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" FontFamily="Champagne &amp; Limousines" FontSize="12"/>
+                    </Grid>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Column="1" Grid.Row="1" Background="#FFB6B6B6" Name="GridView">
+            <DataGrid ItemsSource="{Binding}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" />
+                    <DataGridTextColumn Header="Prénom" Binding="{Binding Prénom}" />
+                    <DataGridTextColumn Header="Tel" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <Frame x:Name="MainFrame" Margin="0,0,0,0" NavigationUIVisibility="Visible" Visibility="Hidden"/>
+        </Grid>
+    </Grid>
+</Window>

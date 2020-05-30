@@ -1,0 +1,17 @@
+﻿<Page x:Class="GestionnaireDeStockApp.EditACharacteristicPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:GestionnaireDeStockApp"
+      mc:Ignorable="d" 
+      d:DesignHeight="140" d:DesignWidth="360"
+      Title="EditACharacteristicPage">
+
+    <Grid>
+        <Rectangle Margin="25,40,25,40" Fill="White" RadiusY="20" RadiusX="20"/>
+        <TextBlock HorizontalAlignment="Left" Margin="39,60,0,0" Text="Saisissez votre modification :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="169"/>
+        <TextBox x:Name="EditACharaTxtBox" HorizontalAlignment="Left" Margin="200,58,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="EditACharaTxtBox_GotFocus"/>
+        <Button x:Name="ValidateButton" Click="ValidateButton_Click" Content="Valider" Foreground="White" Background="#FFA46FE4" HorizontalAlignment="Center" Margin="0,108,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="60" Height="27" RenderTransformOrigin="0.573,-1.005"/>
+    </Grid>
+</Page>

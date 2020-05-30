@@ -1,0 +1,24 @@
+﻿<Page x:Class="GestionnaireDeStockApp.SearchByNamePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:GestionnaireDeStockApp"
+      mc:Ignorable="d" 
+      d:DesignHeight="554.04" d:DesignWidth="824"
+      Title="SearchByNamePage">
+
+    <Grid>
+        <Rectangle Margin="228,69,228,355" Fill="White" RadiusY="20" RadiusX="20"/>
+        <Rectangle Margin="160,260,160,10" Fill="White" RadiusY="20" RadiusX="20" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+        <Rectangle Margin="190,225,190,80" Fill="#FF340051" RadiusY="20" RadiusX="20" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+        <TextBlock HorizontalAlignment="Left" Margin="255, 80,0,0" Text="Saisissez le nom à rechercher :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="202"/>
+        <TextBox x:Name="SearchNameTxtBox" HorizontalAlignment="Left" Margin="450,78,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="SearchNameTxtBox_GotFocus"/>
+        <Button x:Name="ValidateButton" Click="ValidateButton_Click" Content="Valider" Foreground="White" Background="#FFA46FE4" HorizontalAlignment="Center" Margin="0,150,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="60" Height="27"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="200,235,200,145">
+            <TextBlock x:Name="SearchNameArticleTxtBlock" HorizontalAlignment="Center" Margin="0,260,0,0" Foreground="White" TextWrapping="Wrap" VerticalAlignment="Top" Height="Auto" Width="368"/>
+        </ScrollViewer>
+        <TextBlock x:Name="SearchNameTxtBlockError" HorizontalAlignment="Center" Margin="0,480,0,0" Foreground="Orange" TextWrapping="Wrap" VerticalAlignment="Top" Width="444" Height="50"/>
+        <TextBlock x:Name="SearchNameTxtBlockCount" HorizontalAlignment="Center" Margin="0,425,0,0" Foreground="Orange" TextWrapping="Wrap" VerticalAlignment="Top" Width="368" Height="35"/>
+    </Grid>
+</Page>

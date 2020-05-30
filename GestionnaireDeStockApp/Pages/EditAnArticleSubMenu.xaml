@@ -1,0 +1,24 @@
+﻿<Page x:Class="GestionnaireDeStockApp.EditAnArticleSubMenu"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:GestionnaireDeStockApp"
+      mc:Ignorable="d" 
+      d:DesignHeight="400" d:DesignWidth="500"
+      Title="EditAnArticleSubMenu">
+
+    <Grid>
+        <Rectangle HorizontalAlignment="Center" Margin="0,10,0,170" Fill="White" RadiusY="20" RadiusX="20" Width="370"/>
+        <TextBlock HorizontalAlignment="Center" Margin="0,25,0,0" Text="Saisissez les modifications de votre choix :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="230"/>
+        <Button x:Name="EditValidateButton" Click="EditValidateButton_Click" Content="Valider" Foreground="White" Background="#FFA46FE4" HorizontalAlignment="Center" Margin="0,160,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="60" Height="27" RenderTransformOrigin="0.573,-1.005"/>
+        <TextBox x:Name="EditRefTxtBox" HorizontalAlignment="Left" Margin="110,75,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="EditRefTxtBox_GotFocus"/>
+        <TextBox x:Name="EditNameTxtBox" HorizontalAlignment="Left" Margin="270,75,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="EditNameTxtBox_GotFocus"/>
+        <TextBox x:Name="EditPriceTxtBox" HorizontalAlignment="Left" Margin="110,125,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="EditPriceTxtBox_GotFocus"/>
+        <TextBox x:Name="EditQuantTxtBox" HorizontalAlignment="Left" Margin="270,125,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="EditQuantTxtBox_GotFocus"/>
+        <TextBlock HorizontalAlignment="Left" Margin="110,50,0,0" Text="Référence :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBlock HorizontalAlignment="Left" Margin="270,50,0,0" Text="Nom :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBlock HorizontalAlignment="Left" Margin="110,100,0,0" Text="Prix :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBlock HorizontalAlignment="Left" Margin="270,100,0,0" Text="Quantité :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+    </Grid>
+</Page>

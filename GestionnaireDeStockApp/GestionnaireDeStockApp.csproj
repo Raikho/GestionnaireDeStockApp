@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="EditACharacteristicPage.xaml.cs" />
+    <Compile Remove="Pages\EditAnArticleSubMenu.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="EditACharacteristicPage.xaml" />
+    <Page Remove="Pages\EditAnArticleSubMenu.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes" Version="3.1.3" />
+  </ItemGroup>
+
+</Project>
