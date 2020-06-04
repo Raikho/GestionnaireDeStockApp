@@ -6,12 +6,12 @@ namespace GestionnaireDeStockApp
 {
     public class Article
     {
-        private int reference;
+        private long reference;
         private string name;
         private double price;
         private int quantity;
 
-        public int Reference
+        public long Reference
         {
             get { return reference; }
 
@@ -41,7 +41,7 @@ namespace GestionnaireDeStockApp
 
         public Article() { }
 
-        public Article(int reference, string name, double price, int quantity)
+        public Article(long reference, string name, double price, int quantity)
         {
             this.reference = reference;
             this.name = name;
@@ -88,7 +88,7 @@ namespace GestionnaireDeStockApp
                         {
                             articles.Add(new Article()
                             {
-                                Reference = int.Parse(references.Substring(7)),
+                                Reference = long.Parse(references.Substring(7)),
                                 Name = names.Substring(5),
                                 Price = double.Parse(prices.Substring(6)),
                                 Quantity = int.Parse(quantities.Substring(10))

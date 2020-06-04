@@ -43,7 +43,7 @@ namespace GestionnaireDeStockApp
             SearchDBArticleTxtBlock.Text = string.Empty;
             SearchDBTxtBlockError.Text = string.Empty;
             SearchDBTxtBlockCount.Text = string.Empty;
-            SearchDBArticleTxtBlock.Foreground = new SolidColorBrush(Colors.Green);
+            SearchDBArticleTxtBlock.Foreground = new SolidColorBrush(Colors.White);
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace GestionnaireDeStockApp
                         if (article.ToString().ToLower().Contains(input))
                         {
                             duplicate = true;
-                            SearchDBArticleTxtBlock.Text = $"{article}";
+                            SearchDBArticleTxtBlock.Text += $"{article}";
                             articleCounter++;
                         }
                     }
@@ -80,7 +80,6 @@ namespace GestionnaireDeStockApp
             }
             catch (Exception except)
             {
-                SearchDBTxtBlockError.Foreground = new SolidColorBrush(Colors.Red);
                 SearchDBTxtBlockError.Text = $"L'erreur suivante est survenue: {except.Message}. La saisie est incorrecte.";
             }
         }

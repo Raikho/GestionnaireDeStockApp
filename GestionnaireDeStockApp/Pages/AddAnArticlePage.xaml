@@ -12,7 +12,14 @@
         <Rectangle Margin="260,14,260,339" Fill="White" RadiusY="20" RadiusX="20"/>
         <Rectangle Margin="160,260,160,10" Fill="White" RadiusY="20" RadiusX="20" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
         <Rectangle Margin="190,225,190,80" Fill="#FF340051" RadiusY="20" RadiusX="20" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
-        <TextBlock Margin="190,225,190,80"/>
+        <Rectangle Margin="190,225,190,80" RadiusY="20" RadiusX="20">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.9,0" StartPoint="0.0,2">
+                    <GradientStop Color="#FF2D8893" Offset="0"/>
+                    <GradientStop Color="#FF8522BD" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
         <TextBlock HorizontalAlignment="Left" Margin="284,29,0,0" Text="Saisissez la référence :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="138"/>
         <TextBlock HorizontalAlignment="Left" Margin="284,68,0,0" Text="Saisissez le nom :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="138"/>
         <TextBlock HorizontalAlignment="Left" Margin="284,110,0,0" Text="Saisissez le prix :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="138"/>
@@ -21,19 +28,19 @@
         <TextBox x:Name="AddNameTxtBox" HorizontalAlignment="Left" Margin="412,64,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="AddNameTxtBox_GotFocus"/>
         <TextBox x:Name="AddPriceTxtBox" HorizontalAlignment="Left" Margin="412,108,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="AddPriceTxtBox_GotFocus"/>
         <TextBox x:Name="AddQuantTxtBox" HorizontalAlignment="Left" Margin="412,150,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="AddQuantTxtBox_GotFocus"/>
-        <Button x:Name="ValidateButton" Click="ValidateButton_Click" Content="Valider" Foreground="White" Background="#FFA46FE4" HorizontalAlignment="Center" Margin="0,180,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="60" Height="27"/>
-        <TextBlock x:Name="RefTxtBlockInfo" HorizontalAlignment="Left" Margin="292,250,0,0" Foreground="Orange" TextWrapping="Wrap" VerticalAlignment="Top" Width="322" RenderTransformOrigin="0.473,1.692" Height="50"/>
-        <TextBlock x:Name="NameTxtBlockInfo" HorizontalAlignment="Left" Margin="292,300,0,0" Foreground="Orange" TextWrapping="Wrap" VerticalAlignment="Top" Width="322" RenderTransformOrigin="0.473,1.692" Height="50"/>
-        <TextBlock x:Name="PriceTxtBlockInfo" HorizontalAlignment="Left" Margin="292,350,0,0" Foreground="Orange" TextWrapping="Wrap" VerticalAlignment="Top" Width="322" RenderTransformOrigin="0.473,1.692" Height="50"/>
-        <TextBlock x:Name="QuantTxtBlockInfo" HorizontalAlignment="Left" Margin="292,400,0,0" Foreground="Orange" TextWrapping="Wrap" VerticalAlignment="Top" Width="322" RenderTransformOrigin="0.473,1.692" Height="50"/>
-        <TextBlock x:Name="CreateTxtBlockInfo" HorizontalAlignment="Center" Margin="0,470,0,0" Foreground="Green" TextWrapping="Wrap" VerticalAlignment="Top" Width="404" RenderTransformOrigin="0.473,1.692" Height="20"/>
-        <TextBlock HorizontalAlignment="Left" Margin="200,250,0,0" Text="Référence info :" Foreground="White" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" Width="87"/>
-        <TextBlock HorizontalAlignment="Left" Margin="200,300,0,0" Text="Nom info :" Foreground="White" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" Width="87"/>
-        <TextBlock HorizontalAlignment="Left" Margin="200,350,0,0" Text="Prix info :" Foreground="White" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" Width="87"/>
-        <TextBlock HorizontalAlignment="Left" Margin="200,400,0,0" Text="Quantité info :" Foreground="White" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" Width="87"/>
-        <TextBlock x:Name="RefTxtBlockConfirm" HorizontalAlignment="Left" Margin="210,490,0,0" Foreground="Green" TextWrapping="Wrap" VerticalAlignment="Top" Width="202" RenderTransformOrigin="0.473,1.692" Height="20"/>
-        <TextBlock x:Name="NameTxtBlockConfirm" HorizontalAlignment="Left" Margin="417,490,0,0" Foreground="Green" TextWrapping="Wrap" VerticalAlignment="Top" Width="202" RenderTransformOrigin="0.473,1.692" Height="20"/>
-        <TextBlock x:Name="PriceTxtBlockConfirm" HorizontalAlignment="Left" Margin="210,510,0,0" Foreground="Green" TextWrapping="Wrap" VerticalAlignment="Top" Width="202" RenderTransformOrigin="0.473,1.692" Height="20"/>
-        <TextBlock x:Name="QuantTxtBlockConfirm" HorizontalAlignment="Left" Margin="417,510,0,0" Foreground="Green" TextWrapping="Wrap" VerticalAlignment="Top" Width="202" RenderTransformOrigin="0.473,1.692" Height="20"/>
+        <Button x:Name="ValidateButton" Click="ValidateButton_Click" Content="Valider" Style="{StaticResource CustomValidateButton}" Foreground="White" Background="#FFA46FE4" HorizontalAlignment="Center" Margin="0,180,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="60" Height="27"/>
+        <TextBlock x:Name="RefTxtBlockInfo" HorizontalAlignment="Left" Margin="215,474,0,0" Foreground="Red" TextWrapping="Wrap" VerticalAlignment="Top" Width="189" RenderTransformOrigin="0.473,1.692" Height="35"/>
+        <TextBlock x:Name="NameTxtBlockInfo" HorizontalAlignment="Left" Margin="430,474,0,0" Foreground="Red" TextWrapping="Wrap" VerticalAlignment="Top" Width="189" RenderTransformOrigin="0.473,1.692" Height="35"/>
+        <TextBlock x:Name="PriceTxtBlockInfo" HorizontalAlignment="Left" Margin="215,510,0,0" Foreground="Red" TextWrapping="Wrap" VerticalAlignment="Top" Width="189" RenderTransformOrigin="0.473,1.692" Height="35"/>
+        <TextBlock x:Name="QuantTxtBlockInfo" HorizontalAlignment="Left" Margin="430,510,0,0" Foreground="Red" TextWrapping="Wrap" VerticalAlignment="Top" Width="189" RenderTransformOrigin="0.473,1.692" Height="35"/>
+        <TextBlock x:Name="CreateTxtBlockInfo" HorizontalAlignment="Left" Margin="230,245,0,0" Foreground="White" TextWrapping="Wrap" VerticalAlignment="Top" Width="404" RenderTransformOrigin="0.473,1.692" Height="20"/>
+        <TextBlock HorizontalAlignment="Left" Margin="200,275,0,0" Text="Référence :" Foreground="White" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" Width="87"/>
+        <TextBlock HorizontalAlignment="Left" Margin="200,325,0,0" Text="Nom :" Foreground="White" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" Width="87"/>
+        <TextBlock HorizontalAlignment="Left" Margin="200,375,0,0" Text="Prix :" Foreground="White" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" Width="87"/>
+        <TextBlock HorizontalAlignment="Left" Margin="200,425,0,0" Text="Quantité :" Foreground="White" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" Width="87"/>
+        <TextBlock x:Name="RefTxtBlockConfirm" HorizontalAlignment="Left" Margin="292,275,0,0" Foreground="GreenYellow" TextWrapping="Wrap" VerticalAlignment="Top" Width="328" RenderTransformOrigin="0.473,1.692" Height="20"/>
+        <TextBlock x:Name="NameTxtBlockConfirm" HorizontalAlignment="Left" Margin="292,325,0,0" Foreground="GreenYellow" TextWrapping="Wrap" VerticalAlignment="Top" Width="328" RenderTransformOrigin="0.473,1.692" Height="20"/>
+        <TextBlock x:Name="PriceTxtBlockConfirm" HorizontalAlignment="Left" Margin="292,375,0,0" Foreground="GreenYellow" TextWrapping="Wrap" VerticalAlignment="Top" Width="328" RenderTransformOrigin="0.473,1.692" Height="20"/>
+        <TextBlock x:Name="QuantTxtBlockConfirm" HorizontalAlignment="Left" Margin="292,425,0,0" Foreground="GreenYellow" TextWrapping="Wrap" VerticalAlignment="Top" Width="328" RenderTransformOrigin="0.473,1.692" Height="20"/>
     </Grid>
 </Page>

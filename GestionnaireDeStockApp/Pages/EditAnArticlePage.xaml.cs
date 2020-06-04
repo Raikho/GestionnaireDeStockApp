@@ -16,7 +16,7 @@ namespace GestionnaireDeStockApp
 
         List<Article> Articles { get; set; }
 
-        Article characToDelete = null;
+        public Article characToDelete { get; private set; }
 
         public EditAnArticlePage(string path)
         {
@@ -82,10 +82,10 @@ namespace GestionnaireDeStockApp
             PriceTxtBlockConfirm.Text = string.Empty;
             QuantTxtBlockConfirm.Text = string.Empty;
 
-            RefTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.OrangeRed);
-            NameTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.OrangeRed);
-            PriceTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.OrangeRed);
-            QuantTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.OrangeRed);
+            RefTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.Orange);
+            NameTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.Orange);
+            PriceTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.Orange);
+            QuantTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.Orange);
         }
 
         private void ClearTheBox()
@@ -112,13 +112,12 @@ namespace GestionnaireDeStockApp
         {
             try
             {
+                characToDelete = null;
                 string newInput = EditAnArticleTxtBox.Text;
-                bool correctNum = int.TryParse(newInput, out int reference);
+                bool correctNum = long.TryParse(newInput, out long reference);
                 if (!correctNum)
                 {
-                    EditRefTxtBlockError.Foreground = new SolidColorBrush(Colors.Orange);
                     EditRefTxtBlockError.Text = "Une erreur est survenue. Veuillez saisir une référence chiffrée.";
-                    return null;
                 }
 
                 foreach (var item in Articles)
@@ -131,21 +130,19 @@ namespace GestionnaireDeStockApp
                         break;
                     }
                 }
-                return characToDelete;
             }
             catch (Exception except)
             {
-                EditRefTxtBlockError.Foreground = new SolidColorBrush(Colors.Red);
                 EditRefTxtBlockError.Text = $"L'erreur suivante est survenue: {except.Message}.";
-                return null;
             }
+            return characToDelete;
         }
 
         void EditACharacteristic()
         {
             try
             {
-                int articleReference = characToDelete.Reference;
+                long articleReference = characToDelete.Reference;
                 if (EditRefTxtBox.Text == "zone de saisie..." || EditRefTxtBox.Text == "")
                 {
                     RefTxtBlockConfirm.Text = string.Empty;
@@ -154,22 +151,21 @@ namespace GestionnaireDeStockApp
                 else
                 {
                     string newArtRefInput = EditRefTxtBox.Text;
-                    bool correctArtRefNum = int.TryParse(newArtRefInput, out articleReference);
+                    bool correctArtRefNum = long.TryParse(newArtRefInput, out articleReference);
                     if (!correctArtRefNum)
                     {
                         RefTxtBlockConfirm.Text = string.Empty;
-                        RefTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.Red);
+                        RefTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.OrangeRed);
                         RefTxtBlockConfirm.Text = $"Erreur de saisie";
                         EditRefTxtBlockError.Text = "Une erreur est survenue. Veuillez saisir une référence chiffrée.";
                     }
                     else
                     {
                         characToDelete.Reference = articleReference;
-                        Write();
                         RefTxtBlockConfirm.Text = string.Empty;
-                        RefTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.Green);
+                        RefTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.GreenYellow);
                         RefTxtBlockConfirm.Text = $"Référence: \"{articleReference}\"";
-                        EditAnArticleTxtBlockShow.Text = $"La référence de l'article a été modifiée avec succès:";
+                        EditAnArticleTxtBlockShow.Text += $"La référence de l'article a été modifiée avec succès\n";
                     }
                 }
             }
@@ -191,11 +187,10 @@ namespace GestionnaireDeStockApp
                     if (Regex.IsMatch(articleName, @"^[a-zA-Z ]+$"))
                     {
                         characToDelete.Name = articleName;
-                        Write();
                         NameTxtBlockConfirm.Text = string.Empty;
-                        NameTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.Green);
+                        NameTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.GreenYellow);
                         NameTxtBlockConfirm.Text = $"Nom: \"{articleName}\"";
-                        EditAnArticleTxtBlockShow.Text = $"Le nom de l'article a été modifié avec succès:";
+                        EditAnArticleTxtBlockShow.Text += $"Le nom de l'article a été modifié avec succès\n";
                     }
                     else
                         throw new ArgumentException();
@@ -204,7 +199,7 @@ namespace GestionnaireDeStockApp
             catch (ArgumentException argExcept)
             {
                 NameTxtBlockConfirm.Text = string.Empty;
-                NameTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.Red);
+                NameTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.OrangeRed);
                 NameTxtBlockConfirm.Text = $"Erreur de saisie";
                 EditNameTxtBlockError.Text = $"L'erreur suivante est survenue: \"{argExcept.Message}\". Veuillez saisir une entrée alphabétique.";
             }
@@ -223,18 +218,17 @@ namespace GestionnaireDeStockApp
                     if (!correctArtPriceNum)
                     {
                         PriceTxtBlockConfirm.Text = string.Empty;
-                        PriceTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.Red);
+                        PriceTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.OrangeRed);
                         PriceTxtBlockConfirm.Text = $"Erreur de saisie";
                         EditPriceTxtBlockError.Text = "Une erreur est survenue. La saisie ne correspond pas à un prix.";
                     }
                     else
                     {
                         characToDelete.Price = articlePrice;
-                        Write();
                         PriceTxtBlockConfirm.Text = string.Empty;
-                        PriceTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.Green);
+                        PriceTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.GreenYellow);
                         PriceTxtBlockConfirm.Text = $"Prix: \"{articlePrice}\"";
-                        EditAnArticleTxtBlockShow.Text = $"Le prix de l'article a été modifié avec succès:";
+                        EditAnArticleTxtBlockShow.Text += $"Le prix de l'article a été modifié avec succès\n";
                     }
                 }
             }
@@ -257,20 +251,20 @@ namespace GestionnaireDeStockApp
                     if (!correctArtQuantNum)
                     {
                         QuantTxtBlockConfirm.Text = string.Empty;
-                        QuantTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.Red);
+                        QuantTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.OrangeRed);
                         QuantTxtBlockConfirm.Text = $"Erreur de saisie";
                         EditQuantTxtBlockError.Text = "Une erreur est survenue. La saisie ne correspond pas à une quantité chiffrée.";
                     }
                     else
                     {
                         characToDelete.Quantity = articleQuantity;
-                        Write();
                         QuantTxtBlockConfirm.Text = string.Empty;
-                        QuantTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.Green);
+                        QuantTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.GreenYellow);
                         QuantTxtBlockConfirm.Text = $"Quantité: \"{articleQuantity}\"";
-                        EditAnArticleTxtBlockShow.Text = $"La quantité de l'article a été modifiée avec succès:";
+                        EditAnArticleTxtBlockShow.Text += $"La quantité de l'article a été modifiée avec succès\n";
                     }
                 }
+                Write();
             }
             catch (Exception except)
             {

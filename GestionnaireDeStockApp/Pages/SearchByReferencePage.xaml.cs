@@ -42,7 +42,7 @@ namespace GestionnaireDeStockApp
             SearchRefArticleTxtBlock.Text = string.Empty;
             SearchRefTxtBlockError.Text = string.Empty;
             SearchRefTxtBlockCount.Text = string.Empty;
-            SearchRefArticleTxtBlock.Foreground = new SolidColorBrush(Colors.Green);
+            SearchRefArticleTxtBlock.Foreground = new SolidColorBrush(Colors.White);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace GestionnaireDeStockApp
             {
                 //consoleWrite($"Veuillez entrez votre recherche par référence :");
                 string newInput = SearchRefTexBox.Text;
-                bool correctNUm = int.TryParse(newInput, out int searchReference);
+                bool correctNUm = long.TryParse(newInput, out long searchReference);
 
                 if (!correctNUm)
                 {
@@ -84,7 +84,6 @@ namespace GestionnaireDeStockApp
 
             catch (Exception except)
             {
-                SearchRefTxtBlockError.Foreground = new SolidColorBrush(Colors.Red);
                 SearchRefTxtBlockError.Text = $"L'erreur suivante est survenue: {except.Message}";
             }
         }

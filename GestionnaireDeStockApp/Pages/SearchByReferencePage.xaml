@@ -11,12 +11,19 @@
     <Grid>
         <Rectangle Margin="228,69,228,355" Fill="White" RadiusY="20" RadiusX="20"/>
         <Rectangle Margin="160,260,160,10" Fill="White" RadiusY="20" RadiusX="20" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
-        <Rectangle Margin="190,225,190,80" Fill="#FF340051" RadiusY="20" RadiusX="20" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+        <Rectangle Margin="190,225,190,80" RadiusY="20" RadiusX="20">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.9,0" StartPoint="0.0,2">
+                    <GradientStop Color="#FF2D8893" Offset="0"/>
+                    <GradientStop Color="#FF8522BD" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
         <TextBlock HorizontalAlignment="Left" Margin="255, 80,0,0" Text="Saisissez la référence à rechercher :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="202"/>
         <TextBox x:Name="SearchRefTexBox" HorizontalAlignment="Left" Margin="450,78,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="SearchRefTexBox_GotFocus"/>
-        <Button x:Name="ValidateButton" Click="ValidateButton_Click" Content="Valider" Foreground="White" Background="#FFA46FE4" HorizontalAlignment="Center" Margin="0,150,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="60" Height="27"/>
+        <Button x:Name="ValidateButton" Click="ValidateButton_Click" Style="{StaticResource CustomValidateButton}" Content="Valider" Foreground="White" Background="#FFA46FE4" HorizontalAlignment="Center" Margin="0,150,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="60" Height="27"/>
         <TextBlock x:Name="SearchRefArticleTxtBlock" HorizontalAlignment="Center" Margin="0,260,0,0" Foreground="White" TextWrapping="Wrap" VerticalAlignment="Top" Height="150" Width="368"/>
-        <TextBlock x:Name="SearchRefTxtBlockError" HorizontalAlignment="Center" Margin="0,480,0,0" Foreground="Orange" TextWrapping="Wrap" VerticalAlignment="Top" Width="444" Height="50"/>
+        <TextBlock x:Name="SearchRefTxtBlockError" HorizontalAlignment="Center" Margin="0,480,0,0" Foreground="Red" TextWrapping="Wrap" VerticalAlignment="Top" Width="444" Height="50"/>
         <TextBlock x:Name="SearchRefTxtBlockCount" HorizontalAlignment="Center" Margin="0,425,0,0" Foreground="Orange" TextWrapping="Wrap" VerticalAlignment="Top" Width="368" Height="35"/>
     </Grid>
 </Page>

@@ -42,7 +42,7 @@ namespace GestionnaireDeStockApp
             DeleteRefArticleTxtBlock.Text = string.Empty;
             DeleteRefTxtBlockCount.Text = string.Empty;
             DeleteRefTxtBlockError.Text = string.Empty;
-            DeleteRefArticleTxtBlock.Foreground = new SolidColorBrush(Colors.Green);
+            DeleteRefArticleTxtBlock.Foreground = new SolidColorBrush(Colors.GreenYellow);
         }
 
         /// <summary>
@@ -56,7 +56,6 @@ namespace GestionnaireDeStockApp
                 bool correctNum = int.TryParse(newInput, out int reference);
                 if (!correctNum)
                 {
-                    DeleteRefTxtBlockError.Foreground = new SolidColorBrush(Colors.Orange);
                     DeleteRefTxtBlockError.Text = "Une erreur est survenue. Veuillez saisir une référence chiffrée.";
                 }
                 else

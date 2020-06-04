@@ -1,0 +1,112 @@
+﻿<Window x:Class="GestionnaireDeStockApp.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:GestionnaireDeStockApp"
+        mc:Ignorable="d"
+        Title="LoginWindow" Height="400" Width="350" 
+        AllowsTransparency="True" Background="Transparent" 
+        ResizeMode="NoResize" WindowStyle="None">
+
+    <Grid x:Name="MainGrid" MouseDown="MainGrid_MouseDown">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.RowSpan="2" CornerRadius="10">
+                <Border.Background>
+                    <LinearGradientBrush>
+                        <GradientStop Color="#FF2D8893" Offset="0.0"/>
+                        <GradientStop Color="#FF8522BD" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+
+            <StackPanel Height="30" Width="45" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,10,0,0">
+                <Button Content="{materialDesign:PackIcon Kind=PowerBox, Size=20}"
+                        Background="{x:Null}" 
+                        BorderBrush="{x:Null}"
+                        Foreground="White" 
+                        HorizontalAlignment="Center" 
+                        Height="25" 
+                        Width="25" Click="Button_Click"/>
+            </StackPanel>
+
+            <StackPanel VerticalAlignment="Center">
+                <materialDesign:PackIcon Kind="Account" 
+                                         Foreground="White" 
+                                         VerticalAlignment="Bottom" 
+                                         HorizontalAlignment="Center" 
+                                         Height="70" Width="90"/>
+                <TextBlock Text="LOGIN" 
+                           Foreground="White" 
+                           HorizontalAlignment="Center" 
+                           FontWeight="Bold" 
+                           FontSize="18" 
+                           FontFamily="Leelawadee UI Semilight"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1">
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="UserNameTxtBox" 
+                             Text="Username" 
+                             FontWeight="Light" 
+                             Foreground="White" 
+                             Opacity="0.5" 
+                             Background="Transparent" 
+                             BorderThickness="0" 
+                             Margin="73,0,0,0" 
+                             Width="188" FontSize="14" 
+                             GotFocus="UserNameTxtBox_GotFocus"/>
+                    <materialDesign:PackIcon Kind="Account" 
+                                             Foreground="White" 
+                                             VerticalAlignment="Center" 
+                                             HorizontalAlignment="Right"/>
+                </StackPanel>
+                <Border HorizontalAlignment="Center" Background="White" Width="200" Height="2" Opacity="0.5"/>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <PasswordBox x:Name="PasswordTxtBox" 
+                                 FontWeight="Light" 
+                                 Password="Password" 
+                                 Foreground="White" 
+                                 Opacity="0.5" 
+                                 Background="Transparent" 
+                                 BorderThickness="0" 
+                                 Margin="73,0,0,0" 
+                                 Width="187" 
+                                 FontSize="14" 
+                                 GotFocus="PasswordTxtBox_GotFocus"/>
+                    <materialDesign:PackIcon Kind="FormTextboxPassword" 
+                                             Foreground="White" 
+                                             VerticalAlignment="Center" 
+                                             HorizontalAlignment="Right"/>
+                </StackPanel>
+                <Border HorizontalAlignment="Center" Background="White" Width="200" Height="2" Opacity="0.5"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="60,110,60,40">
+                <Button Style="{StaticResource CustomButton}" 
+                        x:Name="ConnexionButton" 
+                        Content="CONNEXION" 
+                        Width="100" 
+                        Height="40" 
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Center" 
+                        Click="ConnexionButton_Click"/>
+                <Button Style="{StaticResource CustomButton}" 
+                        x:Name="NewButton" 
+                        Content="NOUVEAU" 
+                        Width="100" 
+                        Height="40" 
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Center" 
+                        Click="NewButton_Click"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

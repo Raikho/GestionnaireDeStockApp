@@ -49,7 +49,7 @@ namespace GestionnaireDeStockApp
             SearchPriceArticleTxtBlock.Text = string.Empty;
             SearchPriceTxtBlockError.Text = string.Empty;
             SearchPriceTxtBlockCount.Text = string.Empty;
-            SearchPriceArticleTxtBlock.Foreground = new SolidColorBrush(Colors.Green);
+            SearchPriceArticleTxtBlock.Foreground = new SolidColorBrush(Colors.White);
         }
 
         /// <summary>
@@ -66,7 +66,6 @@ namespace GestionnaireDeStockApp
                 bool correctMaxNum = double.TryParse(newPriceMaxInput, out double priceMax);
                 if (!correctMinNum || !correctMaxNum)
                 {
-                    SearchPriceTxtBlockError.Foreground = new SolidColorBrush(Colors.Orange);
                     SearchPriceTxtBlockError.Text = "La saisie ne correspond pas à une saisie chiffrée.";
                 }
                 else
@@ -75,10 +74,10 @@ namespace GestionnaireDeStockApp
                     bool duplicate = false;
                     foreach (var article in Articles)
                     {
-                        if (article.Price > priceMin && article.Price < priceMax)
+                        if (article.Price >= priceMin && article.Price <= priceMax)
                         {
                             duplicate = true;
-                            SearchPriceArticleTxtBlock.Text = $"{article}";
+                            SearchPriceArticleTxtBlock.Text += $"{article}";
                             itemCounter++;
                         }
                     }
@@ -92,7 +91,6 @@ namespace GestionnaireDeStockApp
             }
             catch (Exception except)
             {
-                SearchPriceTxtBlockError.Foreground = new SolidColorBrush(Colors.Red);
                 SearchPriceTxtBlockError.Text = $"L'erreur suivante est survenue: {except.Message}";
             }
         }

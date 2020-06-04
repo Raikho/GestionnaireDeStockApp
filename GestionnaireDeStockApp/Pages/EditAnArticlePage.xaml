@@ -11,28 +11,35 @@
     <Grid>
         <Rectangle Margin="228,10,228,464" Fill="White" RadiusY="20" RadiusX="20"/>
         <Rectangle Margin="160,260,160,10" Fill="White" RadiusY="20" RadiusX="20" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
-        <Rectangle Margin="190,225,190,80" Fill="#FF340051" RadiusY="20" RadiusX="20" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+        <Rectangle Margin="190,225,190,80" RadiusY="20" RadiusX="20">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.9,0" StartPoint="0.0,2">
+                    <GradientStop Color="#FF2D8893" Offset="0"/>
+                    <GradientStop Color="#FF8522BD" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
         <TextBlock HorizontalAlignment="Left" Margin="260,22,0,0" Text="Saisissez la référence à modifier :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="202"/>
         <TextBox x:Name="EditAnArticleTxtBox" HorizontalAlignment="Left" Margin="450,20,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="TextBox_GotFocus" RenderTransformOrigin="0.515,-0.739"/>
-        <Button x:Name="ValidateButton" Click="ValidateButton_Click" Content="Valider" Foreground="White" Background="#FFA46FE4" HorizontalAlignment="Center" Margin="0,52,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="60" Height="27" RenderTransformOrigin="0.573,-1.005"/>
-        <TextBlock x:Name="EditAnArticleTxtBlockShow" HorizontalAlignment="Center" Margin="0,386,0,0" Foreground="Orange" TextWrapping="Wrap" VerticalAlignment="Top" Width="404" Height="25"/>
-        <TextBlock x:Name="RefTxtBlockConfirm" HorizontalAlignment="Left" Margin="210,416,0,0" Foreground="OrangeRed" TextWrapping="Wrap" VerticalAlignment="Top" Width="202" RenderTransformOrigin="0.473,1.692" Height="20"/>
-        <TextBlock x:Name="NameTxtBlockConfirm" HorizontalAlignment="Left" Margin="417,416,0,0" Foreground="OrangeRed" TextWrapping="Wrap" VerticalAlignment="Top" Width="202" RenderTransformOrigin="0.473,1.692" Height="20"/>
-        <TextBlock x:Name="PriceTxtBlockConfirm" HorizontalAlignment="Left" Margin="210,441,0,0" Foreground="OrangeRed" TextWrapping="Wrap" VerticalAlignment="Top" Width="202" RenderTransformOrigin="0.473,1.692" Height="20"/>
-        <TextBlock x:Name="QuantTxtBlockConfirm" HorizontalAlignment="Left" Margin="417,441,0,0" Foreground="OrangeRed" TextWrapping="Wrap" VerticalAlignment="Top" Width="202" RenderTransformOrigin="0.473,1.692" Height="20"/>
+        <Button x:Name="ValidateButton" Click="ValidateButton_Click" Style="{StaticResource CustomValidateButton}" Content="Valider" Foreground="White" Background="#FFA46FE4" HorizontalAlignment="Center" Margin="0,52,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="60" Height="27" RenderTransformOrigin="0.573,-1.005"/>
+        <TextBlock x:Name="EditAnArticleTxtBlockShow" HorizontalAlignment="Center" Margin="210,339,205,143" Foreground="White" TextWrapping="Wrap" VerticalAlignment="Top" Width="404" Height="72"/>
+        <TextBlock x:Name="RefTxtBlockConfirm" HorizontalAlignment="Left" Margin="210,416,0,0" Foreground="White" TextWrapping="Wrap" VerticalAlignment="Top" Width="202" RenderTransformOrigin="0.473,1.692" Height="20"/>
+        <TextBlock x:Name="NameTxtBlockConfirm" HorizontalAlignment="Left" Margin="417,416,0,0" Foreground="White" TextWrapping="Wrap" VerticalAlignment="Top" Width="202" RenderTransformOrigin="0.473,1.692" Height="20"/>
+        <TextBlock x:Name="PriceTxtBlockConfirm" HorizontalAlignment="Left" Margin="210,441,0,0" Foreground="White" TextWrapping="Wrap" VerticalAlignment="Top" Width="202" RenderTransformOrigin="0.473,1.692" Height="20"/>
+        <TextBlock x:Name="QuantTxtBlockConfirm" HorizontalAlignment="Left" Margin="417,441,0,0" Foreground="White" TextWrapping="Wrap" VerticalAlignment="Top" Width="202" RenderTransformOrigin="0.473,1.692" Height="20"/>
 
         <Frame x:Name="SubMenuFrame" Margin="0,90,0,93" HorizontalAlignment="Center" Width="504"/>
-        <Rectangle HorizontalAlignment="Center" Margin="0,125,0,190" Fill="White" RadiusY="20" RadiusX="20" Width="370"/>
-        <TextBlock HorizontalAlignment="Center" Margin="0,143,0,0" Text="Saisissez les modifications de votre choix :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="230"/>
-        <Button x:Name="EditValidateButton" Click="EditValidateButton_Click" Content="Valider" Foreground="White" Background="#FFA46FE4" HorizontalAlignment="Center" Margin="0,315,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="60" Height="27" RenderTransformOrigin="0.573,-1.005"/>
-        <TextBox x:Name="EditRefTxtBox" HorizontalAlignment="Left" Margin="270,200,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="EditRefTxtBox_GotFocus"/>
-        <TextBox x:Name="EditNameTxtBox" HorizontalAlignment="Left" Margin="430,200,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="EditNameTxtBox_GotFocus"/>
-        <TextBox x:Name="EditPriceTxtBox" HorizontalAlignment="Left" Margin="270,265,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="EditPriceTxtBox_GotFocus"/>
-        <TextBox x:Name="EditQuantTxtBox" HorizontalAlignment="Left" Margin="430,265,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="EditQuantTxtBox_GotFocus"/>
-        <TextBlock HorizontalAlignment="Left" Margin="270,180,0,0" Text="Référence :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBlock HorizontalAlignment="Left" Margin="430,180,0,0" Text="Nom :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.43,7.763"/>
-        <TextBlock HorizontalAlignment="Left" Margin="270,245,0,0" Text="Prix :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBlock HorizontalAlignment="Left" Margin="430,245,0,0" Text="Quantité :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Rectangle HorizontalAlignment="Center" Margin="0,110,0,215" Fill="White" RadiusY="20" RadiusX="20" Width="370"/>
+        <TextBlock HorizontalAlignment="Center" Margin="0,130,0,0" Text="Saisissez les modifications de votre choix :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="230"/>
+        <Button x:Name="EditValidateButton" Click="EditValidateButton_Click" Style="{StaticResource CustomValidateButton}" Content="Valider" Foreground="White" Background="#FFA46FE4" HorizontalAlignment="Center" Margin="0,290,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="60" Height="27" RenderTransformOrigin="0.573,-1.005"/>
+        <TextBox x:Name="EditRefTxtBox" HorizontalAlignment="Left" Margin="270,185,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="EditRefTxtBox_GotFocus"/>
+        <TextBox x:Name="EditNameTxtBox" HorizontalAlignment="Left" Margin="430,185,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="EditNameTxtBox_GotFocus"/>
+        <TextBox x:Name="EditPriceTxtBox" HorizontalAlignment="Left" Margin="270,250,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="EditPriceTxtBox_GotFocus"/>
+        <TextBox x:Name="EditQuantTxtBox" HorizontalAlignment="Left" Margin="430,250,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="EditQuantTxtBox_GotFocus"/>
+        <TextBlock HorizontalAlignment="Left" Margin="270,165,0,0" Text="Référence :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBlock HorizontalAlignment="Left" Margin="430,165,0,0" Text="Nom :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.43,7.763"/>
+        <TextBlock HorizontalAlignment="Left" Margin="270,230,0,0" Text="Prix :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBlock HorizontalAlignment="Left" Margin="430,230,0,0" Text="Quantité :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
 
         <TextBlock x:Name="EditRefTxtBlockError" HorizontalAlignment="Center" Margin="0,470,0,0" Foreground="Red" TextWrapping="Wrap" VerticalAlignment="Top" Width="444" Height="15"/>
         <TextBlock x:Name="EditNameTxtBlockError" HorizontalAlignment="Center" Margin="0,486,0,0" Foreground="Red" TextWrapping="Wrap" VerticalAlignment="Top" Width="444" Height="15"/>

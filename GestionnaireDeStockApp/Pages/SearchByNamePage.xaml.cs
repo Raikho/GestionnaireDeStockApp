@@ -43,7 +43,7 @@ namespace GestionnaireDeStockApp
             SearchNameArticleTxtBlock.Text = string.Empty;
             SearchNameTxtBlockError.Text = string.Empty;
             SearchNameTxtBlockCount.Text = string.Empty;
-            SearchNameArticleTxtBlock.Foreground = new SolidColorBrush(Colors.Green);
+            SearchNameArticleTxtBlock.Foreground = new SolidColorBrush(Colors.White);
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace GestionnaireDeStockApp
                         if (article.Name.ToLower().Contains(input.ToString().ToLower()))
                         {
                             duplicate = true;
-                            SearchNameArticleTxtBlock.Text = $"{article}";
+                            SearchNameArticleTxtBlock.Text += $"{article}";
                             articleCounter++;
                         }
                     }
@@ -80,7 +80,6 @@ namespace GestionnaireDeStockApp
             }
             catch (ArgumentException argExcept)
             {
-                SearchNameTxtBlockError.Foreground = new SolidColorBrush(Colors.Red);
                 SearchNameTxtBlockError.Text = $"L'erreur suivante est survenue: {argExcept.Message}. Veuillez saisir une entrée alphabétique.";
             }
         }

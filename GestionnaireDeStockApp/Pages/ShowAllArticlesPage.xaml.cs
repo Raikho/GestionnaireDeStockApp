@@ -37,11 +37,12 @@ namespace GestionnaireDeStockApp
             {
                 int articleCounter = 0;
                 bool duplicate = false;
+                ShowAllArtTxtBlock.Text = string.Empty;
                 var articles = Article.GetAllCharacteristics(Path);
                 foreach (var article in articles)
                 {
                     duplicate = true;
-                    ShowAllArtTxtBlock.Text = $"{article}";
+                    ShowAllArtTxtBlock.Text += $"{article}";
                     articleCounter++;
                 }
                 ShowAllArtTxtBlockCount.Text = $"Le nombre total d'articles trouvé est de {articleCounter}.";
@@ -52,7 +53,6 @@ namespace GestionnaireDeStockApp
             }
             catch (Exception except)
             {
-                ShowAllArtTxtBlockError.Foreground = new SolidColorBrush(Colors.Red);
                 ShowAllArtTxtBlockError.Text = $"L'erreur suivante est survenue: {except.Message}";
             }
         }

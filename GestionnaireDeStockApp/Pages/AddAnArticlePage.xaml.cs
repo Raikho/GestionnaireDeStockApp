@@ -73,7 +73,7 @@ namespace GestionnaireDeStockApp
             NameTxtBlockConfirm.Text = string.Empty;
             PriceTxtBlockConfirm.Text = string.Empty;
             QuantTxtBlockConfirm.Text = string.Empty;
-            CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Green);
+            CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.GreenYellow);
         }
 
         void CreateNewArticle()
@@ -84,7 +84,7 @@ namespace GestionnaireDeStockApp
 
                 if (reference == 0)
                 {
-                    CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Red);
+                    CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Orange);
                     CreateTxtBlockInfo.Text = "La saisie est incorrecte";
                 }
                 else
@@ -109,7 +109,7 @@ namespace GestionnaireDeStockApp
 
                         if (name == "null" || price == 0 || quantity == 0)
                         {
-                            CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Red);
+                            CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Orange);
                             CreateTxtBlockInfo.Text = "La saisie est incorrecte";
                         }
                         else
@@ -119,8 +119,6 @@ namespace GestionnaireDeStockApp
                             Articles.Add(newArticle);
 
                             Write();
-
-                            CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Green);
                             ShowAnArticle(newArticle);
                             CreateTxtBlockInfo.Text = $"Le nouveau produit a été intégré au stock: ";
                         }
@@ -131,7 +129,6 @@ namespace GestionnaireDeStockApp
             }
             catch (Exception except)
             {
-                CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Red);
                 CreateTxtBlockInfo.Text = $"L'erreur suivante est survenue: {except.Message}";
             }
 
@@ -139,10 +136,10 @@ namespace GestionnaireDeStockApp
 
         void ShowAnArticle(Article article)
         {
-            RefTxtBlockConfirm.Text = $"Numéro: {article.Reference}";
-            NameTxtBlockConfirm.Text = $"Nom: {article.Name}";
-            PriceTxtBlockConfirm.Text = $"Prix: {article.Price}";
-            QuantTxtBlockConfirm.Text = $"Quantité: {article.Quantity}";
+            RefTxtBlockConfirm.Text = $"{article.Reference}";
+            NameTxtBlockConfirm.Text = $"{article.Name}";
+            PriceTxtBlockConfirm.Text = $"{article.Price}";
+            QuantTxtBlockConfirm.Text = $"{article.Quantity}";
         }
 
         /// <summary>
@@ -157,23 +154,21 @@ namespace GestionnaireDeStockApp
         /// Ajoute une "référence" à un article en création.
         /// </summary>
         /// <returns></returns>
-        int AddAReference()
+        long AddAReference()
         {
             try
             {
-                //RefTxtBlockInfo.Text = "Veuillez saisir le numéro de référence de l'article :";
                 string newInput = AddRefTxtBox.Text;
-                bool correctNum = int.TryParse(newInput, out int reference);
+                bool correctNum = long.TryParse(newInput, out long reference);
                 if (!correctNum)
                 {
-                    RefTxtBlockInfo.Text = "Une erreur est survenue. Veuillez saisir une référence chiffrée.\n";
-                    //return AddAReference();
+                    RefTxtBlockInfo.Text = "Référence: veuillez saisir une référence chiffrée.\n";
+                    reference = 0;
                 }
                 return reference;
             }
             catch (Exception except)
             {
-                RefTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Orange);
                 RefTxtBlockInfo.Text = $"L'erreur suivante est survenue: {except.Message}";
                 return 0;
             }
@@ -187,16 +182,17 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                //NameTxtBlockInfo.Text = "Veuillez saisir le nom de l'article:";
                 string name = AddNameTxtBox.Text;
                 if (!Regex.IsMatch(name, @"^[a-zA-Z ]+$"))
-                    throw new ArgumentException();
+                {
+                    NameTxtBlockInfo.Text = $"Nom: veuillez saisir un nom alphabétique.\n";
+                    name = "null";
+                }
                 return name;
             }
-            catch (ArgumentException argExcept)
+            catch (Exception except)
             {
-                NameTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Red);
-                NameTxtBlockInfo.Text = $"L'erreur suivante est survenue :{argExcept.Message}. Veuillez saisir un nom alphabétique.\n";
+                NameTxtBlockInfo.Text = $"L'erreur suivante est survenue: {except.Message}";
                 return "null";
             }
         }
@@ -209,19 +205,17 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                //PriceTxtBlockInfo.Text = "Veuillez saisir le prix de l'article:";
                 string newInput = AddPriceTxtBox.Text;
                 bool correctNum = double.TryParse(newInput, out double price);
                 if (!correctNum)
                 {
-                    PriceTxtBlockInfo.Text = "Une erreur est survenue. Veuillez saisir une référence chiffrée.\n";
-                    //return AddAPrice();
+                    PriceTxtBlockInfo.Text = "Prix: veuillez saisir un prix chiffré.\n";
+                    price = 0;
                 }
                 return price;
             }
             catch (Exception except)
             {
-                PriceTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Red);
                 PriceTxtBlockInfo.Text = $"L'erreur suivante est survenue: {except.Message}";
                 return 0;
             }
@@ -239,13 +233,13 @@ namespace GestionnaireDeStockApp
                 bool correctNum = int.TryParse(newInput, out int quantity);
                 if (!correctNum)
                 {
-                    QuantTxtBlockInfo.Text = "Une erreur est survenue. Veuillez saisir une référence chiffrée.\n";
+                    QuantTxtBlockInfo.Text = "Quantité: veuillez saisir une quantité chiffrée.\n";
+                    quantity = 0;
                 }
                 return quantity;
             }
             catch (Exception except)
             {
-                QuantTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Red);
                 QuantTxtBlockInfo.Text = $"L'erreur suivante est survenue: {except}";
                 return 0;
             }
