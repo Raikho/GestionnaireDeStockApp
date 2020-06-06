@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DataLayer
 {
@@ -9,11 +6,11 @@ namespace DataLayer
     {
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Product> Products { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=StockDB;Integrated Security=True;");
         }
-
-
     }
 }

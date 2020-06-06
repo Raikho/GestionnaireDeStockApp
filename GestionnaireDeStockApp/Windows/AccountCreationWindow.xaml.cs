@@ -1,16 +1,9 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using DataLayer;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace GestionnaireDeStockApp
 {
@@ -19,6 +12,8 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class AccountCreationWindow : Window
     {
+        bool NameTxtBoxClick, SurNameTxtBoxClick, CreateIDTxtBoxClick, CreatePWTxtBoxClick, ConfirmPWTxtBoxClick = false;
+
         public AccountCreationWindow()
         {
             InitializeComponent();
@@ -37,26 +32,31 @@ namespace GestionnaireDeStockApp
 
         private void NameTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
+            NameTxtBoxClick = true;
             DesignTextBox(NameTxtBox, NameTxtBox_GotFocus);
         }
 
         private void SurNameTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
+            SurNameTxtBoxClick = true;
             DesignTextBox(SurNameTxtBox, SurNameTxtBox_GotFocus);
         }
 
         private void CreateIDTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
+            CreateIDTxtBoxClick = true;
             DesignTextBox(CreateIDTxtBox, CreateIDTxtBox_GotFocus);
         }
 
         private void CreatePWTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
+            CreatePWTxtBoxClick = true;
             DesignTextBox(CreatePWTxtBox, CreatePWTxtBox_GotFocus);
         }
 
         private void ConfirmPWTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
+            ConfirmPWTxtBoxClick = true;
             DesignTextBox(ConfirmPWTxtBox, ConfirmPWTxtBox_GotFocus);
         }
 
@@ -64,30 +64,40 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                if (NameTxtBox.Text == "" || SurNameTxtBox.Text == "" || CreateIDTxtBox.Text == "" || CreatePWTxtBox.Text == "")
+                if (NameTxtBox.Text == "" 
+                    || SurNameTxtBox.Text == "" 
+                    || CreateIDTxtBox.Text == "" 
+                    || CreatePWTxtBox.Text == "" 
+                    || ConfirmPWTxtBox.Text == "" 
+                    || NameTxtBoxClick == false 
+                    || SurNameTxtBoxClick == false 
+                    || CreateIDTxtBoxClick == false 
+                    || CreatePWTxtBoxClick == false 
+                    || ConfirmPWTxtBoxClick == false)
                     MessageBox.Show("Merci de remplir tous les champs.");
                 else if (CreatePWTxtBox.Text != ConfirmPWTxtBox.Text)
                     MessageBox.Show("Le mot de passe n'est pas identique.");
                 else
                 {
-                    using (SqlConnection sqlConnection = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=LoginDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;"))
+                    using (var dbContext = new StockContext())
                     {
-                        sqlConnection.Open();
+                        var users = dbContext.Users;
 
-                        SqlCommand sqlCommand = new SqlCommand("UserAdd", sqlConnection);
-                        sqlCommand.CommandType = CommandType.StoredProcedure;
-                        sqlCommand.Parameters.AddWithValue("@Name", NameTxtBox.Text.Trim());
-                        sqlCommand.Parameters.AddWithValue("@SurName", SurNameTxtBox.Text.Trim());
-                        sqlCommand.Parameters.AddWithValue("@UserName", CreateIDTxtBox.Text.Trim());
-                        sqlCommand.Parameters.AddWithValue("@Password", CreatePWTxtBox.Text.Trim());
-                        sqlCommand.ExecuteNonQuery();
+                        var newUser = new User()
+                        {
+                            Name = NameTxtBox.Text,
+                            Surname = SurNameTxtBox.Text,
+                            Username = CreateIDTxtBox.Text,
+                            Password = CreatePWTxtBox.Text
+                        };
+                        users.Add(newUser);
+                        dbContext.SaveChanges();
+
                         MessageBox.Show("Profil crée avec succés!");
-                        Clear();
-
                         LoginWindow loginWindow = new LoginWindow();
-                        loginWindow.ShowDialog();
                         this.Close();
-                    } 
+                        loginWindow.ShowDialog();
+                    }
                 }
             }
             catch (Exception exception)
@@ -95,18 +105,13 @@ namespace GestionnaireDeStockApp
                 MessageBox.Show(exception.Message);
             }
         }
-
+    
         private void DesignTextBox(TextBox textBox, RoutedEventHandler routedEventHandler)
         {
             textBox.Text = string.Empty;
             textBox.Foreground = new SolidColorBrush(Colors.White);
             textBox.Opacity = 1;
             textBox.GotFocus += routedEventHandler;
-        }
-
-        private void Clear()
-        {
-            NameTxtBox.Text = SurNameTxtBox.Text = CreateIDTxtBox.Text = CreatePWTxtBox.Text = ConfirmPWTxtBox.Text = string.Empty;
         }
     }
 }

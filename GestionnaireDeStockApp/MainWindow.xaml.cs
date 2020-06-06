@@ -1,12 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
-using System.Data.SqlClient;
-using System.IO;
+﻿using DataLayer;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace GestionnaireDeStockApp
 {
@@ -16,12 +11,14 @@ namespace GestionnaireDeStockApp
     public partial class MainWindow : Window
     {
         LoginWindow loginWindow = new LoginWindow();
+        AlertWindow alertWindow = new AlertWindow();
 
         public MainWindow()
         {
             InitializeComponent();
 
             LeftMenu.IsEnabled = false;
+            HideAllButtons();
         }
 
         private void TopGridBar_MouseDown(object sender, MouseButtonEventArgs e)
@@ -48,76 +45,70 @@ namespace GestionnaireDeStockApp
                 WindowState = WindowState.Maximized;
         }
 
+        private void AlertButton_Click(object sender, RoutedEventArgs e)
+        {
+            alertWindow = new AlertWindow();
+            alertWindow.Show();
+        }
+
         public void AccountButton_Click(object sender, RoutedEventArgs e)
         {
             loginWindow = new LoginWindow();
             loginWindow.ShowDialog();
 
             LeftMenu.IsEnabled = loginWindow.connectionState;
+            if (LeftMenu.IsEnabled == true)
+            {
+                ShowAllButtons();
+
+                WelcomeTxtBlock.Foreground = new SolidColorBrush(Colors.GreenYellow);
+                WelcomeTxtBlock.Text = $"{loginWindow.Username} est connecté";
+            }   
         }
 
         private void AddAnArticleButton_Click(object sender, RoutedEventArgs e)
         {
-            if (loginWindow.connectionState == false)
-                MessageBox.Show("Veuillez vous connecter à une session");
-            else
-            MainFrame.Content = new AddAnArticlePage(@"DataBase\Liste des articles.txt");
-        }
-
-        private void SearchByRefButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (loginWindow.connectionState == false)
-                MessageBox.Show("Veuillez vous connecter à une session");
-            else
-                MainFrame.Content = new SearchByReferencePage(@"DataBase\Liste des articles.txt");
-        }
-
-        private void SearchByNameButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (loginWindow.connectionState == false)
-                MessageBox.Show("Veuillez vous connecter à une session");
-            else
-                MainFrame.Content = new SearchByNamePage(@"DataBase\Liste des articles.txt");
-        }
-
-        private void SearchByPrice_Click(object sender, RoutedEventArgs e)
-        {
-            if (loginWindow.connectionState == false)
-                MessageBox.Show("Veuillez vous connecter à une session");
-            else
-                MainFrame.Content = new SearchByPricePage(@"DataBase\Liste des articles.txt");
+            MainFrame.Content = new AddAnArticlePage();
         }
 
         private void SearchInAllDataBaseButton_Click(object sender, RoutedEventArgs e)
         {
-            if (loginWindow.connectionState == false)
-                MessageBox.Show("Veuillez vous connecter à une session");
-            else
-                MainFrame.Content = new SearchInAllDataBasePage(@"DataBase\Liste des articles.txt");
+            MainFrame.Content = new SearchInAllDataBasePage();
         }
 
         private void DeleteAnArticle_Click(object sender, RoutedEventArgs e)
         {
-            if (loginWindow.connectionState == false)
-                MessageBox.Show("Veuillez vous connecter à une session");
-            else
-                MainFrame.Content = new DeleteAnArticlePage(@"DataBase\Liste des articles.txt");
+            MainFrame.Content = new DeleteAnArticlePage();
         }
 
         private void EditAnArticleButton_Click(object sender, RoutedEventArgs e)
         {
-            if (loginWindow.connectionState == false)
-                MessageBox.Show("Veuillez vous connecter à une session");
-            else
-                MainFrame.Content = new EditAnArticlePage(@"DataBase\Liste des articles.txt");
+            MainFrame.Content = new EditAnArticlePage();
         }
 
         private void ShowAllArticlesButton_Click(object sender, RoutedEventArgs e)
         {
-            if (loginWindow.connectionState == false)
-                MessageBox.Show("Veuillez vous connecter à une session");
-            else
-              MainFrame.Content = new ShowAllArticlesPage(@"DataBase\Liste des articles.txt");
+            MainFrame.Content = new ShowAllArticlesPage();
+        }
+
+        private void HideAllButtons()
+        {
+            AlertButton.Visibility = Visibility.Hidden;
+            AddAnArticleButton.Visibility = Visibility.Hidden;
+            SearchInAllDataBaseButton.Visibility = Visibility.Hidden;
+            DeleteAnArticle.Visibility = Visibility.Hidden;
+            EditAnArticleButton.Visibility = Visibility.Hidden;
+            ShowAllArticlesButton.Visibility = Visibility.Hidden;
+        }
+
+        private void ShowAllButtons()
+        {
+            AlertButton.Visibility = Visibility.Visible;
+            AddAnArticleButton.Visibility = Visibility.Visible;
+            SearchInAllDataBaseButton.Visibility = Visibility.Visible;
+            DeleteAnArticle.Visibility = Visibility.Visible;
+            EditAnArticleButton.Visibility = Visibility.Visible;
+            ShowAllArticlesButton.Visibility = Visibility.Visible;
         }
     }
 }

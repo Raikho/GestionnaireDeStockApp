@@ -9,7 +9,7 @@
       Title="SearchInAllDataBasePage">
 
     <Grid>
-        <Rectangle Margin="228,69,228,355" Fill="White" RadiusY="20" RadiusX="20"/>
+        <Rectangle Margin="228,10,228,445" Fill="White" RadiusY="20" RadiusX="20"/>
         <Rectangle Margin="160,260,160,10" Fill="White" RadiusY="20" RadiusX="20" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
         <Rectangle Margin="190,225,190,80" RadiusY="20" RadiusX="20">
             <Rectangle.Fill>
@@ -19,13 +19,19 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <TextBlock HorizontalAlignment="Left" Margin="275, 80,0,0" Text="Saisissez votre recherche :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="202"/>
-        <TextBox x:Name="SearchDataBaseTxtBox" HorizontalAlignment="Left" Margin="440,78,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="SearchDataBaseTxtBox_GotFocus"/>
-        <Button x:Name="ValidateButton" Click="ValidateButton_Click" Style="{StaticResource CustomValidateButton}" Content="Valider" Foreground="White" Background="#FFA46FE4" HorizontalAlignment="Center" Margin="0,150,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="60" Height="27"/>
+        <TextBlock HorizontalAlignment="Left" Margin="255,25,0,0" Text="Recherche standard :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="202"/>
+        <TextBox x:Name="SearchDataBaseTxtBox" HorizontalAlignment="Left" Margin="440,23,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="SearchDataBaseTxtBox_GotFocus"/>
+        <Button x:Name="ValidateButton" Click="ValidateButton_Click" Style="{StaticResource CustomValidateButton}" Content="Valider" Foreground="White" Background="#FFA46FE4" HorizontalAlignment="Center" Margin="0,65,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="60" Height="27"/>
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="200,235,200,145">
             <TextBlock x:Name="SearchDBArticleTxtBlock" HorizontalAlignment="Center" Margin="0,0,0,0" Foreground="White" TextWrapping="Wrap" VerticalAlignment="Top" Height="Auto" Width="368"/>
         </ScrollViewer>
         <TextBlock x:Name="SearchDBTxtBlockError" HorizontalAlignment="Center" Margin="0,480,0,0" Foreground="Red" TextWrapping="Wrap" VerticalAlignment="Top" Width="444" Height="50"/>
         <TextBlock x:Name="SearchDBTxtBlockCount" HorizontalAlignment="Center" Margin="0,425,0,0" Foreground="Orange" TextWrapping="Wrap" VerticalAlignment="Top" Width="368" Height="35"/>
+
+        <Rectangle Margin="228,115,228,342" Fill="White" RadiusY="20" RadiusX="20"/>
+        <TextBlock HorizontalAlignment="Left" Margin="255,129,0,0" Text="Recherche par intervalle de prix :" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="202"/>
+        <TextBox x:Name="SearchMinPriceTxtBox" HorizontalAlignment="Left" Margin="440,127,0,0" Text="min..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" GotFocus="SearchMinPriceTxtBox_GotFocus" RenderTransformOrigin="0.544,1.705"/>
+        <TextBox x:Name="SearchMaxPriceTxtBox" HorizontalAlignment="Left" Margin="510,127,0,0" Text="max..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" GotFocus="SearchMaxPriceTxtBox_GotFocus"/>
+        <Button x:Name="PriceValidateButton" Click="PriceValidateButton_Click" Style="{StaticResource CustomValidateButton}" Content="Valider" Foreground="White" Background="#FFA46FE4" HorizontalAlignment="Center" Margin="0,164,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="60" Height="27"/>
     </Grid>
 </Page>

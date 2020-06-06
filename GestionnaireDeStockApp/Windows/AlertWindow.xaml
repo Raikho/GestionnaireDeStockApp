@@ -1,0 +1,49 @@
+﻿<Window x:Class="GestionnaireDeStockApp.AlertWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:GestionnaireDeStockApp"
+        mc:Ignorable="d"
+        Title="AlertWindow" Height="450" Width="800"
+         AllowsTransparency="True" Background="Transparent" 
+        ResizeMode="NoResize" WindowStyle="None">
+
+    <Grid x:Name="MainGrid" MouseDown="MainGrid_MouseDown">
+        <Grid>
+            <Border Grid.RowSpan="2" CornerRadius="10">
+                <Border.Background>
+                    <LinearGradientBrush>
+                        <GradientStop Color="#FF2D8893" Offset="0.0"/>
+                        <GradientStop Color="#FF8522BD" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+
+            <StackPanel Height="30" Width="45" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,10,0,0">
+                <Button Content="{materialDesign:PackIcon Kind=PowerBox, Size=20}"
+                        Background="{x:Null}" 
+                        BorderBrush="{x:Null}"
+                        Foreground="White" 
+                        HorizontalAlignment="Center" 
+                        Height="25" 
+                        Width="25" Click="Button_Click"/>
+            </StackPanel>
+
+            <StackPanel Height="350" Width="710" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <ScrollViewer Height="350" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <DataGrid x:Name="productsDataGrid" AutoGenerateColumns="False" Background="Transparent">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Référence" Width="100" Binding="{Binding Reference}"/>
+                            <DataGridTextColumn Header="Nom" Width="100" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="Prix" Width="100" Binding="{Binding Price}"/>
+                            <DataGridTextColumn Header="Quantité" Width="100" Binding="{Binding Quantity}"/>
+                            <DataGridTextColumn Header="Fournisseur" Width="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </ScrollViewer>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

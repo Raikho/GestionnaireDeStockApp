@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataLayer;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -12,18 +13,13 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class EditAnArticlePage : Page
     {
-        public string Path { get; private set; }
+        bool EditNameTxtBoxClick, EditRefTxtBoxClick, EditPriceTxtBoxClick, EditQuantTxtBoxClick = false;
 
-        List<Article> Articles { get; set; }
+        public Product characToEdit { get; private set; }
 
-        public Article characToDelete { get; private set; }
-
-        public EditAnArticlePage(string path)
+        public EditAnArticlePage()
         {
             InitializeComponent();
-
-            Path = path;
-            Articles = Article.GetAllCharacteristics(path);
         }
 
         private void ValidateButton_Click(object sender, RoutedEventArgs e)
@@ -31,8 +27,8 @@ namespace GestionnaireDeStockApp
             ClearTheBlock();
             ClearTheBox();
 
-            characToDelete = EditAnArticleByReference();
-            if (characToDelete == null)
+            characToEdit = EditAnArticleByReference();
+            if (characToEdit == null)
                 EditAnArticleTxtBlockShow.Text = "Aucun article trouvé";
         }
 
@@ -44,6 +40,7 @@ namespace GestionnaireDeStockApp
 
         private void EditRefTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
+            EditRefTxtBoxClick = true;
             EditRefTxtBox.Text = string.Empty;
             EditRefTxtBox.GotFocus += EditRefTxtBox_GotFocus;
             EditRefTxtBox.Foreground = new SolidColorBrush(Colors.Black);
@@ -51,6 +48,7 @@ namespace GestionnaireDeStockApp
 
         private void EditNameTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
+            EditNameTxtBoxClick = true;
             EditNameTxtBox.Text = string.Empty;
             EditNameTxtBox.GotFocus += EditNameTxtBox_GotFocus;
             EditNameTxtBox.Foreground = new SolidColorBrush(Colors.Black);
@@ -58,6 +56,7 @@ namespace GestionnaireDeStockApp
 
         private void EditPriceTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
+            EditPriceTxtBoxClick = true;
             EditPriceTxtBox.Text = string.Empty;
             EditPriceTxtBox.GotFocus += EditPriceTxtBox_GotFocus;
             EditPriceTxtBox.Foreground = new SolidColorBrush(Colors.Black);
@@ -65,6 +64,7 @@ namespace GestionnaireDeStockApp
 
         private void EditQuantTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
+            EditQuantTxtBoxClick = true;
             EditQuantTxtBox.Text = string.Empty;
             EditQuantTxtBox.GotFocus += EditQuantTxtBox_GotFocus;
             EditQuantTxtBox.Foreground = new SolidColorBrush(Colors.Black);
@@ -108,26 +108,31 @@ namespace GestionnaireDeStockApp
         /// Cible un article en fonction de la référence saisie, et propose un menu pour éditer une caractéristique, au choix, de l'article.
         /// </summary>
         /// <returns></returns>
-        public Article EditAnArticleByReference()
+        public Product EditAnArticleByReference()
         {
             try
             {
-                characToDelete = null;
-                string newInput = EditAnArticleTxtBox.Text;
-                bool correctNum = long.TryParse(newInput, out long reference);
-                if (!correctNum)
+                characToEdit = null;
+                string reference = EditAnArticleTxtBox.Text;
+                if (!Regex.IsMatch(reference, @"^[a-zA-Z0-9 ]+$"))
                 {
-                    EditRefTxtBlockError.Text = "Une erreur est survenue. Veuillez saisir une référence chiffrée.";
+                    EditRefTxtBlockError.Text = "Une erreur est survenue. Veuillez effectuer une saisie alphanumérique.";
                 }
-
-                foreach (var item in Articles)
+                else
                 {
-                    if (item.Reference == reference)
+                    using (var dbContext = new StockContext())
                     {
-                        characToDelete = item;
-                        EditAnArticleTxtBlockShow.Text = $"L'article séléctionné est:";
-                        ShowAnArticle(characToDelete);
-                        break;
+                        var products = dbContext.Products;
+                        foreach (var product in products)
+                        {
+                            if (product.Reference.ToLower() == reference.ToLower())
+                            {
+                                characToEdit = product;
+                                EditAnArticleTxtBlockShow.Text = $"L'article séléctionné est:";
+                                ShowAnArticle(characToEdit);
+                                break;
+                            }
+                        }
                     }
                 }
             }
@@ -135,36 +140,40 @@ namespace GestionnaireDeStockApp
             {
                 EditRefTxtBlockError.Text = $"L'erreur suivante est survenue: {except.Message}.";
             }
-            return characToDelete;
+            return characToEdit;
         }
 
         void EditACharacteristic()
         {
+            string reference = string.Empty;
+            string name = string.Empty;
+            double price = 0;
+            int quantity = 0;
+
             try
             {
-                long articleReference = characToDelete.Reference;
-                if (EditRefTxtBox.Text == "zone de saisie..." || EditRefTxtBox.Text == "")
+                reference = characToEdit.Reference;
+                if (EditRefTxtBoxClick == false || EditRefTxtBox.Text == "")
                 {
                     RefTxtBlockConfirm.Text = string.Empty;
                     RefTxtBlockConfirm.Text = "Référence: caractéristique inchangée";
                 }
                 else
                 {
-                    string newArtRefInput = EditRefTxtBox.Text;
-                    bool correctArtRefNum = long.TryParse(newArtRefInput, out articleReference);
-                    if (!correctArtRefNum)
+                    reference = EditRefTxtBox.Text;
+                    if (!Regex.IsMatch(reference, @"^[a-zA-Z0-9 ]+$"))
                     {
                         RefTxtBlockConfirm.Text = string.Empty;
                         RefTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.OrangeRed);
                         RefTxtBlockConfirm.Text = $"Erreur de saisie";
-                        EditRefTxtBlockError.Text = "Une erreur est survenue. Veuillez saisir une référence chiffrée.";
+                        EditRefTxtBlockError.Text = "Une erreur est survenue. Veuillez effectuer une saisie alphanumérique.";
                     }
                     else
                     {
-                        characToDelete.Reference = articleReference;
+                        characToEdit.Reference = reference;
                         RefTxtBlockConfirm.Text = string.Empty;
                         RefTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.GreenYellow);
-                        RefTxtBlockConfirm.Text = $"Référence: \"{articleReference}\"";
+                        RefTxtBlockConfirm.Text = $"Référence: \"{reference}\"";
                         EditAnArticleTxtBlockShow.Text += $"La référence de l'article a été modifiée avec succès\n";
                     }
                 }
@@ -175,38 +184,39 @@ namespace GestionnaireDeStockApp
             }
             try
             {
-                string articleName = characToDelete.Name;
-                if (EditNameTxtBox.Text == "zone de saisie..." || EditNameTxtBox.Text == "")
+                name = characToEdit.Name;
+                if (EditNameTxtBoxClick == false || EditNameTxtBox.Text == "")
                 {
                     NameTxtBlockConfirm.Text = string.Empty;
                     NameTxtBlockConfirm.Text = "Nom: caractéristique inchangée";
                 }
                 else
                 {
-                    articleName = EditNameTxtBox.Text;
-                    if (Regex.IsMatch(articleName, @"^[a-zA-Z ]+$"))
+                    name = EditNameTxtBox.Text;
+                    if (!Regex.IsMatch(name, @"^[a-zA-Z0-9 ]+$"))
                     {
-                        characToDelete.Name = articleName;
                         NameTxtBlockConfirm.Text = string.Empty;
-                        NameTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.GreenYellow);
-                        NameTxtBlockConfirm.Text = $"Nom: \"{articleName}\"";
-                        EditAnArticleTxtBlockShow.Text += $"Le nom de l'article a été modifié avec succès\n";
+                        NameTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.OrangeRed);
+                        NameTxtBlockConfirm.Text = $"Erreur de saisie";
+                        EditNameTxtBlockError.Text = "Une erreur est survenue. Veuillez effectuer une saisie alphanumérique.";
                     }
                     else
-                        throw new ArgumentException();
+                    {
+                        NameTxtBlockConfirm.Text = string.Empty;
+                        NameTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.GreenYellow);
+                        NameTxtBlockConfirm.Text = $"Nom: \"{name}\"";
+                        EditAnArticleTxtBlockShow.Text += $"Le nom de l'article a été modifié avec succès\n";
+                    }
                 }
             }
-            catch (ArgumentException argExcept)
+            catch (Exception except)
             {
-                NameTxtBlockConfirm.Text = string.Empty;
-                NameTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.OrangeRed);
-                NameTxtBlockConfirm.Text = $"Erreur de saisie";
-                EditNameTxtBlockError.Text = $"L'erreur suivante est survenue: \"{argExcept.Message}\". Veuillez saisir une entrée alphabétique.";
+                EditNameTxtBlockError.Text = $"L'erreur suivante est survenue: \"{except.Message}\".";
             }
             try
             {
-                double articlePrice = characToDelete.Price;
-                if (EditPriceTxtBox.Text == "zone de saisie..." || EditPriceTxtBox.Text == "")
+                price = Convert.ToDouble(characToEdit.Price);
+                if (EditPriceTxtBoxClick == false || EditPriceTxtBox.Text == "")
                 {
                     PriceTxtBlockConfirm.Text = string.Empty;
                     PriceTxtBlockConfirm.Text = "Prix: caractéristique inchangée";
@@ -214,7 +224,7 @@ namespace GestionnaireDeStockApp
                 else
                 {
                     string newArtPriceInput = EditPriceTxtBox.Text;
-                    bool correctArtPriceNum = double.TryParse(newArtPriceInput, out articlePrice);
+                    bool correctArtPriceNum = double.TryParse(newArtPriceInput, out price);
                     if (!correctArtPriceNum)
                     {
                         PriceTxtBlockConfirm.Text = string.Empty;
@@ -224,10 +234,9 @@ namespace GestionnaireDeStockApp
                     }
                     else
                     {
-                        characToDelete.Price = articlePrice;
                         PriceTxtBlockConfirm.Text = string.Empty;
                         PriceTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.GreenYellow);
-                        PriceTxtBlockConfirm.Text = $"Prix: \"{articlePrice}\"";
+                        PriceTxtBlockConfirm.Text = $"Prix: \"{price}\"";
                         EditAnArticleTxtBlockShow.Text += $"Le prix de l'article a été modifié avec succès\n";
                     }
                 }
@@ -238,8 +247,8 @@ namespace GestionnaireDeStockApp
             }
             try
             {
-                int articleQuantity = characToDelete.Quantity;
-                if (EditQuantTxtBox.Text == "zone de saisie..." || EditQuantTxtBox.Text == "")
+                quantity = Convert.ToInt32(characToEdit.Quantity);
+                if (EditQuantTxtBoxClick == false || EditQuantTxtBox.Text == "")
                 {
                     QuantTxtBlockConfirm.Text = string.Empty;
                     QuantTxtBlockConfirm.Text = "Quantité: caractéristique inchangée";
@@ -247,8 +256,8 @@ namespace GestionnaireDeStockApp
                 else
                 {
                     string newArtQuantInput = EditQuantTxtBox.Text;
-                    bool correctArtQuantNum = int.TryParse(newArtQuantInput, out articleQuantity);
-                    if (!correctArtQuantNum)
+                    bool correctQuantNum = int.TryParse(newArtQuantInput, out quantity);
+                    if (!correctQuantNum)
                     {
                         QuantTxtBlockConfirm.Text = string.Empty;
                         QuantTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.OrangeRed);
@@ -257,32 +266,57 @@ namespace GestionnaireDeStockApp
                     }
                     else
                     {
-                        characToDelete.Quantity = articleQuantity;
                         QuantTxtBlockConfirm.Text = string.Empty;
                         QuantTxtBlockConfirm.Foreground = new SolidColorBrush(Colors.GreenYellow);
-                        QuantTxtBlockConfirm.Text = $"Quantité: \"{articleQuantity}\"";
+                        QuantTxtBlockConfirm.Text = $"Quantité: \"{quantity}\"";
                         EditAnArticleTxtBlockShow.Text += $"La quantité de l'article a été modifiée avec succès\n";
                     }
                 }
-                Write();
             }
             catch (Exception except)
             {
                 EditQuantTxtBlockError.Text = $"L'erreur suivante est survenue: \"{except.Message}\".";
             }
+
+            Update(reference, name, price, quantity);
         }
 
-        void Write()
+        public void UpdateAnArticle(string reference, string name, double price, int quantity)
         {
-            Article.WriteAFile(Articles, Path);
+            try
+            {
+                using (var dbContext = new StockContext())
+                {
+                    var products = dbContext.Products;
+
+                    characToEdit = new Product()
+                    {
+                        Reference = reference,
+                        Name = name,
+                        Price = price,
+                        Quantity = quantity,
+                    };
+                    products.Update(characToEdit);
+                    dbContext.SaveChanges();
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
         }
 
-        void ShowAnArticle(Article article)
+        void Update(string reference, string name, double price, int quantity)
         {
-            RefTxtBlockConfirm.Text = $"Numéro: {article.Reference}";
-            NameTxtBlockConfirm.Text = $"Nom: {article.Name}";
-            PriceTxtBlockConfirm.Text = $"Prix: {article.Price}";
-            QuantTxtBlockConfirm.Text = $"Quantité: {article.Quantity}";
+            UpdateAnArticle(reference, name, price, quantity);
+        }
+
+        void ShowAnArticle(Product product)
+        {
+            RefTxtBlockConfirm.Text = $"Numéro: {product.Reference}";
+            NameTxtBlockConfirm.Text = $"Nom: {product.Name}";
+            PriceTxtBlockConfirm.Text = $"Prix: {product.Price}";
+            QuantTxtBlockConfirm.Text = $"Quantité: {product.Quantity}";
         }
     }
 }

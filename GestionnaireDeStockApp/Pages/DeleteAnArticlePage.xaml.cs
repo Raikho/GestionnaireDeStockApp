@@ -1,5 +1,8 @@
-﻿using System;
+﻿using DataLayer;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -11,16 +14,9 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class DeleteAnArticlePage : Page
     {
-        public string Path { get; private set; }
-
-        List<Article> Articles { get; set; }
-
-        public DeleteAnArticlePage(string path)
+        public DeleteAnArticlePage()
         {
             InitializeComponent();
-
-            Path = path;
-            Articles = Article.GetAllCharacteristics(path);
         }
 
         private void ValidateButton_Click(object sender, RoutedEventArgs e)
@@ -52,34 +48,33 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                string newInput = DeleteRefTxtBox.Text;
-                bool correctNum = int.TryParse(newInput, out int reference);
-                if (!correctNum)
+                string reference = DeleteRefTxtBox.Text;
+                if (!Regex.IsMatch(reference, @"^[a-zA-Z0-9, ]+$"))
                 {
-                    DeleteRefTxtBlockError.Text = "Une erreur est survenue. Veuillez saisir une référence chiffrée.";
+                    DeleteRefTxtBlockError.Text = "Une erreur est survenue. Veuillez effectuer une saisie alphanumérique.";
                 }
                 else
                 {
                     int articleCounter = 0;
                     bool duplicate = false;
-                    Article articleToDelete = null;
+                    Product articleToDelete = null;
 
-                    foreach (var art in Articles)
+                    using (var dbContext = new StockContext())
                     {
-                        if (art.Reference == reference)
-                        {
-                            articleToDelete = art;
-                            break;
-                        }
+                        articleToDelete = dbContext.Products.Where(c => c.Reference.ToLower() == reference.ToLower()).FirstOrDefault();
+                        dbContext.Remove(articleToDelete);
+                        dbContext.SaveChanges();
                     }
                     if (articleToDelete != null)
                     {
                         articleCounter++;
                         duplicate = true;
-                        DeleteRefArticleTxtBlock.Text = $"L'article suivant a été supprimé:\n{articleToDelete}";
+                        DeleteRefArticleTxtBlock.Text = $"L'article suivant a été supprimé:\n\n" +
+                                                        $"Référence: { articleToDelete.Reference}\n" +
+                                                        $"Nom: {articleToDelete.Name}\n" +
+                                                        $"Prix: {articleToDelete.Price}\n" +
+                                                        $"Quantité: {articleToDelete.Quantity}\n\n";
                         DeleteRefTxtBlockCount.Text = $"Le nombre d'articles supprimé est: {articleCounter}";
-                        Articles.Remove(articleToDelete);
-                        Write();
                     }
                     if (!duplicate)
                     {
@@ -92,14 +87,6 @@ namespace GestionnaireDeStockApp
             {
                 DeleteRefTxtBlockError.Text = $"L'erreur suivante est survenue: {except.Message}.";
             }
-        }
-
-        /// <summary>
-        /// Appel la fonction d'écriture de la classe "Article" et écrit dans le fichier.
-        /// </summary>
-        void Write()
-        {
-            Article.WriteAFile(Articles, Path);
         }
     }
 }

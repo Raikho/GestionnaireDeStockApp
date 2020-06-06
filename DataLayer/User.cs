@@ -12,6 +12,6 @@ namespace DataLayer
 
         public string Surname { get; set; }
 
-        public override string ToString() => $"{Surname} {Name}";
+        //public override string ToString() => $"{Surname} {Name}";
     }
 }

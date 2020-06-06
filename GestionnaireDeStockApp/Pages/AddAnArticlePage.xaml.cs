@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataLayer;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -12,16 +13,9 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class AddAnArticlePage : Page
     {
-        public string Path { get; private set; }
-
-        List<Article> Articles { get; set; }
-
-        public AddAnArticlePage(string path)
+        public AddAnArticlePage()
         {
             InitializeComponent();
-
-            Path = path;
-            Articles = Article.GetAllCharacteristics(Path);
         }
 
         private void ValidateButton_Click(object sender, RoutedEventArgs e)
@@ -82,7 +76,7 @@ namespace GestionnaireDeStockApp
             {
                 var reference = AddAReference();
 
-                if (reference == 0)
+                if (reference == "null")
                 {
                     CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Orange);
                     CreateTxtBlockInfo.Text = "La saisie est incorrecte";
@@ -90,14 +84,19 @@ namespace GestionnaireDeStockApp
                 else
                 {
                     bool duplicate = false;
-                    foreach (var article in Articles)
+
+                    using (var dbContext = new StockContext())
                     {
-                        if (article.Reference == reference)
+                        var products = dbContext.Products;
+                        foreach (var product in products)
                         {
-                            duplicate = true;
-                            CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Orange);
-                            CreateTxtBlockInfo.Text = "L'article existe déjà";
-                            break;
+                            if (product.Reference.ToLower() == reference.ToLower())
+                            {
+                                duplicate = true;
+                                CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Orange);
+                                CreateTxtBlockInfo.Text = "L'article existe déjà";
+                                break;
+                            }
                         }
                     }
 
@@ -114,63 +113,62 @@ namespace GestionnaireDeStockApp
                         }
                         else
                         {
-                            var newArticle = new Article(reference, name, price, quantity);
+                            using (var dbContext = new StockContext())
+                            {
+                                var products = dbContext.Products;
 
-                            Articles.Add(newArticle);
-
-                            Write();
-                            ShowAnArticle(newArticle);
+                                var product = new Product()
+                                {
+                                    Reference = reference,
+                                    Name = name,
+                                    Price = price,
+                                    Quantity = quantity,
+                                };
+                                products.Add(product);
+                                dbContext.SaveChanges();
+                            }
                             CreateTxtBlockInfo.Text = $"Le nouveau produit a été intégré au stock: ";
+                            ShowAnArticle(reference, name, price, quantity);
                         }
                     }
                 }
-
-
             }
             catch (Exception except)
             {
+                CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Orange);
                 CreateTxtBlockInfo.Text = $"L'erreur suivante est survenue: {except.Message}";
             }
 
         }
 
-        void ShowAnArticle(Article article)
+        void ShowAnArticle(string reference, string name, double price, int quantity)
         {
-            RefTxtBlockConfirm.Text = $"{article.Reference}";
-            NameTxtBlockConfirm.Text = $"{article.Name}";
-            PriceTxtBlockConfirm.Text = $"{article.Price}";
-            QuantTxtBlockConfirm.Text = $"{article.Quantity}";
-        }
-
-        /// <summary>
-        /// Appel la fonction d'écriture de la classe "Article" et écrit dans le fichier.
-        /// </summary>
-        void Write()
-        {
-            Article.WriteAFile(Articles, Path);
+            RefTxtBlockConfirm.Text = $"{reference}";
+            NameTxtBlockConfirm.Text = $"{name}";
+            PriceTxtBlockConfirm.Text = $"{price}";
+            QuantTxtBlockConfirm.Text = $"{quantity}";
         }
 
         /// <summary>
         /// Ajoute une "référence" à un article en création.
         /// </summary>
         /// <returns></returns>
-        long AddAReference()
+        string AddAReference()
         {
             try
             {
                 string newInput = AddRefTxtBox.Text;
-                bool correctNum = long.TryParse(newInput, out long reference);
-                if (!correctNum)
+                if (!Regex.IsMatch(newInput, @"^[a-zA-Z0-9, ]+$"))
                 {
-                    RefTxtBlockInfo.Text = "Référence: veuillez saisir une référence chiffrée.\n";
-                    reference = 0;
+                    RefTxtBlockInfo.Text = "Référence: veuillez effectuer une saisie alphanumérique.\n";
+                    newInput = "null";
                 }
-                return reference;
+                return newInput;
             }
             catch (Exception except)
             {
                 RefTxtBlockInfo.Text = $"L'erreur suivante est survenue: {except.Message}";
-                return 0;
+                return "null";
             }
         }
 
@@ -183,9 +181,9 @@ namespace GestionnaireDeStockApp
             try
             {
                 string name = AddNameTxtBox.Text;
-                if (!Regex.IsMatch(name, @"^[a-zA-Z ]+$"))
+                if (!Regex.IsMatch(name, @"^[a-zA-Z0-9, ]+$"))
                 {
-                    NameTxtBlockInfo.Text = $"Nom: veuillez saisir un nom alphabétique.\n";
+                    NameTxtBlockInfo.Text = $"Nom: veuillez effectuer une saisie alphanumérique.\n";
                     name = "null";
                 }
                 return name;
