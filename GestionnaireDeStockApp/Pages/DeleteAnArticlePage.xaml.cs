@@ -1,6 +1,5 @@
 ﻿using DataLayer;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -56,7 +55,6 @@ namespace GestionnaireDeStockApp
                 else
                 {
                     int articleCounter = 0;
-                    bool duplicate = false;
                     Product articleToDelete = null;
 
                     using (var dbContext = new StockContext())
@@ -68,24 +66,23 @@ namespace GestionnaireDeStockApp
                     if (articleToDelete != null)
                     {
                         articleCounter++;
-                        duplicate = true;
                         DeleteRefArticleTxtBlock.Text = $"L'article suivant a été supprimé:\n\n" +
                                                         $"Référence: { articleToDelete.Reference}\n" +
                                                         $"Nom: {articleToDelete.Name}\n" +
                                                         $"Prix: {articleToDelete.Price}\n" +
                                                         $"Quantité: {articleToDelete.Quantity}\n\n";
-                        DeleteRefTxtBlockCount.Text = $"Le nombre d'articles supprimé est: {articleCounter}";
                     }
-                    if (!duplicate)
+                    else
                     {
                         DeleteRefArticleTxtBlock.Foreground = new SolidColorBrush(Colors.Orange);
                         DeleteRefArticleTxtBlock.Text = "Article introuvable";
                     }
+                    DeleteRefTxtBlockCount.Text = $"Le nombre d'articles supprimé est: {articleCounter}";
                 }
             }
-            catch (Exception except)
+            catch (Exception exception)
             {
-                DeleteRefTxtBlockError.Text = $"L'erreur suivante est survenue: {except.Message}.";
+                MessageBox.Show(exception.Message);
             }
         }
     }

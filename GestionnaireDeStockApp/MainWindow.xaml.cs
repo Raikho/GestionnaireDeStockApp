@@ -1,5 +1,4 @@
-﻿using DataLayer;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -10,20 +9,35 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        LoginWindow loginWindow = new LoginWindow();
-        AlertWindow alertWindow = new AlertWindow();
+        public static LoginWindow currentLgWindow { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
 
             LeftMenu.IsEnabled = false;
-            HideAllButtons();
+            HideAllItems();
+
+            ConnectAccount();
+        }
+
+        private void ConnectAccount()
+        {
+            do
+            {
+                LoginWindow loginWindow = new LoginWindow();
+                currentLgWindow = loginWindow;
+                currentLgWindow = new LoginWindow();
+                currentLgWindow.ShowDialog();
+                
+            }
+            while (LoginWindow.connectionState == false);
+            MainFrame.Content = new ArticlesListPage();
         }
 
         private void TopGridBar_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if(e.LeftButton == MouseButtonState.Pressed)
+            if (e.LeftButton == MouseButtonState.Pressed)
                 DragMove();
         }
 
@@ -47,23 +61,23 @@ namespace GestionnaireDeStockApp
 
         private void AlertButton_Click(object sender, RoutedEventArgs e)
         {
-            alertWindow = new AlertWindow();
+            AlertWindow alertWindow = new AlertWindow();
             alertWindow.Show();
         }
 
         public void AccountButton_Click(object sender, RoutedEventArgs e)
         {
-            loginWindow = new LoginWindow();
-            loginWindow.ShowDialog();
+            currentLgWindow = new LoginWindow();
+            currentLgWindow.ShowDialog();
 
-            LeftMenu.IsEnabled = loginWindow.connectionState;
+            LeftMenu.IsEnabled = LoginWindow.connectionState;
             if (LeftMenu.IsEnabled == true)
             {
-                ShowAllButtons();
+                ShowAllItems();
 
                 WelcomeTxtBlock.Foreground = new SolidColorBrush(Colors.GreenYellow);
-                WelcomeTxtBlock.Text = $"{loginWindow.Username} est connecté";
-            }   
+                WelcomeTxtBlock.Text = $"{currentLgWindow.Username} est connecté";
+            }
         }
 
         private void AddAnArticleButton_Click(object sender, RoutedEventArgs e)
@@ -91,9 +105,10 @@ namespace GestionnaireDeStockApp
             MainFrame.Content = new ShowAllArticlesPage();
         }
 
-        private void HideAllButtons()
+        private void HideAllItems()
         {
             AlertButton.Visibility = Visibility.Hidden;
+            ShowArticleListManagement.Visibility = Visibility.Hidden;
             AddAnArticleButton.Visibility = Visibility.Hidden;
             SearchInAllDataBaseButton.Visibility = Visibility.Hidden;
             DeleteAnArticle.Visibility = Visibility.Hidden;
@@ -101,14 +116,20 @@ namespace GestionnaireDeStockApp
             ShowAllArticlesButton.Visibility = Visibility.Hidden;
         }
 
-        private void ShowAllButtons()
+        private void ShowAllItems()
         {
             AlertButton.Visibility = Visibility.Visible;
+            ShowArticleListManagement.Visibility = Visibility.Visible;
             AddAnArticleButton.Visibility = Visibility.Visible;
             SearchInAllDataBaseButton.Visibility = Visibility.Visible;
             DeleteAnArticle.Visibility = Visibility.Visible;
             EditAnArticleButton.Visibility = Visibility.Visible;
             ShowAllArticlesButton.Visibility = Visibility.Visible;
+        }
+
+        private void ShowArticleListManagement_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new ArticlesListPage();
         }
     }
 }

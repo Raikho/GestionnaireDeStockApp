@@ -1,9 +1,8 @@
 ﻿using DataLayer;
-using System.Collections.Generic;
-using System.Windows.Input;
-using System.Security.Cryptography.Xml;
-using System.Windows;
 using System;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Input;
 
 namespace GestionnaireDeStockApp
 {
@@ -14,8 +13,9 @@ namespace GestionnaireDeStockApp
     {
         public AlertWindow()
         {
-            InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
+            InitializeComponent();
             AddProductsInRows();
         }
 

@@ -1,6 +1,5 @@
 ﻿using DataLayer;
 using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -67,41 +66,48 @@ namespace GestionnaireDeStockApp
             try
             {
                 string input = SearchDataBaseTxtBox.Text;
-
-                if (Regex.IsMatch(input, @"^[a-zA-Z0-9, ]+$"))
+                if (!Regex.IsMatch(input, @"^[a-zA-Z0-9, ]+$"))
+                {
+                    SearchDBTxtBlockError.Text = "Une erreur est survenue. Veuillez effectuer une saisie alphanumérique.";
+                }
+                else
                 {
                     int articleCounter = 0;
-                    bool duplicate = false;
+                    Product articleToFind = null;
+
                     using (var dbContext = new StockContext())
                     {
                         var products = dbContext.Products;
 
                         foreach (var product in products)
                         {
-                            if (product.ToString().ToLower().Contains(input.ToLower()))
+
+                            if (product.Reference.ToString().ToLower().Contains(input.ToString().ToLower())
+                                || product.Name.ToString().ToLower().Contains(input.ToString().ToLower())
+                                || product.Price.ToString().ToLower().Contains(input.ToString().ToLower())
+                                || product.Quantity.ToString().ToLower().Contains(input.ToString().ToLower()))
                             {
-                                duplicate = true;
-                                SearchDBArticleTxtBlock.Text += $"Référence: {product.Reference}\n" +
-                                                                $"Nom: {product.Name}\n" +
-                                                                $"Prix: {product.Price}\n" +
-                                                                $"Quantité: {product.Quantity}\n\n";
+                                articleToFind = product;
                                 articleCounter++;
+                                SearchDBArticleTxtBlock.Text += $"Référence: {articleToFind.Reference}\n" +
+                                                                $"Nom: {articleToFind.Name}\n" +
+                                                                $"Prix: {articleToFind.Price}\n" +
+                                                                $"Quantité: {articleToFind.Quantity}\n\n";
                             }
                         }
                     }
-                    SearchDBTxtBlockCount.Text = $"Nombre d'articles trouvés: {articleCounter}";
-                    if (!duplicate)
+                    if (articleToFind != null)
+                        SearchDBTxtBlockCount.Text = $"Nombre d'articles trouvés: {articleCounter}";
+                    else
                     {
                         SearchDBArticleTxtBlock.Foreground = new SolidColorBrush(Colors.Orange);
                         SearchDBArticleTxtBlock.Text = "Article introuvable";
                     }
                 }
-                else
-                    throw new Exception();
             }
-            catch (Exception except)
+            catch (Exception exception)
             {
-                SearchDBTxtBlockError.Text = $"L'erreur suivante est survenue: {except.Message}. La saisie est incorrecte.";
+                MessageBox.Show(exception.Message);
             }
         }
 
@@ -124,35 +130,36 @@ namespace GestionnaireDeStockApp
                 else
                 {
                     int itemCounter = 0;
-                    bool duplicate = false;
+                    Product articleToFind = null;
                     using (var dbContext = new StockContext())
                     {
                         var products = dbContext.Products;
 
                         foreach (var product in products)
                         {
-                            if (Convert.ToDouble(product.Price) >= priceMin && Convert.ToDouble(product.Price) <= priceMax)
+                            if (product.Price >= priceMin && product.Price <= priceMax)
                             {
-                                duplicate = true;
-                                SearchDBArticleTxtBlock.Text += $"Référence: {product.Reference}\n" +
-                                                                $"Nom: {product.Name}\n" +
-                                                                $"Prix: {product.Price}\n" +
-                                                                $"Quantité: {product.Quantity}\n\n";
+                                articleToFind = product;
                                 itemCounter++;
+                                SearchDBArticleTxtBlock.Text += $"Référence: {articleToFind.Reference}\n" +
+                                                                $"Nom: {articleToFind.Name}\n" +
+                                                                $"Prix: {articleToFind.Price}\n" +
+                                                                $"Quantité: {articleToFind.Quantity}\n\n";
                             }
                         }
                     }
-                    SearchDBTxtBlockCount.Text = $"Nombre d'articles trouvés: {itemCounter}";
-                    if (!duplicate)
+                    if (articleToFind != null)
+                        SearchDBTxtBlockCount.Text = $"Nombre d'articles trouvés: {itemCounter}";
+                    else
                     {
                         SearchDBArticleTxtBlock.Foreground = new SolidColorBrush(Colors.Orange);
                         SearchDBArticleTxtBlock.Text = "Aucun article trouvé";
                     }
                 }
             }
-            catch (Exception except)
+            catch (Exception exception)
             {
-                SearchDBTxtBlockError.Text = $"L'erreur suivante est survenue: {except.Message}";
+                MessageBox.Show(exception.Message);
             }
         }
 

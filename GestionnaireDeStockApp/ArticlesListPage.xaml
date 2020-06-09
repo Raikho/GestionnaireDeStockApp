@@ -1,0 +1,37 @@
+﻿<Page x:Class="GestionnaireDeStockApp.ArticlesListPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:GestionnaireDeStockApp"
+      mc:Ignorable="d" 
+        d:DesignHeight="554.04" d:DesignWidth="824"
+      Title="ArticlesListPage">
+
+    <Grid x:Name="MainGrid">
+        <Grid>
+            <Border Grid.RowSpan="2">
+                <Border.Background>
+                    <LinearGradientBrush>
+                        <GradientStop Color="#FF2D8893" Offset="0.0"/>
+                        <GradientStop Color="#FF8522BD" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+
+            <StackPanel Height="554.04" Width="824" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <ScrollViewer Height="485" Width="770" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="0,35,0,0">
+                    <DataGrid x:Name="productsDataGrid" AutoGenerateColumns="False" Background="Transparent" Height="485" Width="770">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Référence" Width="100" Binding="{Binding Reference}"/>
+                            <DataGridTextColumn Header="Nom" Width="100" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="Prix" Width="100" Binding="{Binding Price}"/>
+                            <DataGridTextColumn Header="Quantité" Width="100" Binding="{Binding Quantity}"/>
+                            <DataGridTextColumn Header="Fournisseur" Width="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </ScrollViewer>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

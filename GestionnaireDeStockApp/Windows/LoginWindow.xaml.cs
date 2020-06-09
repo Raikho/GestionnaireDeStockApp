@@ -1,7 +1,8 @@
-﻿using System.Windows;
+﻿using DataLayer;
+using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using DataLayer;
 
 namespace GestionnaireDeStockApp
 {
@@ -10,7 +11,7 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class LoginWindow : Window
     {
-        public bool connectionState = false;
+        public static bool connectionState = false;
 
         bool UserNameTxtBoxClick, PasswordTxtBoxClick = false;
 
@@ -44,11 +45,11 @@ namespace GestionnaireDeStockApp
             ClearThePasswordTxtBoxBlock();
         }
 
-                private void NewButton_Click(object sender, RoutedEventArgs e)
+        private void NewButton_Click(object sender, RoutedEventArgs e)
         {
             AccountCreationWindow accountCreationWindow = new AccountCreationWindow();
             accountCreationWindow.Show();
-            this.Close();
+            Close();
         }
 
         private void ConnexionButton_Click(object sender, RoutedEventArgs e)
@@ -62,37 +63,27 @@ namespace GestionnaireDeStockApp
                     MessageBox.Show("Veuillez renseigner tous les champs.");
                 else
                 {
+                    User newUserConnectionTry = null;
+
                     using (var dbContext = new StockContext())
                     {
-                        var users = dbContext.Users;
-
-                        User newUserConnectionTry = null;
-                        foreach (var user in users)
-                        {
-                            newUserConnectionTry = user;
-                            if (newUserConnectionTry.Username == UserNameTxtBox.Text && newUserConnectionTry.Password == PasswordTxtBox.Password)
-                            {
-                                connectionState = true;
-                                MessageBox.Show("Connexion réussie.");
-                                Username = user.Username;
-                                this.Close();
-                                break;
-                            }
-                            else
-                            {
-                                newUserConnectionTry = null;
-                            }    
-                        }
-                        if (newUserConnectionTry == null)
-                        {
-                            MessageBox.Show("Connexion échouée, veuillez réessayer.");
-                        }
+                        newUserConnectionTry = dbContext.Users.Where(c => c.Username == UserNameTxtBox.Text && c.Password == PasswordTxtBox.Password).FirstOrDefault();
+                    }
+                    if (newUserConnectionTry !=null)
+                    {
+                        connectionState = true;
+                        MessageBox.Show("Connexion réussie.");
+                        Username = newUserConnectionTry.Username;
+                        Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Connexion échouée, veuillez réessayer.");
                     }
                 }
             }
             catch (System.Exception exception)
             {
-
                 MessageBox.Show(exception.Message);
             }
         }

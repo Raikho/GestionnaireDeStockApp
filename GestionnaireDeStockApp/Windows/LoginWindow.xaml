@@ -8,7 +8,8 @@
         mc:Ignorable="d"
         Title="LoginWindow" Height="400" Width="350" 
         AllowsTransparency="True" Background="Transparent" 
-        ResizeMode="NoResize" WindowStyle="None">
+        ResizeMode="NoResize" WindowStyle="None"
+        WindowStartupLocation="CenterScreen">
 
     <Grid x:Name="MainGrid" MouseDown="MainGrid_MouseDown">
         <Grid>

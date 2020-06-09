@@ -16,6 +16,8 @@ namespace GestionnaireDeStockApp
 
         public AccountCreationWindow()
         {
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
             InitializeComponent();
         }
 
@@ -64,15 +66,15 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                if (NameTxtBox.Text == "" 
-                    || SurNameTxtBox.Text == "" 
-                    || CreateIDTxtBox.Text == "" 
-                    || CreatePWTxtBox.Text == "" 
-                    || ConfirmPWTxtBox.Text == "" 
-                    || NameTxtBoxClick == false 
-                    || SurNameTxtBoxClick == false 
-                    || CreateIDTxtBoxClick == false 
-                    || CreatePWTxtBoxClick == false 
+                if (NameTxtBox.Text == ""
+                    || SurNameTxtBox.Text == ""
+                    || CreateIDTxtBox.Text == ""
+                    || CreatePWTxtBox.Text == ""
+                    || ConfirmPWTxtBox.Text == ""
+                    || NameTxtBoxClick == false
+                    || SurNameTxtBoxClick == false
+                    || CreateIDTxtBoxClick == false
+                    || CreatePWTxtBoxClick == false
                     || ConfirmPWTxtBoxClick == false)
                     MessageBox.Show("Merci de remplir tous les champs.");
                 else if (CreatePWTxtBox.Text != ConfirmPWTxtBox.Text)
@@ -94,9 +96,8 @@ namespace GestionnaireDeStockApp
                         dbContext.SaveChanges();
 
                         MessageBox.Show("Profil crée avec succés!");
-                        LoginWindow loginWindow = new LoginWindow();
-                        this.Close();
-                        loginWindow.ShowDialog();
+                        Close();
+                        MainWindow mainWindow = new MainWindow();
                     }
                 }
             }
@@ -105,7 +106,7 @@ namespace GestionnaireDeStockApp
                 MessageBox.Show(exception.Message);
             }
         }
-    
+
         private void DesignTextBox(TextBox textBox, RoutedEventHandler routedEventHandler)
         {
             textBox.Text = string.Empty;

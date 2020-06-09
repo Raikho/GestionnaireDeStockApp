@@ -8,7 +8,8 @@
         mc:Ignorable="d" Height="600" Width="1024" ResizeMode="CanResizeWithGrip" 
         WindowStartupLocation="CenterScreen" WindowStyle="None"
         AllowsTransparency="True" Background="Transparent"
-        Title="Gestionnaire de stock 1.0" >
+        Title="Gestionnaire de stock 1.0">
+    
     <Grid Background="#FFCFCFCF">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
@@ -69,6 +70,19 @@
             </Grid>
 
             <StackPanel Name="LeftMenu" Grid.Row="1">
+                <Button Style="{StaticResource CustomMainButton}" x:Name="ShowArticleListManagement" Click="ShowArticleListManagement_Click" Margin="10" BorderBrush="#FF8522BD" Height="35">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.9,0" StartPoint="0.0,4">
+                            <GradientStop Color="#FF2D8893"/>
+                            <GradientStop Color="#FF8522BD" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                    <Grid Width="200">
+                        <materialDesign:PackIcon Kind="Number8BoxMultipleOutline" Foreground="White" VerticalAlignment="Center" Width="40" RenderTransformOrigin="0.349,0.639" Margin="-5"/>
+                        <TextBlock HorizontalAlignment="Center" Text="LISTE DES ARTICLES" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" FontFamily="Champagne &amp; Limousines" FontSize="12"/>
+                    </Grid>
+                </Button>
+
                 <Button Style="{StaticResource CustomMainButton}" x:Name="AddAnArticleButton" Click="AddAnArticleButton_Click" Margin="10" BorderBrush="#FF8522BD" Height="35">
                     <Button.Background>
                         <LinearGradientBrush EndPoint="0.9,0" StartPoint="0.0,4">
@@ -136,8 +150,8 @@
             </StackPanel>
         </Grid>
 
-        <Grid Grid.Column="1" Grid.Row="2" Background="#FFB6B6B6" Name="GridView" Height="554" Width="824" VerticalAlignment="Center">
-            <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Margin="0,0,0,0"/>
+        <Grid Grid.Column="1" Grid.Row="2" Background="#FFB6B6B6" Name="GridView" Height="570" Width="824" VerticalAlignment="Center">
+            <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
         </Grid>
     </Grid>
 </Window>
