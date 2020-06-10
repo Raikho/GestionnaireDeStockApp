@@ -18,7 +18,7 @@ namespace GestionnaireDeStockApp
             LeftMenu.IsEnabled = false;
             HideAllItems();
 
-            ConnectAccount();
+            //ConnectAccount();
         }
 
         private void ConnectAccount()
@@ -29,10 +29,9 @@ namespace GestionnaireDeStockApp
                 currentLgWindow = loginWindow;
                 currentLgWindow = new LoginWindow();
                 currentLgWindow.ShowDialog();
-                
             }
             while (LoginWindow.connectionState == false);
-            MainFrame.Content = new ArticlesListPage();
+            MainFrame.Content = new ArticlesListManagementPage();
         }
 
         private void TopGridBar_MouseDown(object sender, MouseButtonEventArgs e)
@@ -80,9 +79,9 @@ namespace GestionnaireDeStockApp
             }
         }
 
-        private void AddAnArticleButton_Click(object sender, RoutedEventArgs e)
+        private void ShowArticleListManagement_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new AddAnArticlePage();
+            MainFrame.Content = new ArticlesListManagementPage();
         }
 
         private void SearchInAllDataBaseButton_Click(object sender, RoutedEventArgs e)
@@ -90,46 +89,25 @@ namespace GestionnaireDeStockApp
             MainFrame.Content = new SearchInAllDataBasePage();
         }
 
-        private void DeleteAnArticle_Click(object sender, RoutedEventArgs e)
-        {
-            MainFrame.Content = new DeleteAnArticlePage();
-        }
-
         private void EditAnArticleButton_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Content = new EditAnArticlePage();
-        }
-
-        private void ShowAllArticlesButton_Click(object sender, RoutedEventArgs e)
-        {
-            MainFrame.Content = new ShowAllArticlesPage();
         }
 
         private void HideAllItems()
         {
             AlertButton.Visibility = Visibility.Hidden;
             ShowArticleListManagement.Visibility = Visibility.Hidden;
-            AddAnArticleButton.Visibility = Visibility.Hidden;
             SearchInAllDataBaseButton.Visibility = Visibility.Hidden;
-            DeleteAnArticle.Visibility = Visibility.Hidden;
             EditAnArticleButton.Visibility = Visibility.Hidden;
-            ShowAllArticlesButton.Visibility = Visibility.Hidden;
         }
 
         private void ShowAllItems()
         {
             AlertButton.Visibility = Visibility.Visible;
             ShowArticleListManagement.Visibility = Visibility.Visible;
-            AddAnArticleButton.Visibility = Visibility.Visible;
             SearchInAllDataBaseButton.Visibility = Visibility.Visible;
-            DeleteAnArticle.Visibility = Visibility.Visible;
             EditAnArticleButton.Visibility = Visibility.Visible;
-            ShowAllArticlesButton.Visibility = Visibility.Visible;
-        }
-
-        private void ShowArticleListManagement_Click(object sender, RoutedEventArgs e)
-        {
-            MainFrame.Content = new ArticlesListPage();
         }
     }
 }

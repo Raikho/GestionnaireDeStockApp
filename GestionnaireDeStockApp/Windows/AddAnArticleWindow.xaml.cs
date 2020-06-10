@@ -2,19 +2,30 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace GestionnaireDeStockApp
 {
     /// <summary>
-    /// Logique d'interaction pour AddAnArticlePage.xaml
+    /// Logique d'interaction pour AddAnArticleWindow.xaml
     /// </summary>
-    public partial class AddAnArticlePage : Page
+    public partial class AddAnArticleWindow : Window
     {
-        public AddAnArticlePage()
+        public AddAnArticleWindow()
         {
             InitializeComponent();
+        }
+
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+                DragMove();
         }
 
         private void ValidateButton_Click(object sender, RoutedEventArgs e)
@@ -77,7 +88,7 @@ namespace GestionnaireDeStockApp
 
                 if (reference == "null")
                 {
-                    CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Orange);
+                    CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Yellow);
                     CreateTxtBlockInfo.Text = "La saisie est incorrecte";
                 }
                 else
@@ -92,7 +103,7 @@ namespace GestionnaireDeStockApp
                             if (product.Reference.ToLower() == reference.ToLower())
                             {
                                 duplicate = true;
-                                CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Orange);
+                                CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Yellow);
                                 CreateTxtBlockInfo.Text = "L'article existe déjà";
                                 break;
                             }
@@ -107,7 +118,7 @@ namespace GestionnaireDeStockApp
 
                         if (name == "null" || price == 0 || quantity == 0)
                         {
-                            CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Orange);
+                            CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Yellow);
                             CreateTxtBlockInfo.Text = "La saisie est incorrecte";
                         }
                         else

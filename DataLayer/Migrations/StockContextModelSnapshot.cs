@@ -19,43 +19,43 @@ namespace DataLayer.Migrations
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("DataLayer.Product", b =>
-                {
-                    b.Property<string>("Reference")
-                        .HasColumnType("nvarchar(450)");
+            {
+                b.Property<string>("Reference")
+                    .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
+                b.Property<double>("Price")
+                    .HasColumnType("float");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                b.Property<int>("Quantity")
+                    .HasColumnType("int");
 
-                    b.HasKey("Reference");
+                b.HasKey("Reference");
 
-                    b.ToTable("Products");
-                });
+                b.ToTable("Products");
+            });
 
             modelBuilder.Entity("DataLayer.User", b =>
-                {
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(450)");
+            {
+                b.Property<string>("Username")
+                    .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Password")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Surname")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Surname")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Username");
+                b.HasKey("Username");
 
-                    b.ToTable("Users");
-                });
-#pragma warning restore 612, 618
+                b.ToTable("Users");
+            });
+            #pragma warning restore 612, 618
         }
     }
 }

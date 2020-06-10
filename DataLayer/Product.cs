@@ -10,6 +10,6 @@ namespace DataLayer
         public double Price { get; set; }
         public int Quantity { get; set; }
 
-        //public override string ToString() => $"{Reference} {Name}";
+        public override string ToString() => $"{Reference} {Name} {Price} {Quantity}";
     }
 }

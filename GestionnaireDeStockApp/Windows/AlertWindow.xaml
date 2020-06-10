@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:GestionnaireDeStockApp"
         mc:Ignorable="d"
         Title="AlertWindow" Height="450" Width="800"
-         AllowsTransparency="True" Background="Transparent" 
+        AllowsTransparency="True" Background="Transparent" 
         ResizeMode="NoResize" WindowStyle="None">
 
     <Grid x:Name="MainGrid" MouseDown="MainGrid_MouseDown">
@@ -35,11 +35,10 @@
                 <ScrollViewer Height="350" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                     <DataGrid x:Name="productsDataGrid" AutoGenerateColumns="False" Background="Transparent">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Référence" Width="100" Binding="{Binding Reference}"/>
-                            <DataGridTextColumn Header="Nom" Width="100" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="Référence" Width="200" Binding="{Binding Reference}"/>
+                            <DataGridTextColumn Header="Nom" Width="200" Binding="{Binding Name}"/>
                             <DataGridTextColumn Header="Prix" Width="100" Binding="{Binding Price}"/>
                             <DataGridTextColumn Header="Quantité" Width="100" Binding="{Binding Quantity}"/>
-                            <DataGridTextColumn Header="Fournisseur" Width="100"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </ScrollViewer>
