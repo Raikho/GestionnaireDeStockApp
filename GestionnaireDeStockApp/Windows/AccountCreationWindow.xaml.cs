@@ -26,6 +26,12 @@ namespace GestionnaireDeStockApp
             Close();
         }
 
+        private void Button_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+                Close();
+        }
+
         private void MainGrid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -50,34 +56,85 @@ namespace GestionnaireDeStockApp
             DesignTextBox(CreateIDTxtBox, CreateIDTxtBox_GotFocus);
         }
 
+        private void NameTxtBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                CreateAnAccount();
+            }
+        }
+
+        private void SurNameTxtBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                CreateAnAccount();
+            }
+        }
+
+        private void CreateIDTxtBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                CreateAnAccount();
+            }
+        }
+
+        private void CreatePWTxtBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                CreateAnAccount();
+            }
+        }
+
+        private void ConfirmPWTxtBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                CreateAnAccount();
+            }
+        }
+
         private void CreatePWTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
             CreatePWTxtBoxClick = true;
-            DesignTextBox(CreatePWTxtBox, CreatePWTxtBox_GotFocus);
+            DesignPasswordBox(CreatePWTxtBox, CreatePWTxtBox_GotFocus);
         }
 
         private void ConfirmPWTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
             ConfirmPWTxtBoxClick = true;
-            DesignTextBox(ConfirmPWTxtBox, ConfirmPWTxtBox_GotFocus);
+            DesignPasswordBox(ConfirmPWTxtBox, ConfirmPWTxtBox_GotFocus);
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape || e.Key == Key.F7)
+                Close();
         }
 
         private void CreationButton_Click(object sender, RoutedEventArgs e)
+        {
+            CreateAnAccount();
+        }
+
+        private void CreateAnAccount()
         {
             try
             {
                 if (NameTxtBox.Text == ""
                     || SurNameTxtBox.Text == ""
                     || CreateIDTxtBox.Text == ""
-                    || CreatePWTxtBox.Text == ""
-                    || ConfirmPWTxtBox.Text == ""
+                    || CreatePWTxtBox.Password == ""
+                    || ConfirmPWTxtBox.Password == ""
                     || NameTxtBoxClick == false
                     || SurNameTxtBoxClick == false
                     || CreateIDTxtBoxClick == false
                     || CreatePWTxtBoxClick == false
                     || ConfirmPWTxtBoxClick == false)
                     MessageBox.Show("Merci de remplir tous les champs.");
-                else if (CreatePWTxtBox.Text != ConfirmPWTxtBox.Text)
+                else if (CreatePWTxtBox.Password != ConfirmPWTxtBox.Password)
                     MessageBox.Show("Le mot de passe n'est pas identique.");
                 else
                 {
@@ -90,7 +147,7 @@ namespace GestionnaireDeStockApp
                             Name = NameTxtBox.Text,
                             Surname = SurNameTxtBox.Text,
                             Username = CreateIDTxtBox.Text,
-                            Password = CreatePWTxtBox.Text
+                            Password = CreatePWTxtBox.Password
                         };
                         users.Add(newUser);
                         dbContext.SaveChanges();
@@ -113,6 +170,14 @@ namespace GestionnaireDeStockApp
             textBox.Foreground = new SolidColorBrush(Colors.White);
             textBox.Opacity = 1;
             textBox.GotFocus += routedEventHandler;
+        }
+
+        private void DesignPasswordBox(PasswordBox passwordBox, RoutedEventHandler routedEventHandler)
+        {
+            passwordBox.Password = string.Empty;
+            passwordBox.Foreground = new SolidColorBrush(Colors.White);
+            passwordBox.Opacity = 1;
+            passwordBox.GotFocus += routedEventHandler;
         }
     }
 }

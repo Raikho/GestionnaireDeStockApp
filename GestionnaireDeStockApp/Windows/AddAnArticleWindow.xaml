@@ -10,7 +10,7 @@
         AllowsTransparency="True" Background="Transparent" 
         ResizeMode="NoResize" WindowStyle="None"
         WindowStartupLocation="CenterScreen">
-    
+
     <Grid MouseDown="Grid_MouseDown">
         <Border Grid.RowSpan="2" CornerRadius="10">
             <Border.Background>
@@ -29,30 +29,209 @@
                     Foreground="White" 
                     HorizontalAlignment="Center" 
                     Height="25" 
-                    Width="25" Click="ExitButton_Click"/>
+                    Width="25" Click="ExitButton_Click"
+                    KeyDown="ExitButton_KeyDown"/>
         </StackPanel>
 
-        <TextBlock HorizontalAlignment="Left" Margin="80,90,0,0" Text="Saisissez la référence :" Foreground="White" TextWrapping="Wrap" VerticalAlignment="Top" Width="138"/>
-        <TextBlock HorizontalAlignment="Left" Margin="80,130,0,0" Text="Saisissez le nom :" Foreground="White" TextWrapping="Wrap" VerticalAlignment="Top" Width="138"/>
-        <TextBlock HorizontalAlignment="Left" Margin="80,170,0,0" Text="Saisissez le prix :" Foreground="White" TextWrapping="Wrap" VerticalAlignment="Top" Width="138"/>
-        <TextBlock HorizontalAlignment="Left" Margin="80,210,0,0" Text="Saisissez la quantité :" Foreground="White" TextWrapping="Wrap" VerticalAlignment="Top" Width="138" RenderTransformOrigin="0.473,1.692"/>
-        <TextBox x:Name="AddRefTxtBox" HorizontalAlignment="Left" Margin="212,86,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="AddRefTxtBox_GotFocus"/>
-        <TextBox x:Name="AddNameTxtBox" HorizontalAlignment="Left" Margin="212,126,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="AddNameTxtBox_GotFocus"/>
-        <TextBox x:Name="AddPriceTxtBox" HorizontalAlignment="Left" Margin="212,166,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="AddPriceTxtBox_GotFocus" RenderTransformOrigin="0.513,-0.191"/>
-        <TextBox x:Name="AddQuantTxtBox" HorizontalAlignment="Left" Margin="212,206,0,0" Text="zone de saisie..." Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" GotFocus="AddQuantTxtBox_GotFocus"/>
-        <Button x:Name="ValidateButton" Click="ValidateButton_Click" Content="Valider" Style="{StaticResource CustomButton}" Foreground="White" Background="Transparent" HorizontalAlignment="Left" Margin="170,260,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="70" Height="35"/>
-        <TextBlock x:Name="RefTxtBlockInfo" HorizontalAlignment="Center" Margin="0,325,0,0" Foreground="Orange" TextWrapping="Wrap" VerticalAlignment="Top" Width="600" RenderTransformOrigin="0.473,1.692" Height="20"/>
-        <TextBlock x:Name="NameTxtBlockInfo" Margin="100,350,100,0" Foreground="Orange" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.473,1.692" Height="20"/>
-        <TextBlock x:Name="PriceTxtBlockInfo" HorizontalAlignment="Center" Margin="0,375,0,0" Foreground="Orange" TextWrapping="Wrap" VerticalAlignment="Top" Width="600" RenderTransformOrigin="0.473,1.692" Height="20"/>
-        <TextBlock x:Name="QuantTxtBlockInfo" Margin="100,400,100,0" Foreground="Orange" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.473,1.692" Height="20"/>
-        <TextBlock x:Name="CreateTxtBlockInfo" HorizontalAlignment="Center" Margin="0,25,0,0" Foreground="White" TextWrapping="Wrap" VerticalAlignment="Top" Width="404" RenderTransformOrigin="0.473,1.692" Height="30"/>
-        <TextBlock HorizontalAlignment="Left" Margin="400,90,0,0" Text="Référence :" Foreground="White" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" Width="87"/>
-        <TextBlock HorizontalAlignment="Left" Margin="400,130,0,0" Text="Nom :" Foreground="White" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" Width="88"/>
-        <TextBlock HorizontalAlignment="Left" Margin="400,170,0,0" Text="Prix :" Foreground="White" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" Width="87"/>
-        <TextBlock HorizontalAlignment="Left" Margin="400,210,0,0" Text="Quantité :" Foreground="White" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Top" Width="86"/>
-        <TextBlock x:Name="RefTxtBlockConfirm" HorizontalAlignment="Left" Margin="505,90,0,0" Foreground="GreenYellow" TextWrapping="Wrap" VerticalAlignment="Top" Width="270" RenderTransformOrigin="0.473,1.692" Height="20"/>
-        <TextBlock x:Name="NameTxtBlockConfirm" HorizontalAlignment="Left" Margin="505,130,0,0" Foreground="GreenYellow" TextWrapping="Wrap" VerticalAlignment="Top" Width="270" RenderTransformOrigin="0.473,1.692" Height="20"/>
-        <TextBlock x:Name="PriceTxtBlockConfirm" HorizontalAlignment="Left" Margin="505,170,0,0" Foreground="GreenYellow" TextWrapping="Wrap" VerticalAlignment="Top" Width="270" RenderTransformOrigin="0.473,1.692" Height="20"/>
-        <TextBlock x:Name="QuantTxtBlockConfirm" HorizontalAlignment="Left" Margin="505,210,0,0" Foreground="GreenYellow" TextWrapping="Wrap" VerticalAlignment="Top" Width="270" RenderTransformOrigin="0.473,1.692" Height="20"/>
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="120,90,0,0" 
+                   Text="Saisissez la référence :" 
+                   Foreground="White" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" Width="138"/>
+
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="120,130,0,0" 
+                   Text="Saisissez le nom :" 
+                   Foreground="White" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="138"/>
+
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="120,170,0,0" 
+                   Text="Saisissez le prix :" 
+                   Foreground="White" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="138"/>
+
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="120,210,0,0" 
+                   Text="Saisissez la quantité :" 
+                   Foreground="White" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="138"/>
+
+        <TextBox x:Name="AddRefTxtBox" 
+                 HorizontalAlignment="Left" 
+                 Margin="252,86,0,0" 
+                 Text="zone de saisie..." 
+                 Foreground="Gray" 
+                 TextWrapping="Wrap" 
+                 VerticalAlignment="Top" 
+                 Width="120" 
+                 GotFocus="AddRefTxtBox_GotFocus"
+                 KeyDown="AddRefTxtBox_KeyDown"/>
+
+        <TextBox x:Name="AddNameTxtBox" 
+                 HorizontalAlignment="Left" 
+                 Margin="252,126,0,0" 
+                 Text="zone de saisie..." 
+                 Foreground="Gray" 
+                 TextWrapping="Wrap" 
+                 VerticalAlignment="Top" 
+                 Width="120" 
+                 GotFocus="AddNameTxtBox_GotFocus"
+                 KeyDown="AddNameTxtBox_KeyDown"/>
+
+        <TextBox x:Name="AddPriceTxtBox" 
+                 HorizontalAlignment="Left" 
+                 Margin="252,166,0,0" 
+                 Text="zone de saisie..." 
+                 Foreground="Gray" 
+                 TextWrapping="Wrap" 
+                 VerticalAlignment="Top" 
+                 Width="120" 
+                 GotFocus="AddPriceTxtBox_GotFocus" 
+                 KeyDown="AddPriceTxtBox_KeyDown"/>
+
+        <TextBox x:Name="AddQuantTxtBox" 
+                 HorizontalAlignment="Left" 
+                 Margin="252,206,0,0" 
+                 Text="zone de saisie..." 
+                 Foreground="Gray" 
+                 TextWrapping="Wrap" 
+                 VerticalAlignment="Top" 
+                 Width="120" 
+                 GotFocus="AddQuantTxtBox_GotFocus"
+                 KeyDown="AddQuantTxtBox_KeyDown"/>
+
+        <Button x:Name="ValidateButton" 
+                Click="ValidateButton_Click" 
+                Content="Valider" 
+                Style="{StaticResource CustomButton}" 
+                Foreground="White" 
+                Background="Transparent" 
+                HorizontalAlignment="Left" 
+                Margin="210,260,0,0" 
+                VerticalAlignment="Top" 
+                FontWeight="Bold" 
+                Width="70" 
+                Height="35"/>
+
+        <TextBlock x:Name="RefTxtBlockInfo" 
+                   HorizontalAlignment="Center" 
+                   Margin="0,325,0,0" 
+                   Foreground="Orange" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="600"
+                   Height="20"/>
+
+        <TextBlock x:Name="NameTxtBlockInfo" 
+                   Margin="100,350,100,0" 
+                   Foreground="Orange" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Height="20"/>
+
+        <TextBlock x:Name="PriceTxtBlockInfo" 
+                   HorizontalAlignment="Center" 
+                   Margin="0,375,0,0" 
+                   Foreground="Orange" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="600" 
+                   Height="20"/>
+
+        <TextBlock x:Name="QuantTxtBlockInfo" 
+                   Margin="100,400,100,0" 
+                   Foreground="Orange" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top"
+                   Height="20"/>
+
+        <TextBlock x:Name="CreateTxtBlockInfo" 
+                   HorizontalAlignment="Center" 
+                   Margin="0,25,0,0" 
+                   Foreground="White" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="404" 
+                   Height="30"/>
+
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="430,90,0,0" 
+                   Text="Référence :" 
+                   Foreground="White" 
+                   TextAlignment="Right" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" Width="87"/>
+
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="430,130,0,0" 
+                   Text="Nom :" 
+                   Foreground="White" 
+                   TextAlignment="Right" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="88"/>
+
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="430,170,0,0" 
+                   Text="Prix :" 
+                   Foreground="White" 
+                   TextAlignment="Right" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="87"/>
+
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="430,210,0,0" 
+                   Text="Quantité :" 
+                   Foreground="White" 
+                   TextAlignment="Right" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="86"/>
+
+        <TextBlock x:Name="RefTxtBlockConfirm" 
+                   HorizontalAlignment="Left" 
+                   Margin="535,90,0,0" 
+                   Foreground="GreenYellow" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="240" 
+                   RenderTransformOrigin="0.473,1.692" 
+                   Height="20"/>
+
+        <TextBlock x:Name="NameTxtBlockConfirm" 
+                   HorizontalAlignment="Left" 
+                   Margin="535,130,0,0" 
+                   Foreground="GreenYellow" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="240" 
+                   Height="20"/>
+
+        <TextBlock x:Name="PriceTxtBlockConfirm" 
+                   HorizontalAlignment="Left" 
+                   Margin="535,170,0,0" 
+                   Foreground="GreenYellow" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="240"
+                   Height="20"/>
+
+        <TextBlock x:Name="QuantTxtBlockConfirm" 
+                   HorizontalAlignment="Left" 
+                   Margin="535,210,0,0" 
+                   Foreground="GreenYellow" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="240" 
+                   Height="20"/>
     </Grid>
 </Window>

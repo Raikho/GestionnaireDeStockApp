@@ -9,7 +9,7 @@
         Title="LoginWindow" Height="400" Width="350" 
         AllowsTransparency="True" Background="Transparent" 
         ResizeMode="NoResize" WindowStyle="None"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" KeyDown="Window_KeyDown">
 
     <Grid x:Name="MainGrid" MouseDown="MainGrid_MouseDown">
         <Grid>
@@ -62,7 +62,9 @@
                              BorderThickness="0" 
                              Margin="73,0,0,0" 
                              Width="188" FontSize="14" 
-                             GotFocus="UserNameTxtBox_GotFocus"/>
+                             GotFocus="UserNameTxtBox_GotFocus"
+                             KeyDown="UserNameTxtBox_KeyDown"/>
+                    
                     <materialDesign:PackIcon Kind="Account" 
                                              Foreground="White" 
                                              VerticalAlignment="Center" 
@@ -81,7 +83,9 @@
                                  Margin="73,0,0,0" 
                                  Width="187" 
                                  FontSize="14" 
-                                 GotFocus="PasswordTxtBox_GotFocus"/>
+                                 GotFocus="PasswordTxtBox_GotFocus"
+                                 KeyDown="PasswordTxtBox_KeyDown"/>
+                    
                     <materialDesign:PackIcon Kind="FormTextboxPassword" 
                                              Foreground="White" 
                                              VerticalAlignment="Center" 

@@ -42,7 +42,10 @@ namespace GestionnaireDeStockApp
 
         private void PowerButton_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            if (MessageBox.Show("Voulez-vous quitter l'application?", "Gestionnaire de stock", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                Application.Current.Shutdown();
+            }
         }
 
         private void ReduceWindow_Click(object sender, RoutedEventArgs e)
@@ -66,6 +69,11 @@ namespace GestionnaireDeStockApp
 
         public void AccountButton_Click(object sender, RoutedEventArgs e)
         {
+            ConnectToSession();
+        }
+
+        private void ConnectToSession()
+        {
             currentLgWindow = new LoginWindow();
             currentLgWindow.ShowDialog();
 
@@ -84,12 +92,12 @@ namespace GestionnaireDeStockApp
             MainFrame.Content = new ArticlesListManagementPage();
         }
 
-        private void SearchInAllDataBaseButton_Click(object sender, RoutedEventArgs e)
+        private void SellAnArticle_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new SearchInAllDataBasePage();
+            MainFrame.Content = new SalesManagementPage();
         }
 
-        private void EditAnArticleButton_Click(object sender, RoutedEventArgs e)
+        private void InventoryButton_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Content = new EditAnArticlePage();
         }
@@ -98,16 +106,70 @@ namespace GestionnaireDeStockApp
         {
             AlertButton.Visibility = Visibility.Hidden;
             ShowArticleListManagement.Visibility = Visibility.Hidden;
-            SearchInAllDataBaseButton.Visibility = Visibility.Hidden;
-            EditAnArticleButton.Visibility = Visibility.Hidden;
+            SellAnArticle.Visibility = Visibility.Hidden;
+            InventoryButton.Visibility = Visibility.Hidden;
         }
 
         private void ShowAllItems()
         {
             AlertButton.Visibility = Visibility.Visible;
             ShowArticleListManagement.Visibility = Visibility.Visible;
-            SearchInAllDataBaseButton.Visibility = Visibility.Visible;
-            EditAnArticleButton.Visibility = Visibility.Visible;
+            SellAnArticle.Visibility = Visibility.Visible;
+            InventoryButton.Visibility = Visibility.Visible;
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (LoginWindow.connectionState == false)
+            {
+                if (e.Key == Key.F6)
+                    ConnectToSession();
+                else if (e.Key == Key.Escape)
+                {
+                    if (MessageBox.Show("Voulez-vous quitter l'application?", "Gestionnaire de stock", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
+                        Application.Current.Shutdown();
+                    }
+                }
+                else
+                MessageBox.Show("Veuillez vous connecter.");
+            }
+            else 
+            {
+                if (e.Key == Key.Escape)
+                {
+                    if (MessageBox.Show("Voulez-vous quitter l'application?", "Gestionnaire de stock", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
+                        Application.Current.Shutdown();
+                    }
+                }
+
+                if (e.Key == Key.F1)
+                    MainFrame.Content = new ArticlesListManagementPage();
+
+                if (e.Key == Key.F2)
+                {
+                    MainFrame.Content = new SalesManagementPage();
+                }
+
+                if (e.Key == Key.F3)
+                    MainFrame.Content = new EditAnArticlePage();
+
+                if (e.Key == Key.F5)
+                {
+                    AlertWindow alertWindow = new AlertWindow();
+                    alertWindow.Show();
+                }
+
+                if (e.Key == Key.F6)
+                    ConnectToSession();
+
+                if (e.Key == Key.F7)
+                {
+                    AccountCreationWindow accountCreationWindow = new AccountCreationWindow();
+                    accountCreationWindow.Show();
+                }
+            }
         }
     }
 }

@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         WindowStyle="None"
         Title="AccountCreationWindow" Height="600" Width="400"
-        AllowsTransparency="True" Background="Transparent">
+        AllowsTransparency="True" Background="Transparent" KeyDown="Window_KeyDown">
 
     <Grid x:Name="MainGrid" MouseDown="MainGrid_MouseDown">
         <Grid>
@@ -34,7 +34,8 @@
                         Foreground="White" 
                         HorizontalAlignment="Center" 
                         Height="25" 
-                        Width="25" Click="Button_Click"/>
+                        Width="25" Click="Button_Click"
+                        KeyDown="Button_KeyDown"/>
             </StackPanel>
 
             <StackPanel Height="130" Width="150" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -64,7 +65,9 @@
                              Margin="82.5,0,0,0" 
                              FontSize="17"
                              GotFocus="NameTxtBox_GotFocus" 
-                             Height="25"/>
+                             Height="25"
+                             KeyDown="NameTxtBox_KeyDown"/>
+                    
                     <materialDesign:PackIcon Kind="AccountAdd"
                                              Foreground="White"
                                              VerticalAlignment="Center" 
@@ -85,7 +88,9 @@
                              Margin="82.5,0,0,0" 
                              FontSize="17"
                              GotFocus="SurNameTxtBox_GotFocus" 
-                             Height="25"/>
+                             Height="25"
+                             KeyDown="SurNameTxtBox_KeyDown"/>
+                    
                     <materialDesign:PackIcon Kind="AccountAdd"
                                              Foreground="White"
                                              VerticalAlignment="Center" 
@@ -108,7 +113,9 @@
                              Margin="82.5,0,0,0" 
                              FontSize="17"
                              GotFocus="CreateIDTxtBox_GotFocus" 
-                             Height="25"/>
+                             Height="25"
+                             KeyDown="CreateIDTxtBox_KeyDown"/>
+                    
                     <materialDesign:PackIcon Kind="AccountAdd"
                                              Foreground="White"
                                              VerticalAlignment="Center" 
@@ -118,17 +125,19 @@
                 <Border HorizontalAlignment="Center" Background="White" Width="230" Height="2" Opacity="0.5"/>
 
                 <StackPanel Orientation="Horizontal">
-                    <TextBox x:Name="CreatePWTxtBox"
-                             Width="211.5"
-                             Text="mot de passe..." 
-                             FontWeight="Light" 
-                             Foreground="White" 
-                             Opacity="0.5" 
-                             Background="Transparent" 
-                             BorderThickness="0" 
-                             Margin="82.5,0,0,0" 
-                             FontSize="17"
-                             GotFocus="CreatePWTxtBox_GotFocus"/>
+                    <PasswordBox x:Name="CreatePWTxtBox"
+                                 Width="211.5"
+                                 Password="Password"
+                                 FontWeight="Light" 
+                                 Foreground="White" 
+                                 Opacity="0.5" 
+                                 Background="Transparent" 
+                                 BorderThickness="0" 
+                                 Margin="82.5,0,0,0" 
+                                 FontSize="17"
+                                 GotFocus="CreatePWTxtBox_GotFocus"
+                                 KeyDown="CreatePWTxtBox_KeyDown"/>
+                    
                     <materialDesign:PackIcon Kind="ForgotPassword"
                                              Foreground="White"
                                              VerticalAlignment="Center" 
@@ -139,17 +148,19 @@
                 <Border HorizontalAlignment="Center" Background="White" Width="230" Height="2" Opacity="0.5"/>
 
                 <StackPanel Orientation="Horizontal">
-                    <TextBox x:Name="ConfirmPWTxtBox"
-                             Width="211.5"
-                             Text="confirmer mot de passe..." 
-                             FontWeight="Light" 
-                             Foreground="White" 
-                             Opacity="0.5" 
-                             Background="Transparent" 
-                             BorderThickness="0" 
-                             Margin="82.5,0,0,0" 
-                             FontSize="17"
-                             GotFocus="ConfirmPWTxtBox_GotFocus"/>
+                    <PasswordBox x:Name="ConfirmPWTxtBox"
+                                 Width="211.5"
+                                 Password="Password" 
+                                 FontWeight="Light" 
+                                 Foreground="White" 
+                                 Opacity="0.5" 
+                                 Background="Transparent" 
+                                 BorderThickness="0" 
+                                 Margin="82.5,0,0,0" 
+                                 FontSize="17"
+                                 GotFocus="ConfirmPWTxtBox_GotFocus"
+                                 KeyDown="ConfirmPWTxtBox_KeyDown"/>
+                    
                     <materialDesign:PackIcon Kind="Onepassword"
                                              Foreground="White"
                                              VerticalAlignment="Center" 

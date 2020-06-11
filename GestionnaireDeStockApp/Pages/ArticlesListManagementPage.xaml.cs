@@ -10,6 +10,9 @@ using System.Linq;
 using System.Security.Cryptography.Xml;
 using System.Windows.Data;
 using System.Data;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Windows.Input;
+using System.Windows.Controls.Primitives;
 
 namespace GestionnaireDeStockApp
 {
@@ -21,7 +24,7 @@ namespace GestionnaireDeStockApp
         public ArticlesListManagementPage()
         {
             InitializeComponent();
-            AddProductsInRows();
+            LoadDataBaseProducts();
         }
 
         private void AddANewArticleButton_Click(object sender, RoutedEventArgs e)
@@ -31,11 +34,6 @@ namespace GestionnaireDeStockApp
         }
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
-        {
-            LoadDataBaseProducts();
-        }
-
-        public void AddProductsInRows()
         {
             LoadDataBaseProducts();
         }
@@ -102,6 +100,169 @@ namespace GestionnaireDeStockApp
                         }
                     }
 
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
+        }
+
+        private void SearchTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            SearchTextBox.Text = string.Empty;
+            SearchTextBox.Foreground = new SolidColorBrush(Colors.White);
+            SearchTextBox.GotFocus += SearchTextBox_GotFocus;
+            if (SearchTextBox.Text == string.Empty)
+            {
+                LoadDataBaseProducts();
+            }
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            SearchAnArticle();
+        }
+
+        private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                SearchAnArticle();
+            }
+        }
+
+        private void SearchAnArticle()
+        {
+            try
+            {
+                string input = SearchTextBox.Text;
+                if (!Regex.IsMatch(input, @"^[a-zA-Z0-9, ]+$"))
+                {
+                    MessageBox.Show("Une erreur est survenue. Veuillez effectuer une saisie alphanumérique.");
+                }
+                else
+                {
+                    List<Product> productAdded = new List<Product>();
+                    Product articleToFind = null;
+
+                    using (var dbContext = new StockContext())
+                    {
+                        var products = dbContext.Products;
+
+                        foreach (var product in products)
+                        {
+                            if (product.Reference.ToString().ToLower().Contains(input.ToString().ToLower())
+                                || product.Name.ToString().ToLower().Contains(input.ToString().ToLower())
+                                || product.Price.ToString().ToLower().Contains(input.ToString().ToLower())
+                                || product.Quantity.ToString().ToLower().Contains(input.ToString().ToLower()))
+                            {
+                                articleToFind = product;
+
+                                productAdded.Add(new Product()
+                                {
+                                    Reference = product.Reference,
+                                    Name = product.Name,
+                                    Price = product.Price,
+                                    Quantity = product.Quantity
+                                });
+                            }
+                        }
+                        productsDataGrid.ItemsSource = productAdded;
+                    }
+                    if (articleToFind == null)
+                    {
+                        MessageBox.Show("Article introuvable");
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
+        }
+
+        private void SearchMinPriceTxtBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            SearchMinPriceTxtBox.Text = string.Empty;
+            SearchMinPriceTxtBox.Foreground = new SolidColorBrush(Colors.White);
+            SearchMinPriceTxtBox.GotFocus += SearchMinPriceTxtBox_GotFocus;
+            if (SearchMinPriceTxtBox.Text == string.Empty)
+                LoadDataBaseProducts();
+        }
+
+        private void SearchMaxPriceTxtBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            SearchMaxPriceTxtBox.Text = string.Empty;
+            SearchMaxPriceTxtBox.Foreground = new SolidColorBrush(Colors.White);
+            SearchMaxPriceTxtBox.GotFocus += SearchMaxPriceTxtBox_GotFocus;
+            if (SearchMaxPriceTxtBox.Text == string.Empty)
+                LoadDataBaseProducts();
+        }
+
+        private void PriceSearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            SearchByPriceInterval();
+        }
+
+        private void SearchMinPriceTxtBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                SearchByPriceInterval();
+            }
+        }
+
+        private void SearchMaxPriceTxtBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                SearchByPriceInterval();
+            }
+        }
+
+        private void SearchByPriceInterval()
+        {
+            try
+            {
+                string newPriceMinInput = SearchMinPriceTxtBox.Text;
+                bool correctMinNum = double.TryParse(newPriceMinInput, out double priceMin);
+
+                string newPriceMaxInput = SearchMaxPriceTxtBox.Text;
+                bool correctMaxNum = double.TryParse(newPriceMaxInput, out double priceMax);
+                if (!correctMinNum || !correctMaxNum)
+                {
+                    MessageBox.Show("La saisie ne correspond pas à une saisie chiffrée.");
+                }
+                else
+                {
+                    List<Product> productAdded = new List<Product>();
+                    Product articleToFind = null;
+                    using (var dbContext = new StockContext())
+                    {
+                        var products = dbContext.Products;
+
+                        foreach (var product in products)
+                        {
+                            if (product.Price >= priceMin && product.Price <= priceMax)
+                            {
+                                articleToFind = product;
+
+                                productAdded.Add(new Product()
+                                {
+                                    Reference = product.Reference,
+                                    Name = product.Name,
+                                    Price = product.Price,
+                                    Quantity = product.Quantity
+                                });
+                            }
+                        }
+                        productsDataGrid.ItemsSource = productAdded;
+                    }
+                    if (articleToFind == null)
+                    {
+                        MessageBox.Show("Aucun article trouvé");
+                    }
                 }
             }
             catch (Exception exception)

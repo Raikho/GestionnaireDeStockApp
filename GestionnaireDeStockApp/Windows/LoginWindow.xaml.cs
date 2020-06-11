@@ -27,6 +27,12 @@ namespace GestionnaireDeStockApp
             Close();
         }
 
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape || e.Key == Key.F6)
+                Close();
+        }
+
         private void MainGrid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -52,7 +58,28 @@ namespace GestionnaireDeStockApp
             Close();
         }
 
+        private void UserNameTxtBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ConnectToTheSession();
+            }
+        }
+
+        private void PasswordTxtBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ConnectToTheSession();
+            }
+        }
+
         private void ConnexionButton_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectToTheSession();
+        }
+
+        private void ConnectToTheSession()
         {
             try
             {
@@ -69,7 +96,7 @@ namespace GestionnaireDeStockApp
                     {
                         newUserConnectionTry = dbContext.Users.Where(c => c.Username == UserNameTxtBox.Text && c.Password == PasswordTxtBox.Password).FirstOrDefault();
                     }
-                    if (newUserConnectionTry !=null)
+                    if (newUserConnectionTry != null)
                     {
                         connectionState = true;
                         MessageBox.Show("Connexion réussie.");

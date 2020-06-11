@@ -29,7 +29,7 @@
 
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Background" Value="Red"/>
                     <Setter Property="Opacity" Value="0.4"/>
                     <Setter Property="Foreground" Value="DeepSkyBlue"/>
                 </Trigger>
@@ -54,7 +54,7 @@
 
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Background" Value="Red"/>
                     <Setter Property="Opacity" Value="0.4"/>
                     <Setter Property="Foreground" Value="DeepSkyBlue"/>
                 </Trigger>
@@ -79,7 +79,7 @@
 
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Background" Value="Red"/>
                     <Setter Property="Opacity" Value="0.4"/>
                     <Setter Property="Foreground" Value="DeepSkyBlue"/>
                 </Trigger>

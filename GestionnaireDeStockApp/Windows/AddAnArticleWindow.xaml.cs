@@ -22,6 +22,12 @@ namespace GestionnaireDeStockApp
             Close();
         }
 
+        private void ExitButton_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+                Close();
+        }
+
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -32,6 +38,43 @@ namespace GestionnaireDeStockApp
         {
             ClearTheBLock();
             CreateNewArticle();
+        }
+
+        private void AddRefTxtBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ClearTheBLock();
+                CreateNewArticle();
+            }
+
+        }
+
+        private void AddNameTxtBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ClearTheBLock();
+                CreateNewArticle();
+            }
+        }
+
+        private void AddPriceTxtBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ClearTheBLock();
+                CreateNewArticle();
+            }
+        }
+
+        private void AddQuantTxtBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ClearTheBLock();
+                CreateNewArticle();
+            }
         }
 
         private void AddRefTxtBox_GotFocus(object sender, RoutedEventArgs e)
