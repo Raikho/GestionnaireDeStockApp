@@ -9,7 +9,24 @@
       Title="SalesManagementPage">
 
     <Grid>
-        <Rectangle HorizontalAlignment="Center" Margin="0,110,0,215" Fill="White" RadiusY="20" RadiusX="20" Width="370"/>
-        <TextBlock HorizontalAlignment="Center" Margin="0,210,0,0" Text="VENTE: travaux en cours.. déploiement très prochainement!" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="230"/>
+        <Grid>
+            <Border Grid.ColumnSpan="2">
+                <Border.Background>
+                    <LinearGradientBrush>
+                        <GradientStop Color="#FF2D8893" Offset="0"/>
+                        <GradientStop Color="#FF8938B9" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="500"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+        </Grid>
+
+        <StackPanel Margin="100,100,0,437" HorizontalAlignment="Left">
+            <TextBox x:Name="SearchAnArticle" Width="110"/>
+        </StackPanel>
     </Grid>
 </Page>

@@ -29,17 +29,26 @@
                         Foreground="White" 
                         HorizontalAlignment="Center" 
                         Height="25" 
-                        Width="25" Click="Button_Click"/>
+                        Width="25" 
+                        Click="Button_Click"/>
             </StackPanel>
 
             <StackPanel Height="350" Width="710" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <ScrollViewer Height="350" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                     <DataGrid x:Name="productsDataGrid" AutoGenerateColumns="False" Background="Transparent">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Référence" Width="200" Binding="{Binding Reference}"/>
-                            <DataGridTextColumn Header="Nom" Width="200" Binding="{Binding Name}"/>
-                            <DataGridTextColumn Header="Prix" Width="100" Binding="{Binding Price}"/>
-                            <DataGridTextColumn Header="Quantité" Width="100" Binding="{Binding Quantity}"/>
+                            <DataGridTextColumn Header="Référence" 
+                                                Width="200" 
+                                                Binding="{Binding Reference}"/>
+                            <DataGridTextColumn Header="Nom" 
+                                                Width="200" 
+                                                Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="Prix" 
+                                                Width="100" 
+                                                Binding="{Binding Price}"/>
+                            <DataGridTextColumn Header="Quantité" 
+                                                Width="100" 
+                                                Binding="{Binding Quantity}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </ScrollViewer>

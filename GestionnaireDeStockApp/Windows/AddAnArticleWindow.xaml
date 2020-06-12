@@ -9,7 +9,7 @@
         Title="AddAnArticleWindow" Height="450" Width="800"
         AllowsTransparency="True" Background="Transparent" 
         ResizeMode="NoResize" WindowStyle="None"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" KeyDown="Window_KeyDown">
 
     <Grid MouseDown="Grid_MouseDown">
         <Border Grid.RowSpan="2" CornerRadius="10">
@@ -29,8 +29,8 @@
                     Foreground="White" 
                     HorizontalAlignment="Center" 
                     Height="25" 
-                    Width="25" Click="ExitButton_Click"
-                    KeyDown="ExitButton_KeyDown"/>
+                    Width="25" 
+                    Click="ExitButton_Click"/>
         </StackPanel>
 
         <TextBlock HorizontalAlignment="Left" 

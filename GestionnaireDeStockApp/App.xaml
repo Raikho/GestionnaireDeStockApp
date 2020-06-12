@@ -10,7 +10,7 @@
                     Value="/Fonts/#ws_simple_gallifreyan ; Champagne">
             </Setter>
         </Style>
-        
+
         <Style x:Key="CustomButton" TargetType="{x:Type Button}">
             <Setter Property="Foreground" Value="White"/>
 
@@ -18,9 +18,10 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="20"
-                                                                    BorderThickness="2"
-                                                                    BorderBrush="White">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="20"
+                                BorderThickness="2"
+                                BorderBrush="White">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
@@ -43,9 +44,10 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="10"
-                                                                    BorderThickness="2"
-                                                                    BorderBrush="#FFA46FE4">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="10"
+                                BorderThickness="2"
+                                BorderBrush="#FF4E60A3">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
@@ -68,9 +70,10 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="5"
-                                                                    BorderThickness="2"
-                                                                    BorderBrush="#FFA46FE4">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="5"
+                                BorderThickness="2"
+                                BorderBrush="#FFA46FE4">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>

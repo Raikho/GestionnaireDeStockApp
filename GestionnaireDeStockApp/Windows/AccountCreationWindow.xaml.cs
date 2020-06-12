@@ -26,12 +26,6 @@ namespace GestionnaireDeStockApp
             Close();
         }
 
-        private void Button_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Escape)
-                Close();
-        }
-
         private void MainGrid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)

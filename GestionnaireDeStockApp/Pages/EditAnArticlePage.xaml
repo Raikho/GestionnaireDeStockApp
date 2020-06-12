@@ -9,7 +9,18 @@
       Title="EditAnArticlePage">
 
     <Grid>
-        <Rectangle HorizontalAlignment="Center" Margin="0,110,0,215" Fill="White" RadiusY="20" RadiusX="20" Width="370"/>
-        <TextBlock HorizontalAlignment="Center" Margin="0,210,0,0" Text="INVENTAIRE: travaux en cours.. déploiement très prochainement!" Foreground="#FF340051" TextWrapping="Wrap" VerticalAlignment="Top" Width="230"/>
+        <Rectangle HorizontalAlignment="Center" 
+                   Margin="0,110,0,215" 
+                   Fill="White" 
+                   RadiusY="20" 
+                   RadiusX="20" 
+                   Width="370"/>
+        <TextBlock HorizontalAlignment="Center" 
+                   Margin="0,210,0,0" 
+                   Text="INVENTAIRE: travaux en cours.. déploiement très prochainement!" 
+                   Foreground="#FF340051" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="230"/>
     </Grid>
 </Page>

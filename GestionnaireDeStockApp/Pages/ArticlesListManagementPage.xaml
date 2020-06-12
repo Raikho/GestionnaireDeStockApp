@@ -6,7 +6,7 @@
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:local="clr-namespace:GestionnaireDeStockApp"
       mc:Ignorable="d" 
-        d:DesignHeight="554.04" d:DesignWidth="824"
+      d:DesignHeight="554.04" d:DesignWidth="824"
       Title="ArticlesListPage">
 
     <Grid x:Name="MainGrid">
@@ -14,8 +14,8 @@
             <Border Grid.RowSpan="2">
                 <Border.Background>
                     <LinearGradientBrush>
-                        <GradientStop Color="#FF2D8893" Offset="0.0"/>
-                        <GradientStop Color="#FF8522BD" Offset="1"/>
+                        <GradientStop Color="#FF2D8893" Offset="0"/>
+                        <GradientStop Color="#FF8938B9" Offset="1"/>
                     </LinearGradientBrush>
                 </Border.Background>
             </Border>

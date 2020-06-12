@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\Data
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi\WebApi.csproj", "{2F03145E-E93F-4D45-8365-A942ECFF2372}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{CAD2A772-9E56-47A2-B835-28F58D2A0755}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{CAD2A772-9E56-47A2-B835-28F58D2A0755}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

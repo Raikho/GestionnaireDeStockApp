@@ -94,7 +94,7 @@ namespace GestionnaireDeStockApp
 
         private void SellAnArticle_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new SalesManagementPage();
+            MainFrame.Content = new SaleManagementPage();
         }
 
         private void InventoryButton_Click(object sender, RoutedEventArgs e)
@@ -149,7 +149,7 @@ namespace GestionnaireDeStockApp
 
                 if (e.Key == Key.F2)
                 {
-                    MainFrame.Content = new SalesManagementPage();
+                    MainFrame.Content = new SaleManagementPage();
                 }
 
                 if (e.Key == Key.F3)

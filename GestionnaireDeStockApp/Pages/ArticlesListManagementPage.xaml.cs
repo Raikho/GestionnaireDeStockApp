@@ -4,15 +4,10 @@ using System;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Documents;
 using System.Windows;
 using System.Linq;
-using System.Security.Cryptography.Xml;
-using System.Windows.Data;
 using System.Data;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Windows.Input;
-using System.Windows.Controls.Primitives;
 
 namespace GestionnaireDeStockApp
 {
@@ -64,17 +59,19 @@ namespace GestionnaireDeStockApp
         {
             try
             {
+                List<Product> productEdited = new List<Product>();
                 var dbContext = new StockContext();
                 Product productRow = productsDataGrid.SelectedItem as Product;
-                string m = productRow.Reference;
                 Product product = (from p in dbContext.Products
-                                     where p.Reference == productRow.Reference
-                                     select p).SingleOrDefault();
-                product.Reference = productRow.Reference;
-                product.Name = productRow.Name;
-                product.Price = productRow.Price;
-                product.Quantity = productRow.Quantity;
-                dbContext.Entry(product);
+                                   where p.Reference == productRow.Reference
+                                   select p).SingleOrDefault();
+                productEdited.Add(new Product()
+                {
+                    Reference = product.Reference,
+                    Name = product.Name,
+                    Price = product.Price,
+                    Quantity = product.Quantity
+                });
                 dbContext.SaveChanges();
                 MessageBox.Show("Produit modifié avec succés!");
             }

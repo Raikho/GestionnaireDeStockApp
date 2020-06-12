@@ -34,8 +34,8 @@
                         Foreground="White" 
                         HorizontalAlignment="Center" 
                         Height="25" 
-                        Width="25" Click="Button_Click"
-                        KeyDown="Button_KeyDown"/>
+                        Width="25" 
+                        Click="Button_Click"/>
             </StackPanel>
 
             <StackPanel Height="130" Width="150" VerticalAlignment="Center" HorizontalAlignment="Center">
