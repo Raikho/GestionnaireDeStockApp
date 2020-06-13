@@ -136,7 +136,7 @@ namespace GestionnaireDeStockApp
                 string input = SearchTextBox.Text;
                 if (!Regex.IsMatch(input, @"^[a-zA-Z0-9, ]+$"))
                 {
-                    MessageBox.Show("Une erreur est survenue. Veuillez effectuer une saisie alphanumérique.");
+                    MessageBox.Show("La saisie ne correspond pas à une saisie alphanumérique.");
                 }
                 else
                 {
@@ -204,7 +204,7 @@ namespace GestionnaireDeStockApp
 
         private void SearchMinPriceTxtBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == System.Windows.Input.Key.Enter)
+            if (e.Key == Key.Enter)
             {
                 SearchByPriceInterval();
             }
@@ -212,7 +212,7 @@ namespace GestionnaireDeStockApp
 
         private void SearchMaxPriceTxtBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == System.Windows.Input.Key.Enter)
+            if (e.Key == Key.Enter)
             {
                 SearchByPriceInterval();
             }

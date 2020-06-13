@@ -142,7 +142,7 @@
                                                  Margin="-5"/>
                         
                         <TextBlock HorizontalAlignment="Center" 
-                                   Text="LISTE DES ARTICLES" 
+                                   Text="GESTION DE STOCK" 
                                    Foreground="White" FontWeight="Bold" 
                                    VerticalAlignment="Center" 
                                    FontFamily="Champagne &amp; Limousines" 
