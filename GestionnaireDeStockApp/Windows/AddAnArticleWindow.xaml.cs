@@ -180,7 +180,7 @@ namespace GestionnaireDeStockApp
                                 products.Add(product);
                                 dbContext.SaveChanges();
                             }
-                            CreateTxtBlockInfo.Text = $"Le nouveau produit a été intégré au stock: ";
+                            CreateTxtBlockInfo.Text = "Le nouveau produit a été intégré au stock:";
                             ShowAnArticle(reference, name, price, quantity);
                         }
                     }

@@ -16,6 +16,8 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class ArticlesListManagementPage : Page
     {
+        public static Product CurrentItemSelected { get; private set; }
+
         public ArticlesListManagementPage()
         {
             InitializeComponent();
@@ -59,21 +61,9 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                List<Product> productEdited = new List<Product>();
-                var dbContext = new StockContext();
-                Product productRow = productsDataGrid.SelectedItem as Product;
-                Product product = (from p in dbContext.Products
-                                   where p.Reference == productRow.Reference
-                                   select p).SingleOrDefault();
-                productEdited.Add(new Product()
-                {
-                    Reference = product.Reference,
-                    Name = product.Name,
-                    Price = product.Price,
-                    Quantity = product.Quantity
-                });
-                dbContext.SaveChanges();
-                MessageBox.Show("Produit modifié avec succés!");
+                CurrentItemSelected = (Product)productsDataGrid.CurrentCell.Item;
+                EditAnArticleWindow editAnArticleWindow = new EditAnArticleWindow();
+                editAnArticleWindow.Show();
             }
             catch (Exception exception)
             {
@@ -96,7 +86,6 @@ namespace GestionnaireDeStockApp
                             dbContext.SaveChanges();
                         }
                     }
-
                 }
             }
             catch (Exception exception)

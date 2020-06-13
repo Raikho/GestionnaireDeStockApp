@@ -1,0 +1,233 @@
+﻿<Window x:Class="GestionnaireDeStockApp.EditAnArticleWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:GestionnaireDeStockApp"
+        mc:Ignorable="d"
+        Title="EditAnArticleWindow" Height="350" Width="600"
+        AllowsTransparency="True" Background="Transparent" 
+        ResizeMode="NoResize" WindowStyle="None"
+        WindowStartupLocation="CenterScreen" KeyDown="Window_KeyDown">
+
+    <Grid MouseDown="Grid_MouseDown">
+        <Border Grid.RowSpan="2" CornerRadius="10">
+            <Border.Background>
+                <LinearGradientBrush>
+                    <GradientStop Color="#FF2D8893" Offset="0.0"/>
+                    <GradientStop Color="#FF8522BD" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+
+        <StackPanel Height="30" Width="45" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button x:Name="ExitButton"
+                    Content="{materialDesign:PackIcon Kind=PowerBox, Size=15}"
+                    Background="{x:Null}" 
+                    BorderBrush="{x:Null}"
+                    Foreground="White" 
+                    HorizontalAlignment="Center" 
+                    Height="25" 
+                    Width="25" 
+                    Click="ExitButton_Click"/>
+        </StackPanel>
+
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="50,40,0,0" 
+                   Text="Saisissez la référence :" 
+                   Foreground="White" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" Width="138"/>
+
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="50,80,0,0" 
+                   Text="Saisissez le nom :" 
+                   Foreground="White" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="138"/>
+
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="50,120,0,0" 
+                   Text="Saisissez le prix :" 
+                   Foreground="White" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="138"/>
+
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="50,160,0,0" 
+                   Text="Saisissez la quantité :" 
+                   Foreground="White" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="138"/>
+
+        <TextBox x:Name="EditRefTxtBox" 
+                 HorizontalAlignment="Left" 
+                 Margin="182,36,0,0" 
+                 Foreground="Black" 
+                 TextWrapping="Wrap" 
+                 VerticalAlignment="Top" 
+                 Width="120" 
+                 GotFocus="EditRefTxtBox_GotFocus"
+                 KeyDown="EditRefTxtBox_KeyDown"/>
+
+        <TextBox x:Name="EditNameTxtBox" 
+                 HorizontalAlignment="Left" 
+                 Margin="182,76,0,0" 
+                 Foreground="Black" 
+                 TextWrapping="Wrap" 
+                 VerticalAlignment="Top" 
+                 Width="120" 
+                 GotFocus="EditNameTxtBox_GotFocus"
+                 KeyDown="EditNameTxtBox_KeyDown"/>
+
+        <TextBox x:Name="EditPriceTxtBox" 
+                 HorizontalAlignment="Left" 
+                 Margin="182,116,0,0" 
+                 Foreground="Black" 
+                 TextWrapping="Wrap" 
+                 VerticalAlignment="Top" 
+                 Width="120" 
+                 GotFocus="EditPriceTxtBox_GotFocus" 
+                 KeyDown="EditPriceTxtBox_KeyDown"/>
+
+        <TextBox x:Name="EditQuantTxtBox" 
+                 HorizontalAlignment="Left" 
+                 Margin="182,156,0,0" 
+                 Foreground="Black" 
+                 TextWrapping="Wrap" 
+                 VerticalAlignment="Top" 
+                 Width="120" 
+                 GotFocus="EditQuantTxtBox_GotFocus"
+                 KeyDown="EditQuantTxtBox_KeyDown"/>
+
+        <Button x:Name="ValidateButton" 
+                Click="ValidateButton_Click" 
+                Content="Valider" 
+                Style="{StaticResource CustomButton}" 
+                Foreground="White" 
+                Background="Transparent" 
+                HorizontalAlignment="Left" 
+                Margin="140,195,0,0" 
+                VerticalAlignment="Top" 
+                FontWeight="Bold" 
+                Width="70" 
+                Height="35"/>
+
+        <TextBlock x:Name="RefTxtBlockEditInfo" 
+                   HorizontalAlignment="Center" 
+                   Margin="0,240,0,0" 
+                   Foreground="Orange" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="500"
+                   Height="20"/>
+
+        <TextBlock x:Name="NameTxtBlockEditInfo" 
+                   Margin="50,260,50,0" 
+                   Foreground="Orange" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Height="20"/>
+
+        <TextBlock x:Name="PriceTxtBlockEditInfo" 
+                   HorizontalAlignment="Center" 
+                   Margin="0,280,0,0" 
+                   Foreground="Orange" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="500" 
+                   Height="20"/>
+
+        <TextBlock x:Name="QuantTxtBlockEditInfo" 
+                   Margin="50,300,50,0" 
+                   Foreground="Orange" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top"
+                   Height="20"/>
+
+        <TextBlock x:Name="EditTxtBlockInfo" 
+                   HorizontalAlignment="Right" 
+                   Margin="0,10,45,0" 
+                   Foreground="GreenYellow"
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="216" 
+                   Height="21"/>
+
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="310,40,0,0" 
+                   Text="Référence :" 
+                   Foreground="White" 
+                   TextAlignment="Right" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" Width="87"/>
+
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="310,80,0,0" 
+                   Text="Nom :" 
+                   Foreground="White" 
+                   TextAlignment="Right" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="88"/>
+
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="310,120,0,0" 
+                   Text="Prix :" 
+                   Foreground="White" 
+                   TextAlignment="Right" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="87"/>
+
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="310,160,0,0" 
+                   Text="Quantité :" 
+                   Foreground="White" 
+                   TextAlignment="Right" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="86"/>
+
+        <TextBlock x:Name="RefTxtBlockEditConfirm" 
+                   HorizontalAlignment="Left" 
+                   Margin="405,40,0,0" 
+                   Foreground="GreenYellow" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="185" 
+                   RenderTransformOrigin="0.473,1.692" 
+                   Height="20"/>
+
+        <TextBlock x:Name="NameTxtBlockEditConfirm" 
+                   HorizontalAlignment="Left" 
+                   Margin="405,80,0,0" 
+                   Foreground="GreenYellow" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="185" 
+                   Height="20"/>
+
+        <TextBlock x:Name="PriceTxtBlockEditConfirm" 
+                   HorizontalAlignment="Left" 
+                   Margin="405,120,0,0" 
+                   Foreground="GreenYellow" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="185"
+                   Height="20"/>
+
+        <TextBlock x:Name="QuantTxtBlockEditConfirm" 
+                   HorizontalAlignment="Left" 
+                   Margin="405,160,0,0" 
+                   Foreground="GreenYellow" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="185" 
+                   Height="20"/>
+    </Grid>
+</Window>
