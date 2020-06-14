@@ -18,8 +18,12 @@ namespace GestionnaireDeStockApp
     {
         public static Product CurrentItemSelected { get; private set; }
 
+        static ArticlesListManagementPage articlesListManagementPage;
+
         public ArticlesListManagementPage()
         {
+            articlesListManagementPage = this;
+
             InitializeComponent();
             LoadDataBaseProducts();
         }
@@ -35,7 +39,7 @@ namespace GestionnaireDeStockApp
             LoadDataBaseProducts();
         }
 
-        private void LoadDataBaseProducts()
+        public static void LoadDataBaseProducts()
         {
             using (var dbContext = new StockContext())
             {
@@ -53,7 +57,7 @@ namespace GestionnaireDeStockApp
                         Quantity = product.Quantity
                     });
                 }
-                productsDataGrid.ItemsSource = productAdded;
+               articlesListManagementPage.ProductsDataGrid.ItemsSource = productAdded;
             }
         }
 
@@ -61,9 +65,10 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                CurrentItemSelected = (Product)productsDataGrid.CurrentCell.Item;
+                CurrentItemSelected = (Product)ProductsDataGrid.CurrentCell.Item;
                 EditAnArticleWindow editAnArticleWindow = new EditAnArticleWindow();
                 editAnArticleWindow.Show();
+                LoadDataBaseProducts();
             }
             catch (Exception exception)
             {
@@ -77,7 +82,7 @@ namespace GestionnaireDeStockApp
             {
                 using (var dbContext = new StockContext())
                 {
-                    var selectedRow = productsDataGrid.CurrentCell.Item;
+                    var selectedRow = ProductsDataGrid.CurrentCell.Item;
                     if (selectedRow != DBNull.Value)
                     {
                         if(MessageBox.Show("Etes-vous sûr de vouloir supprimer cet article?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
@@ -87,6 +92,7 @@ namespace GestionnaireDeStockApp
                         }
                     }
                 }
+                LoadDataBaseProducts();
             }
             catch (Exception exception)
             {
@@ -112,7 +118,7 @@ namespace GestionnaireDeStockApp
 
         private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == System.Windows.Input.Key.Enter)
+            if (e.Key == Key.Enter)
             {
                 SearchAnArticle();
             }
@@ -154,7 +160,7 @@ namespace GestionnaireDeStockApp
                                 });
                             }
                         }
-                        productsDataGrid.ItemsSource = productAdded;
+                        ProductsDataGrid.ItemsSource = productAdded;
                     }
                     if (articleToFind == null)
                     {
@@ -243,7 +249,7 @@ namespace GestionnaireDeStockApp
                                 });
                             }
                         }
-                        productsDataGrid.ItemsSource = productAdded;
+                        ProductsDataGrid.ItemsSource = productAdded;
                     }
                     if (articleToFind == null)
                     {

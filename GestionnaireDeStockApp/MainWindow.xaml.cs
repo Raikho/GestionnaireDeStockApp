@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -9,7 +11,7 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static LoginWindow currentLgWindow { get; set; }
+        public static LoginWindow loginWindow { get; set; }
 
         public MainWindow()
         {
@@ -18,20 +20,23 @@ namespace GestionnaireDeStockApp
             LeftMenu.IsEnabled = false;
             HideAllItems();
 
-            //ConnectAccount();
+            ConnectToSession();
         }
 
-        private void ConnectAccount()
+        private void ConnectToSession()
         {
-            do
+            loginWindow = new LoginWindow();
+            loginWindow.ShowDialog();
+
+            LeftMenu.IsEnabled = LoginWindow.connectionState;
+            if (LeftMenu.IsEnabled == true)
             {
-                LoginWindow loginWindow = new LoginWindow();
-                currentLgWindow = loginWindow;
-                currentLgWindow = new LoginWindow();
-                currentLgWindow.ShowDialog();
+                ShowAllItems();
+
+                WelcomeTxtBlock.Foreground = new SolidColorBrush(Colors.GreenYellow);
+                WelcomeTxtBlock.Text = $"{LoginWindow.Username} est connecté";
+                MainFrame.Content = new ArticlesListManagementPage();
             }
-            while (LoginWindow.connectionState == false);
-            MainFrame.Content = new ArticlesListManagementPage();
         }
 
         private void TopGridBar_MouseDown(object sender, MouseButtonEventArgs e)
@@ -70,21 +75,6 @@ namespace GestionnaireDeStockApp
         public void AccountButton_Click(object sender, RoutedEventArgs e)
         {
             ConnectToSession();
-        }
-
-        private void ConnectToSession()
-        {
-            currentLgWindow = new LoginWindow();
-            currentLgWindow.ShowDialog();
-
-            LeftMenu.IsEnabled = LoginWindow.connectionState;
-            if (LeftMenu.IsEnabled == true)
-            {
-                ShowAllItems();
-
-                WelcomeTxtBlock.Foreground = new SolidColorBrush(Colors.GreenYellow);
-                WelcomeTxtBlock.Text = $"{currentLgWindow.Username} est connecté";
-            }
         }
 
         private void ShowArticleListManagement_Click(object sender, RoutedEventArgs e)

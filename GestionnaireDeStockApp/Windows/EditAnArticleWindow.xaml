@@ -117,37 +117,14 @@
                 Width="70" 
                 Height="35"/>
 
-        <TextBlock x:Name="RefTxtBlockEditInfo" 
+        <TextBlock x:Name="EditAnArticleTxtBlockError" 
                    HorizontalAlignment="Center" 
                    Margin="0,240,0,0" 
                    Foreground="Orange" 
                    TextWrapping="Wrap" 
                    VerticalAlignment="Top" 
                    Width="500"
-                   Height="20"/>
-
-        <TextBlock x:Name="NameTxtBlockEditInfo" 
-                   Margin="50,260,50,0" 
-                   Foreground="Orange" 
-                   TextWrapping="Wrap" 
-                   VerticalAlignment="Top" 
-                   Height="20"/>
-
-        <TextBlock x:Name="PriceTxtBlockEditInfo" 
-                   HorizontalAlignment="Center" 
-                   Margin="0,280,0,0" 
-                   Foreground="Orange" 
-                   TextWrapping="Wrap" 
-                   VerticalAlignment="Top" 
-                   Width="500" 
-                   Height="20"/>
-
-        <TextBlock x:Name="QuantTxtBlockEditInfo" 
-                   Margin="50,300,50,0" 
-                   Foreground="Orange" 
-                   TextWrapping="Wrap" 
-                   VerticalAlignment="Top"
-                   Height="20"/>
+                   Height="100"/>
 
         <TextBlock x:Name="EditTxtBlockInfo" 
                    HorizontalAlignment="Right" 

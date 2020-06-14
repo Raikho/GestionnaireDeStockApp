@@ -111,10 +111,7 @@ namespace GestionnaireDeStockApp
 
         private void ClearTheBLock()
         {
-            RefTxtBlockInfo.Text = string.Empty;
-            NameTxtBlockInfo.Text = string.Empty;
-            PriceTxtBlockInfo.Text = string.Empty;
-            QuantTxtBlockInfo.Text = string.Empty;
+            AddAnArticleTxtBlockError.Text = string.Empty;
             CreateTxtBlockInfo.Text = string.Empty;
             RefTxtBlockConfirm.Text = string.Empty;
             NameTxtBlockConfirm.Text = string.Empty;
@@ -127,61 +124,47 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                var reference = AddAReference();
-
-                if (reference == "null")
+                using (var dbContext = new StockContext())
                 {
-                    CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Yellow);
-                    CreateTxtBlockInfo.Text = "La saisie est incorrecte";
-                }
-                else
-                {
+                    var products = dbContext.Products;
                     bool duplicate = false;
 
-                    using (var dbContext = new StockContext())
+                    foreach (var product in products)
                     {
-                        var products = dbContext.Products;
-                        foreach (var product in products)
+                        if (product.Reference.ToLower() == AddRefTxtBox.Text.ToLower())
                         {
-                            if (product.Reference.ToLower() == reference.ToLower())
-                            {
-                                duplicate = true;
-                                CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Yellow);
-                                CreateTxtBlockInfo.Text = "L'article existe déjà";
-                                break;
-                            }
+                            duplicate = true;
+                            CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Yellow);
+                            CreateTxtBlockInfo.Text = "L'article existe déjà";
+                            break;
                         }
                     }
 
                     if (!duplicate)
                     {
-                        string name = AddAName();
-                        double price = AddAPrice();
-                        int quantity = AddAQuantity();
-
-                        if (name == "null" || price == 0 || quantity == 0)
+                        if (MessageBox.Show("Etes-vous sûr de vouloir ajouté cet article au stock?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                         {
-                            CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Yellow);
-                            CreateTxtBlockInfo.Text = "La saisie est incorrecte";
-                        }
-                        else
-                        {
-                            using (var dbContext = new StockContext())
+                            var checkedChar = ControlInputService.CheckAllCharacteristics(AddRefTxtBox, AddNameTxtBox, AddPriceTxtBox, AddQuantTxtBox, AddAnArticleTxtBlockError);
+                            if (checkedChar == false)
                             {
-                                var products = dbContext.Products;
-
+                                MessageBox.Show("Une erreur de saisie est survenue.");
+                            }
+                            else
+                            {
                                 var product = new Product()
                                 {
-                                    Reference = reference,
-                                    Name = name,
-                                    Price = price,
-                                    Quantity = quantity,
+                                    Reference = AddRefTxtBox.Text,
+                                    Name = AddNameTxtBox.Text,
+                                    Price = Convert.ToDouble(AddPriceTxtBox.Text),
+                                    Quantity = Convert.ToInt32(AddQuantTxtBox.Text)
                                 };
                                 products.Add(product);
                                 dbContext.SaveChanges();
+
+                                CreateTxtBlockInfo.Text = "Le nouveau produit a été intégré au stock:";
+                                ShowAnArticle(product.Reference, product.Name, product.Price, product.Quantity);
+                                ArticlesListManagementPage.LoadDataBaseProducts();
                             }
-                            CreateTxtBlockInfo.Text = "Le nouveau produit a été intégré au stock:";
-                            ShowAnArticle(reference, name, price, quantity);
                         }
                     }
                 }
@@ -191,7 +174,6 @@ namespace GestionnaireDeStockApp
                 CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Orange);
                 CreateTxtBlockInfo.Text = $"L'erreur suivante est survenue: {except.Message}";
             }
-
         }
 
         void ShowAnArticle(string reference, string name, double price, int quantity)
@@ -200,100 +182,6 @@ namespace GestionnaireDeStockApp
             NameTxtBlockConfirm.Text = $"{name}";
             PriceTxtBlockConfirm.Text = $"{price}";
             QuantTxtBlockConfirm.Text = $"{quantity}";
-        }
-
-        /// <summary>
-        /// Ajoute une "référence" à un article en création.
-        /// </summary>
-        /// <returns></returns>
-        string AddAReference()
-        {
-            try
-            {
-                string newInput = AddRefTxtBox.Text;
-                if (!Regex.IsMatch(newInput, @"^[a-zA-Z0-9, ]+$"))
-                {
-                    RefTxtBlockInfo.Text = "Référence: veuillez effectuer une saisie alphanumérique.\n";
-                    newInput = "null";
-                }
-                return newInput;
-            }
-            catch (Exception except)
-            {
-                RefTxtBlockInfo.Text = $"L'erreur suivante est survenue: {except.Message}";
-                return "null";
-            }
-        }
-
-        /// <summary>
-        /// Ajoute une "nom" à un article en création.
-        /// </summary>
-        /// <returns></returns>
-        string AddAName()
-        {
-            try
-            {
-                string name = AddNameTxtBox.Text;
-                if (!Regex.IsMatch(name, @"^[a-zA-Z0-9, ]+$"))
-                {
-                    NameTxtBlockInfo.Text = $"Nom: veuillez effectuer une saisie alphanumérique.\n";
-                    name = "null";
-                }
-                return name;
-            }
-            catch (Exception except)
-            {
-                NameTxtBlockInfo.Text = $"L'erreur suivante est survenue: {except.Message}";
-                return "null";
-            }
-        }
-
-        /// <summary>
-        /// Ajoute une "prix" à un article en création.
-        /// </summary>
-        /// <returns></returns>
-        double AddAPrice()
-        {
-            try
-            {
-                string newInput = AddPriceTxtBox.Text;
-                bool correctNum = double.TryParse(newInput, out double price);
-                if (!correctNum)
-                {
-                    PriceTxtBlockInfo.Text = "Prix: veuillez saisir un prix chiffré.\n";
-                    price = 0;
-                }
-                return price;
-            }
-            catch (Exception except)
-            {
-                PriceTxtBlockInfo.Text = $"L'erreur suivante est survenue: {except.Message}";
-                return 0;
-            }
-        }
-
-        /// <summary>
-        /// Ajoute une "quantité" à un article en création.
-        /// </summary>
-        /// <returns></returns>
-        int AddAQuantity()
-        {
-            try
-            {
-                string newInput = AddQuantTxtBox.Text;
-                bool correctNum = int.TryParse(newInput, out int quantity);
-                if (!correctNum)
-                {
-                    QuantTxtBlockInfo.Text = "Quantité: veuillez saisir une quantité chiffrée.\n";
-                    quantity = 0;
-                }
-                return quantity;
-            }
-            catch (Exception except)
-            {
-                QuantTxtBlockInfo.Text = $"L'erreur suivante est survenue: {except}";
-                return 0;
-            }
         }
     }
 }

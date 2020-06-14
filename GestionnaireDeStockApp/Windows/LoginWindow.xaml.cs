@@ -11,11 +11,12 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class LoginWindow : Window
     {
+        public static User CurrentUser { get; private set; }
+        public static string Username { get; private set; }
+
         public static bool connectionState = false;
 
         bool UserNameTxtBoxClick, PasswordTxtBoxClick = false;
-
-        public string Username { get; private set; }
 
         public LoginWindow()
         {
@@ -100,7 +101,8 @@ namespace GestionnaireDeStockApp
                     {
                         connectionState = true;
                         MessageBox.Show("Connexion réussie.");
-                        Username = newUserConnectionTry.Username;
+                        CurrentUser = newUserConnectionTry;
+                        Username = CurrentUser.Username;
                         Close();
                     }
                     else

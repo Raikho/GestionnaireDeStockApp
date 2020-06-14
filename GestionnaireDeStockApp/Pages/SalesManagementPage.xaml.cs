@@ -1,6 +1,7 @@
 ﻿using DataLayer;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,8 +16,11 @@ namespace GestionnaireDeStockApp
     {
         public List<double> totalSumList = new List<double>();
 
+        static SalesManagementPage salesManagementPage;
         public SalesManagementPage()
         {
+            salesManagementPage = this;
+
             InitializeComponent();
             ShowSellerNameOnTicket();
             ShowDateOnTicket();
@@ -36,7 +40,7 @@ namespace GestionnaireDeStockApp
 
         private void ShowSellerNameOnTicket()
         {
-            SellerNameTxtBox.Text = $"Vendeur: {MainWindow.currentLgWindow.Username}";
+            SellerNameTxtBox.Text = $"Vendeur: {LoginWindow.Username}";
         }
 
         private void ShowDateOnTicket()
@@ -46,45 +50,8 @@ namespace GestionnaireDeStockApp
 
         private void AddToSell_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                using (var dbContext = new StockContext())
-                {
-                    var products = dbContext.Products;
-                    var selectedRow = ArticleToSellDataGrid.CurrentCell.Item;
-
-                    double sum;
-                    double totalSum = 0;
-
-                    foreach (var product in products)
-                    {
-                        Product articleToSell = (Product)selectedRow;
-                        if (articleToSell.ToString().ToLower() == product.ToString().ToLower())
-                        {
-                            if (MessageBox.Show("Etes-vous sûr de vouloir ajouter cet article?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                            {
-                                NameTxtBlock.Text += $"{articleToSell.Name}\n";
-                                PriceTxtBlock.Text += $"{articleToSell.Price}\n";
-                                QuantTxtBlock.Text += $"{articleToSell.Quantity}\n";
-
-                                sum = articleToSell.Price * articleToSell.Quantity;
-                                SubTotalTxtBlock.Text += $"{Math.Round(sum, 2)}\n";
-
-                                totalSumList.Add(sum);
-                            }
-                        }
-                    }                
-                    foreach (var item in totalSumList)
-                    {
-                        totalSum += item;
-                    }
-                    TotalTxtBlock.Text = $"{Math.Round(totalSum, 2)}€ TTC";
-                }
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message);
-            }
+            SalesParametersWindow salesParametersWindow = new SalesParametersWindow();
+            salesParametersWindow.Show();
         }
 
         private void SearchAnArticleToSell()
@@ -135,6 +102,74 @@ namespace GestionnaireDeStockApp
             {
                 MessageBox.Show(exception.Message);
             }
+        }
+
+        public static void CalculateTheTicketPrice()
+        {
+            try
+            {
+                using (var dbContext = new StockContext())
+                {
+                    var products = dbContext.Products;
+                    var selectedRow = salesManagementPage.ArticleToSellDataGrid.CurrentCell.Item;
+                    Product articleToSell = (Product)selectedRow;
+
+                    double sum;
+                    double totalSum = 0;
+
+                    if (ControlInputService.CorrectPickedChara == false)
+                        MessageBox.Show("La saisie est incorrecte.");
+                    else
+                    {
+                        if (MessageBox.Show("Etes-vous sûr de vouloir ajouter cet article?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                        {
+                            salesManagementPage.NameTxtBlock.Text += $"{articleToSell.Name}\n";
+                            salesManagementPage.PriceTxtBlock.Text += $"{articleToSell.Price}\n";
+                            salesManagementPage.QuantTxtBlock.Text += $"{SalesParametersWindow.Quantity}\n";
+
+                            sum = articleToSell.Price * SalesParametersWindow.Quantity;
+                            salesManagementPage.SubTotalTxtBlock.Text += $"{Math.Round(sum, 2)}\n";
+
+                            var tempTotal = salesManagementPage.CalculateADiscountPrice(sum);
+
+                            salesManagementPage.totalSumList.Add(tempTotal);
+                        }
+                    }
+                    foreach (var item in salesManagementPage.totalSumList)
+                    {
+                        totalSum += item;
+                    }
+                    var finalTotal = totalSum;
+                    salesManagementPage.TotalTxtBlock.Text = $"{Math.Round(finalTotal, 2)}€ TTC";
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
+        }
+
+        private double CalculateADiscountPrice(double totalSum)
+        {
+            double pourcentDiscount = SalesParametersWindow.PourcentDiscount / 100;
+            double discount = SalesParametersWindow.Discount;
+
+            double pourcentDiscountPrice = 0;
+            double discountPrice = 0;
+
+            pourcentDiscountPrice = totalSum - (totalSum * pourcentDiscount);
+            discountPrice = pourcentDiscountPrice - discount;
+
+            double totalDiscount = totalSum - discountPrice;
+
+            if (totalDiscount == 0)
+                return 0;
+            else
+            {
+                salesManagementPage.NameTxtBlock.Text += "Remise\n";
+                salesManagementPage.SubTotalTxtBlock.Text += $"-{Math.Round(totalDiscount, 2)}\n";
+            }
+            return discountPrice;
         }
 
         private void CalculateTicketNumber()

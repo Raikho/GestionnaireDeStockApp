@@ -121,37 +121,14 @@
                 Width="70" 
                 Height="35"/>
 
-        <TextBlock x:Name="RefTxtBlockInfo" 
+        <TextBlock x:Name="AddAnArticleTxtBlockError" 
                    HorizontalAlignment="Center" 
                    Margin="0,325,0,0" 
                    Foreground="Orange" 
                    TextWrapping="Wrap" 
                    VerticalAlignment="Top" 
                    Width="600"
-                   Height="20"/>
-
-        <TextBlock x:Name="NameTxtBlockInfo" 
-                   Margin="100,350,100,0" 
-                   Foreground="Orange" 
-                   TextWrapping="Wrap" 
-                   VerticalAlignment="Top" 
-                   Height="20"/>
-
-        <TextBlock x:Name="PriceTxtBlockInfo" 
-                   HorizontalAlignment="Center" 
-                   Margin="0,375,0,0" 
-                   Foreground="Orange" 
-                   TextWrapping="Wrap" 
-                   VerticalAlignment="Top" 
-                   Width="600" 
-                   Height="20"/>
-
-        <TextBlock x:Name="QuantTxtBlockInfo" 
-                   Margin="100,400,100,0" 
-                   Foreground="Orange" 
-                   TextWrapping="Wrap" 
-                   VerticalAlignment="Top"
-                   Height="20"/>
+                   Height="115"/>
 
         <TextBlock x:Name="CreateTxtBlockInfo" 
                    HorizontalAlignment="Center" 

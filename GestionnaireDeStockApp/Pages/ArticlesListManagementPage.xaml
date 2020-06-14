@@ -119,8 +119,8 @@
 
             <StackPanel Height="554.04" Width="824" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <ScrollViewer Height="455" Width="770" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="0,40,0,0">
-                    <DataGrid x:Name="productsDataGrid"
-                              x:Uid="productsDataGrid"
+                    <DataGrid x:Name="ProductsDataGrid"
+                              x:Uid="ProductsDataGrid"
                               AutoGenerateColumns="False" 
                               Background="Transparent" 
                               AlternationCount="2" 

@@ -111,10 +111,7 @@ namespace GestionnaireDeStockApp
 
         private void ClearTheBLock()
         {
-            RefTxtBlockEditInfo.Text = string.Empty;
-            NameTxtBlockEditInfo.Text = string.Empty;
-            PriceTxtBlockEditInfo.Text = string.Empty;
-            QuantTxtBlockEditInfo.Text = string.Empty;
+            EditAnArticleTxtBlockError.Text = string.Empty;
             EditTxtBlockInfo.Text = string.Empty;
             RefTxtBlockEditConfirm.Text = string.Empty;
             NameTxtBlockEditConfirm.Text = string.Empty;
@@ -163,8 +160,8 @@ namespace GestionnaireDeStockApp
                     {
                         if (MessageBox.Show("Etes-vous sûr de vouloir modifié cet article?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                         {
-                            var checkedChar = CheckAllCharacteristics();
-                            if (checkedChar == "ERROR")
+                            var checkedChar = ControlInputService.CheckAllCharacteristics(EditRefTxtBox, EditNameTxtBox, EditPriceTxtBox, EditQuantTxtBox, EditAnArticleTxtBlockError);
+                            if (checkedChar == false)
                             {
                                 MessageBox.Show("Une erreur de saisie est survenue.");
                                 SelectAnArticle();
@@ -182,9 +179,12 @@ namespace GestionnaireDeStockApp
                                 QuantTxtBlockEditConfirm.Text = selectedItem.Quantity.ToString();
 
                                 EditTxtBlockInfo.Text = "Le produit a été modifié avec succès:";
+                                MessageBox.Show("Le produit a été modifié avec succès!");
 
                                 dbContext.Update(selectedItem);
                                 dbContext.SaveChanges();
+                                Close();
+                                ArticlesListManagementPage.LoadDataBaseProducts();
                             }
                         }
                     }
@@ -193,117 +193,6 @@ namespace GestionnaireDeStockApp
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message);
-            }
-        }
-
-        private string CheckAllCharacteristics()
-        {
-            var refChecked = ReWriteAReference();
-            var nameChecked = ReWriteAName();
-            var priceChecked = ReWriteAPrice();
-            var quantChecked = ReWriteAQuantity();
-            if (refChecked == "null"
-                || nameChecked == "null"
-                || priceChecked == 0
-                || quantChecked == 0)
-            {
-                return "ERROR";
-            }
-            else
-                return "OK";
-        }
-
-        /// <summary>
-        /// Ajoute une "référence" à un article en création.
-        /// </summary>
-        /// <returns></returns>
-        string ReWriteAReference()
-        {
-            try
-            {
-                string newInput = EditRefTxtBox.Text;
-                if (!Regex.IsMatch(newInput, @"^[a-zA-Z0-9, ]+$"))
-                {
-                    RefTxtBlockEditInfo.Text = "Référence: veuillez effectuer une saisie alphanumérique.\n";
-                    newInput = "null";
-                }
-                return newInput;
-            }
-            catch (Exception except)
-            {
-                RefTxtBlockEditInfo.Text = $"L'erreur suivante est survenue: {except.Message}";
-                return "null";
-            }
-        }
-
-        /// <summary>
-        /// Ajoute une "nom" à un article en création.
-        /// </summary>
-        /// <returns></returns>
-        string ReWriteAName()
-        {
-            try
-            {
-                string name = EditNameTxtBox.Text;
-                if (!Regex.IsMatch(name, @"^[a-zA-Z0-9, ]+$"))
-                {
-                    NameTxtBlockEditInfo.Text = $"Nom: veuillez effectuer une saisie alphanumérique.\n";
-                    name = "null";
-                }
-                return name;
-            }
-            catch (Exception except)
-            {
-                NameTxtBlockEditInfo.Text = $"L'erreur suivante est survenue: {except.Message}";
-                return "null";
-            }
-        }
-
-        /// <summary>
-        /// Ajoute une "prix" à un article en création.
-        /// </summary>
-        /// <returns></returns>
-        double ReWriteAPrice()
-        {
-            try
-            {
-                string newInput = EditPriceTxtBox.Text;
-                bool correctNum = double.TryParse(newInput, out double price);
-                if (!correctNum)
-                {
-                    PriceTxtBlockEditInfo.Text = "Prix: veuillez saisir un prix chiffré.\n";
-                    price = 0;
-                }
-                return price;
-            }
-            catch (Exception except)
-            {
-                PriceTxtBlockEditInfo.Text = $"L'erreur suivante est survenue: {except.Message}";
-                return 0;
-            }
-        }
-
-        /// <summary>
-        /// Ajoute une "quantité" à un article en création.
-        /// </summary>
-        /// <returns></returns>
-        int ReWriteAQuantity()
-        {
-            try
-            {
-                string newInput = EditQuantTxtBox.Text;
-                bool correctNum = int.TryParse(newInput, out int quantity);
-                if (!correctNum)
-                {
-                    QuantTxtBlockEditInfo.Text = "Quantité: veuillez saisir une quantité chiffrée.\n";
-                    quantity = 0;
-                }
-                return quantity;
-            }
-            catch (Exception except)
-            {
-                QuantTxtBlockEditInfo.Text = $"L'erreur suivante est survenue: {except}";
-                return 0;
             }
         }
     }
