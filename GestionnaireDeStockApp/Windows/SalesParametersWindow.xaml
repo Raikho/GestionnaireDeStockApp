@@ -58,6 +58,8 @@
                    Width="100"/>
 
         <TextBox x:Name="QuantParamTxtBox" 
+                 Text="1"
+                 TextAlignment="Center"
                  HorizontalAlignment="Left" 
                  Margin="155,26,0,0" 
                  Foreground="Black" 
@@ -65,9 +67,12 @@
                  VerticalAlignment="Top" 
                  Width="40" 
                  GotFocus="QuantParamTxtBox_GotFocus"
-                 KeyDown="QuantParamTxtBox_KeyDown"/>
+                 KeyDown="QuantParamTxtBox_KeyDown"
+                 GotKeyboardFocus="QuantParamTxtBox_GotKeyboardFocus"
+                 GotMouseCapture="QuantParamTxtBox_GotMouseCapture"/>
 
         <TextBox x:Name="PourcentDiscountTxtBox" 
+                 TextAlignment="Center"
                  Margin="155,66,55,0" 
                  Foreground="Black" 
                  TextWrapping="Wrap" 
@@ -75,7 +80,8 @@
                  GotFocus="PourcentDiscountTxtBox_GotFocus"
                  KeyDown="PourcentDiscountTxtBox_KeyDown"/>
 
-        <TextBox x:Name="DiscountTxtBox" 
+        <TextBox x:Name="DiscountTxtBox"
+                 TextAlignment="Center"
                  HorizontalAlignment="Left" 
                  Margin="155,106,0,0" 
                  Foreground="Black" 

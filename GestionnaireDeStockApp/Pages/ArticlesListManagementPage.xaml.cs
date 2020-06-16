@@ -1,13 +1,11 @@
 ﻿using DataLayer;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows;
-using System.Linq;
-using System.Data;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace GestionnaireDeStockApp
 {
@@ -25,6 +23,7 @@ namespace GestionnaireDeStockApp
             articlesListManagementPage = this;
 
             InitializeComponent();
+            SearchTextBox.Focus();
             LoadDataBaseProducts();
         }
 
@@ -57,7 +56,7 @@ namespace GestionnaireDeStockApp
                         Quantity = product.Quantity
                     });
                 }
-               articlesListManagementPage.ProductsDataGrid.ItemsSource = productAdded;
+                articlesListManagementPage.ProductsDataGrid.ItemsSource = productAdded;
             }
         }
 
@@ -85,7 +84,7 @@ namespace GestionnaireDeStockApp
                     var selectedRow = ProductsDataGrid.CurrentCell.Item;
                     if (selectedRow != DBNull.Value)
                     {
-                        if(MessageBox.Show("Etes-vous sûr de vouloir supprimer cet article?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                        if (MessageBox.Show("Etes-vous sûr de vouloir supprimer cet article?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                         {
                             dbContext.Remove(selectedRow);
                             dbContext.SaveChanges();
@@ -111,17 +110,17 @@ namespace GestionnaireDeStockApp
             }
         }
 
-        private void SearchButton_Click(object sender, RoutedEventArgs e)
-        {
-            SearchAnArticle();
-        }
-
         private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 SearchAnArticle();
             }
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            SearchAnArticle();
         }
 
         private void SearchAnArticle()

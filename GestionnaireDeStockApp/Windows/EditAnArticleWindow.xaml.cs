@@ -1,7 +1,7 @@
 ﻿using DataLayer;
 using System;
-using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -43,70 +43,104 @@ namespace GestionnaireDeStockApp
 
         private void EditRefTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            EditRefTxtBox.Text = string.Empty;
-            ClearTheBLock();
-            EditRefTxtBox.Foreground = new SolidColorBrush(Colors.Black);
             EditRefTxtBox.GotFocus += EditRefTxtBox_GotFocus;
         }
 
         private void EditRefTxtBox_KeyDown(object sender, KeyEventArgs e)
         {
+            EditRefTxtBox.Foreground = new SolidColorBrush(Colors.DarkGreen);
             if (e.Key == Key.Enter)
             {
-                ClearTheBLock();
                 EditAnArticle();
             }
         }
 
+        private void EditRefTxtBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            SelectContentOnFocus(EditRefTxtBox);
+        }
+
+        private void EditRefTxtBox_GotMouseCapture(object sender, MouseEventArgs e)
+        {
+            SelectContentOnFocus(EditRefTxtBox);
+        }
+
         private void EditNameTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            EditNameTxtBox.Text = string.Empty;
-            ClearTheBLock();
-            EditNameTxtBox.Foreground = new SolidColorBrush(Colors.Black);
             EditNameTxtBox.GotFocus += EditNameTxtBox_GotFocus;
         }
 
         private void EditNameTxtBox_KeyDown(object sender, KeyEventArgs e)
         {
+            EditNameTxtBox.Foreground = new SolidColorBrush(Colors.DarkGreen);
             if (e.Key == Key.Enter)
             {
-                ClearTheBLock();
                 EditAnArticle();
             }
         }
 
+        private void EditNameTxtBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            SelectContentOnFocus(EditNameTxtBox);
+        }
+
+        private void EditNameTxtBox_GotMouseCapture(object sender, MouseEventArgs e)
+        {
+            SelectContentOnFocus(EditNameTxtBox);
+        }
+
         private void EditPriceTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            EditPriceTxtBox.Text = string.Empty;
-            ClearTheBLock();
-            EditPriceTxtBox.Foreground = new SolidColorBrush(Colors.Black);
             EditPriceTxtBox.GotFocus += EditPriceTxtBox_GotFocus;
         }
 
         private void EditPriceTxtBox_KeyDown(object sender, KeyEventArgs e)
         {
+            EditPriceTxtBox.Foreground = new SolidColorBrush(Colors.DarkGreen);
             if (e.Key == Key.Enter)
             {
-                ClearTheBLock();
                 EditAnArticle();
             }
         }
 
+        private void EditPriceTxtBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            SelectContentOnFocus(EditPriceTxtBox);
+        }
+
+        private void EditPriceTxtBox_GotMouseCapture(object sender, MouseEventArgs e)
+        {
+            SelectContentOnFocus(EditPriceTxtBox);
+        }
+
         private void EditQuantTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            EditQuantTxtBox.Text = string.Empty;
-            ClearTheBLock();
-            EditQuantTxtBox.Foreground = new SolidColorBrush(Colors.Black);
             EditQuantTxtBox.GotFocus += EditQuantTxtBox_GotFocus;
         }
 
         private void EditQuantTxtBox_KeyDown(object sender, KeyEventArgs e)
         {
+            EditQuantTxtBox.Foreground = new SolidColorBrush(Colors.DarkGreen);
             if (e.Key == Key.Enter)
             {
-                ClearTheBLock();
                 EditAnArticle();
             }
+        }
+
+        private void EditQuantTxtBox_GotMouseCapture(object sender, MouseEventArgs e)
+        {
+            SelectContentOnFocus(EditQuantTxtBox);
+        }
+
+        private void EditQuantTxtBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            SelectContentOnFocus(EditQuantTxtBox);
+        }
+
+        private void SelectContentOnFocus(TextBox textBox)
+        {
+            if (textBox.Text != null)
+                textBox.SelectAll();
         }
 
         private void ClearTheBLock()
@@ -117,6 +151,11 @@ namespace GestionnaireDeStockApp
             NameTxtBlockEditConfirm.Text = string.Empty;
             PriceTxtBlockEditConfirm.Text = string.Empty;
             QuantTxtBlockEditConfirm.Text = string.Empty;
+
+            EditRefTxtBox.Foreground = new SolidColorBrush(Colors.Red);
+            EditNameTxtBox.Foreground = new SolidColorBrush(Colors.Red);
+            EditPriceTxtBox.Foreground = new SolidColorBrush(Colors.Red);
+            EditQuantTxtBox.Foreground = new SolidColorBrush(Colors.Red);
         }
 
         private void SelectAnArticle()

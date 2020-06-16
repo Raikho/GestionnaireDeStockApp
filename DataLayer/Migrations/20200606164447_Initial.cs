@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 namespace DataLayer.Migrations
 {
@@ -33,6 +34,22 @@ namespace DataLayer.Migrations
             {
                 table.PrimaryKey("PK_Users", x => x.Username);
             });
+
+            migrationBuilder.CreateTable(
+            name: "Tickets",
+            columns: table => new
+            {
+                TicketRef = table.Column<string>(nullable: false),
+                NameSeller = table.Column<string>(nullable: true),
+                Recipe = table.Column<double>(nullable: true),
+                Discount = table.Column<double>(nullable: true),
+                PaymentMethod = table.Column<string>(nullable: true),
+                CreationDate = table.Column<DateTime>(nullable: true)
+            },
+            constraints: table =>
+            {
+                table.PrimaryKey("PK_Tickets", x => x.TicketRef);
+            });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -42,6 +59,9 @@ namespace DataLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Tickets");
         }
     }
 }

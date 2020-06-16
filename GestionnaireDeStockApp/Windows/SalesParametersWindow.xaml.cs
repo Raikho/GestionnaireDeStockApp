@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace GestionnaireDeStockApp
 {
@@ -52,8 +46,6 @@ namespace GestionnaireDeStockApp
 
         private void QuantParamTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            QuantParamTxtBox.Text = string.Empty;
-
             QuantParamTxtBox.Foreground = new SolidColorBrush(Colors.Black);
             QuantParamTxtBox.GotFocus += QuantParamTxtBox_GotFocus;
         }
@@ -98,6 +90,22 @@ namespace GestionnaireDeStockApp
             }
         }
 
+        private void QuantParamTxtBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            SelectContentOnFocus(QuantParamTxtBox);
+        }
+
+        private void QuantParamTxtBox_GotMouseCapture(object sender, MouseEventArgs e)
+        {
+            SelectContentOnFocus(QuantParamTxtBox);
+        }
+
+        private void SelectContentOnFocus(TextBox textBox)
+        {
+            if (textBox.Text != null)
+                textBox.SelectAll();
+        }
+
         private void SetAParamPack()
         {
             Quantity = 0;
@@ -108,6 +116,9 @@ namespace GestionnaireDeStockApp
             SetPourcentDiscountParamater();
             SetDiscountParameter();
             SalesManagementPage.CalculateTheTicketPrice();
+            SalesManagementPage.LoadDataBaseProducts();
+            if (Quantity != 0)
+                Close();
         }
 
         private double SetQuantityParameter()

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -13,8 +11,11 @@ namespace GestionnaireDeStockApp
     {
         public static LoginWindow loginWindow { get; set; }
 
+        static MainWindow mainWindow;
         public MainWindow()
         {
+            mainWindow = this;
+
             InitializeComponent();
 
             LeftMenu.IsEnabled = false;
@@ -32,11 +33,15 @@ namespace GestionnaireDeStockApp
             if (LeftMenu.IsEnabled == true)
             {
                 ShowAllItems();
-
-                WelcomeTxtBlock.Foreground = new SolidColorBrush(Colors.GreenYellow);
-                WelcomeTxtBlock.Text = $"{LoginWindow.Username} est connecté";
+                ShowCurrentUserName(LoginWindow.Username);
                 MainFrame.Content = new ArticlesListManagementPage();
             }
+        }
+
+        public static void ShowCurrentUserName(string name)
+        {
+            mainWindow.WelcomeTxtBlock.Foreground = new SolidColorBrush(Colors.GreenYellow);
+            mainWindow.WelcomeTxtBlock.Text = $"{name} est connecté";
         }
 
         private void TopGridBar_MouseDown(object sender, MouseButtonEventArgs e)
@@ -122,9 +127,9 @@ namespace GestionnaireDeStockApp
                     }
                 }
                 else
-                MessageBox.Show("Veuillez vous connecter.");
+                    MessageBox.Show("Veuillez vous connecter.");
             }
-            else 
+            else
             {
                 if (e.Key == Key.Escape)
                 {

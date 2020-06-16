@@ -55,7 +55,7 @@ namespace GestionnaireDeStockApp
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
             AccountCreationWindow accountCreationWindow = new AccountCreationWindow();
-            accountCreationWindow.Show();
+            accountCreationWindow.ShowDialog();
             Close();
         }
 
@@ -103,6 +103,7 @@ namespace GestionnaireDeStockApp
                         MessageBox.Show("Connexion réussie.");
                         CurrentUser = newUserConnectionTry;
                         Username = CurrentUser.Username;
+                        MainWindow.ShowCurrentUserName(Username);
                         Close();
                     }
                     else

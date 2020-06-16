@@ -27,7 +27,7 @@
         </Grid>
 
         <StackPanel Margin="490,0,315,0" VerticalAlignment="Center" Grid.ColumnSpan="2">
-            <Border Height="450" VerticalAlignment="Center" Background="LightBlue" CornerRadius="50" Width="4"/>
+            <Border Height="450" VerticalAlignment="Center" Background="LightCyan" CornerRadius="50" Width="3"/>
         </StackPanel>
 
         <StackPanel Margin="50,50,0,454" HorizontalAlignment="Left" Orientation="Vertical" Width="210">
@@ -56,66 +56,82 @@
             </StackPanel>
         </StackPanel>
 
-        <StackPanel HorizontalAlignment="Center" Width="400" Margin="0,110,0,50">
-            <DataGrid x:Name="ArticleToSellDataGrid">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Référence"
+        <StackPanel HorizontalAlignment="Center" Width="470" Margin="0,110,0,50">
+            <ScrollViewer Height="395" Width="415" VerticalScrollBarVisibility="Auto">
+                <DataGrid x:Name="ArticleToSellDataGrid" Height="395" Width="415">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Référence"
                                         Width="110"
                                         Binding="{Binding Path=Reference}"/>
-                    <DataGridTextColumn Header="Nom"
+                        <DataGridTextColumn Header="Nom"
                                         Width="110"
                                         Binding="{Binding Path=Name}"/>
-                    <DataGridTextColumn Header="Prix"
+                        <DataGridTextColumn Header="Prix"
                                         Width="57"
                                         Binding="{Binding Path=Price}"/>
-                    <DataGridTextColumn Header="Quantité"
+                        <DataGridTextColumn Header="Quantité"
                                         Width="57"
                                         Binding="{Binding Path=Quantity}"/>
-                    <DataGridTemplateColumn Width="57.9">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button x:Name="EditAnArticleButton"
+                        <DataGridTemplateColumn Width="57.9">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button x:Name="EditAnArticleButton"
                                         Content="Ajouter"
                                         Width="50"
                                         Click="AddToSell_Click"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </ScrollViewer>
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Margin="0,50,0,479">
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,10">
+            <Button x:Name="RefreshButton" 
+                        Content="{materialDesign:PackIcon Kind=RefreshCircle, Size=25}" 
+                        Width="30" 
+                        Height="30" 
+                        BorderBrush="Transparent" 
+                        Background="Transparent" 
+                        Foreground="White" 
+                        Click="RefreshButton_Click"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Margin="0,10,0,519">
             <TextBlock Text="Ticket" 
                        Width="100" 
                        Foreground="White" 
                        TextAlignment="Center" 
-                       HorizontalAlignment="Center" 
                        FontSize="18" 
                        FontFamily="Leelawadee UI Semilight"/>
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Margin="0,70,0,50" Height="395">
+        <StackPanel Grid.Column="1" Margin="0,20,0,1">
 
-            <Grid>
-                <Grid>
+            <Grid Height="423">
+                <Grid Margin="0,0,0,-12">
                     <Rectangle Grid.RowSpan="3" 
-                                   Margin="0,0,0,0" 
-                                   Height="395" 
+                                   Margin="0,19,0,-29" 
                                    Fill="White" 
-                                   RadiusX="20" 
-                                   RadiusY="20" 
+                                   RadiusX="0" 
+                                   RadiusY="0" 
                                    Width="290" 
-                                   HorizontalAlignment="Center"/>
+                                   HorizontalAlignment="Center">
+                        <Rectangle.BitmapEffect>
+                            <DropShadowBitmapEffect Color="Gray"/>
+                        </Rectangle.BitmapEffect>
+                    </Rectangle>
+
                     <Grid.RowDefinitions>
                         <RowDefinition Height="100"/>
                         <RowDefinition Height="200"/>
                         <RowDefinition Height="95"/>
                     </Grid.RowDefinitions>
                 </Grid>
-                <StackPanel Grid.Row="0" Margin="30,0,30,302">
+                <StackPanel Grid.Row="0" Margin="30,10,30,275">
                     <StackPanel>
-                        <TextBlock Margin="0,15,0,0" 
+                        <TextBlock Margin="0,30,0,0" 
                                        Text="Magasin La Belle Vie" 
                                        Width="220" 
                                        TextAlignment="Center" 
@@ -139,7 +155,7 @@
 
                     <StackPanel Orientation="Horizontal">
                         <TextBlock  x:Name="SellerNameTxtBox"
-                                    Margin="0,10,0,0" 
+                                    Margin="0,20,0,0" 
                                     Width="110" 
                                     TextAlignment="Left" 
                                     HorizontalAlignment="Left" 
@@ -160,7 +176,7 @@
                     </StackPanel>
                 </StackPanel>
 
-                <StackPanel Orientation="Vertical" Margin="18,105,0,95">
+                <StackPanel Orientation="Vertical" Margin="18,150,0,79">
 
                     <StackPanel Height="15" Orientation="Horizontal">
                         <TextBlock Text="Produit" 
@@ -189,35 +205,35 @@
                     </Border>
 
                     <Grid Height="180">
-                        <ScrollViewer Height="180" VerticalScrollBarVisibility="Auto">
-                            <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="20,0,5,5" Height="175">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,0,0,10">
+                            <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="20,0,5,5" Height="160">
                                 <TextBlock x:Name="NameTxtBlock"
                                            Foreground="Black"
                                            Grid.Column="0" 
                                            Margin="2,5,5,5" 
                                            Width="100" 
-                                           Height="165"/>
+                                           Height="155"/>
 
                                 <TextBlock x:Name="PriceTxtBlock"
                                            TextAlignment="Center"
                                            Foreground="Black"
                                            Margin="6,0,0,0" 
                                            Width="22" 
-                                           Height="165"/>
+                                           Height="160"/>
 
                                 <TextBlock x:Name="QuantTxtBlock"
                                            TextAlignment="Center"
                                            Foreground="Black"
                                            Margin="12,0,0,0" 
                                            Width="37" 
-                                           Height="165"/>
+                                           Height="160"/>
 
                                 <TextBlock x:Name="SubTotalTxtBlock"
                                            TextAlignment="Right"
                                            Foreground="Black"
                                            Margin="13,0,0,0" 
                                            Width="49" 
-                                           Height="165"/>
+                                           Height="160"/>
                             </StackPanel>
                         </ScrollViewer>
 
@@ -227,22 +243,167 @@
                             Background="Black" 
                             Width="260" 
                             Opacity="0.5" 
-                            Margin="0,0,20,0" 
+                            Margin="0,-25,20,0" 
                             Height="2">
                     </Border>
                 </StackPanel>
 
-                <StackPanel Margin="20,319,20,20">
-                    <Grid Height="70">
+                <StackPanel Margin="20,335,20,-12">
+                    <Grid Height="71">
                         <TextBlock  Text="TOTAL" 
-                                    Margin="20,0,170,20"/>
+                                    Margin="20,0,170,45"/>
+                        <TextBlock  Text="Reste à payer" 
+                                    Margin="20,16,170,30" 
+                                    FontSize="10"/>
 
                         <TextBlock  x:Name="TotalTxtBlock"
                                     TextAlignment="Right"
-                                    Margin="175,0,19,20"/>
+                                    Margin="140,0,19,40"/>
+                        <TextBlock  x:Name="RestToPayTxtBlock"
+                                    Margin="142,16,19,30" 
+                                    TextAlignment="Right"
+                                    FontSize="10"/>
+
+                        <TextBlock  x:Name="PaymentTxtBlock"
+                                    TextAlignment="Right"
+                                    Margin="140,30,19,-15"
+                                    FontSize="10"/>
+                        <TextBlock  x:Name="PaymentMethodTxtBlock"
+                                    TextAlignment="Left"
+                                    Margin="20,30,149,-15"
+                                    FontSize="10"/>
                     </Grid>
                 </StackPanel>
             </Grid>
+
+            <StackPanel Orientation="Horizontal" Width="290" Margin="0,10,0,0">
+                <Button x:Name="CBButton"
+                        Margin="0,0,0,0" 
+                        Content="{materialDesign:PackIcon Kind=Payment, Size=35}"
+                        ToolTip="Paiement CB"
+                        Foreground="White" 
+                        Background="SlateGray" 
+                        BorderBrush="White" 
+                        Width="50" 
+                        Height="40"
+                        Click="CBButton_Click">
+                    <Button.Effect>
+                        <DropShadowEffect 
+                            BlurRadius="10" 
+                            ShadowDepth="5" 
+                            Color="Gray"/>
+                    </Button.Effect>
+                </Button>
+
+                <Button x:Name="MoneyButton"
+                        Margin="10,0,0,0" 
+                        Content="{materialDesign:PackIcon Kind=Coin, Size=35}" 
+                        ToolTip="Paiement espèces"
+                        Foreground="White" 
+                        Background="SlateGray" 
+                        BorderBrush="White" 
+                        Width="50" 
+                        Height="40"
+                        Click="MoneyButton_Click">
+                    <Button.Effect>
+                        <DropShadowEffect BlurRadius="10" 
+                                          ShadowDepth="5" 
+                                          Color="Gray"/>
+                    </Button.Effect>
+                </Button>
+
+                <Button x:Name="ChequeButton"
+                        Margin="10,0,0,0" 
+                        Content="{materialDesign:PackIcon Kind=ChequeBook, Size=35}"
+                        ToolTip="Paiement chèque"
+                        FontSize="14" 
+                        Foreground="White" 
+                        Background="SlateGray" 
+                        BorderBrush="White" 
+                        Width="50" 
+                        Height="40" 
+                        FontWeight="Bold" 
+                        FontFamily="Leelawadee UI Semilight"
+                        Click="ChequeButton_Click">
+                    <Button.Effect>
+                        <DropShadowEffect BlurRadius="10" ShadowDepth="5" Color="Gray"/>
+                    </Button.Effect>
+                </Button>
+
+                <Button x:Name="PresentChqButton"
+                        Margin="10,0,0,0" 
+                        Content="{materialDesign:PackIcon Kind=Present, Size=35}"
+                        ToolTip="Paiement chèque cadeau"
+                        FontSize="14" 
+                        Foreground="White" 
+                        Background="SlateGray" 
+                        BorderBrush="White" 
+                        Width="50" 
+                        Height="40" 
+                        FontWeight="Bold" 
+                        FontFamily="Leelawadee UI Semilight"
+                        Click="PresentChqButton_Click">
+                    <Button.Effect>
+                        <DropShadowEffect BlurRadius="10" ShadowDepth="5" Color="Gray"/>
+                    </Button.Effect>
+                </Button>
+
+                <Button x:Name="OtherPaymentButton"
+                        Margin="10,0,0,0" 
+                        Content="AUTRE" 
+                        FontSize="14" 
+                        Foreground="White" 
+                        Background="SlateGray" 
+                        BorderBrush="White" 
+                        Width="50" 
+                        Height="40" 
+                        FontWeight="Bold" 
+                        FontFamily="Leelawadee UI Semilight"
+                        Click="OtherPaymentButton_Click">
+                    <Button.Effect>
+                        <DropShadowEffect BlurRadius="10" ShadowDepth="5" Color="Gray"/>
+                    </Button.Effect>
+                </Button>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Width="290" Margin="0,10,0,0">
+                <Button x:Name="CancelPaymentButton"
+                        Content="Annuler le ticket" 
+                        ToolTip="Valider l'encaissement"
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Bottom"
+                        Foreground="White" 
+                        Background="DarkRed" 
+                        BorderBrush="White" 
+                        Width="80" 
+                        Height="30" 
+                        FontWeight="Bold" 
+                        FontFamily="Leelawadee UI Semilight" 
+                        FontSize="11"
+                        Click="CancelPaymentButton_Click">
+                    <Button.Effect>
+                        <DropShadowEffect BlurRadius="10" ShadowDepth="5" Color="Gray"/>
+                    </Button.Effect>
+                </Button>
+                <Button x:Name="PaymentButton"
+                        Margin="110,0,0,0"
+                        Content="ENCAISSEMENT" 
+                        ToolTip="Valider l'encaissement"
+                        HorizontalAlignment="Right" 
+                        Foreground="White" 
+                        Background="DarkGreen" 
+                        BorderBrush="White" 
+                        Width="100" 
+                        Height="40" 
+                        FontWeight="Bold" 
+                        FontFamily="Leelawadee UI Semilight" 
+                        FontSize="13"
+                        Click="PaymentButton_Click">
+                    <Button.Effect>
+                        <DropShadowEffect BlurRadius="10" ShadowDepth="5" Color="Gray"/>
+                    </Button.Effect>
+                </Button>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Page>

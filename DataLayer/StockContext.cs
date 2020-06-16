@@ -8,6 +8,8 @@ namespace DataLayer
 
         public DbSet<Product> Products { get; set; }
 
+        public DbSet<Ticket> Tickets { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=StockDB;Integrated Security=True;");
