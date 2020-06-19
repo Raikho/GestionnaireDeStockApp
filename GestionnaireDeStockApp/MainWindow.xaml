@@ -6,14 +6,28 @@
         xmlns:local="clr-namespace:GestionnaireDeStockApp"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d" 
-        Height="600" Width="1024" ResizeMode="NoResize" 
-        WindowStartupLocation="CenterScreen" WindowStyle="None"
-        AllowsTransparency="True" Background="Transparent"
-        Title="Gestionnaire de stock 1.0" KeyDown="Window_KeyDown">
-    
-    <Grid Background="#FFCFCFCF">
+        Title="Gestionnaire de stock 1.0" Height="1080" Width="1920"  MinHeight="550" MinWidth="830"
+        WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="CanResizeWithGrip"
+        AllowsTransparency="True" Background="Transparent" KeyDown="Window_KeyDown" VerticalAlignment="Stretch">
+
+    <Window.Resources>
+        <Storyboard x:Key="CloseMenu">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Grid.Width)" Storyboard.TargetName="Menu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="200"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="70"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="OpenMenu">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Grid.Width)" Storyboard.TargetName="Menu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="70"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="200"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Window.Resources>
+
+    <Grid Background="#FFCFCFCF" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -30,7 +44,7 @@
             </Grid.Background>
 
             <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Width="280" Height="30">
-                <TextBlock x:Name="WelcomeTxtBlock" 
+                <TextBlock x:Name="SuggestToConnect"
                            Text="Veuillez vous connecter à votre session" 
                            Foreground="White" 
                            FontSize="10" 
@@ -86,61 +100,77 @@
             </StackPanel>
         </Grid>
 
-        <Grid Grid.Row="1">
-            <Grid.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="LightGray" Offset="1"/>
-                    <GradientStop Color="#FFE6E6E6" Offset="0"/>
-                </LinearGradientBrush>
-            </Grid.Background>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="100"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.Effect>
-                <DropShadowEffect BlurRadius="20" 
+        <Grid x:Name="Menu" Width="200" Grid.Row="1" RenderTransformOrigin="0.5,0.5">
+            <StackPanel Name="LeftMenu" Grid.Row="1" RenderTransformOrigin="0.5,0.5">
+                <StackPanel.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="LightGray" Offset="1"/>
+                        <GradientStop Color="#FFE6E6E6" Offset="0"/>
+                    </LinearGradientBrush>
+                </StackPanel.Background>
+
+                <StackPanel.Effect>
+                    <DropShadowEffect BlurRadius="20" 
                                   Color="#FFDEDEDE" 
                                   RenderingBias="Quality" 
                                   ShadowDepth="1"/>
-            </Grid.Effect>
+                </StackPanel.Effect>
 
-            <Grid>
-                <Grid.Background>
-                    <LinearGradientBrush EndPoint="1.9,0" StartPoint="0.0,2">
-                        <GradientStop Color="#FF2D8893" Offset="0"/>
-                        <GradientStop Color="#FF8522BD" Offset="1"/>
-                    </LinearGradientBrush>
-                </Grid.Background>
-                <TextBlock Text="DASHBOARD" 
+                <Grid Height="100">
+                    <Grid.Background>
+                        <LinearGradientBrush EndPoint="1.9,0" StartPoint="0.0,2">
+                            <GradientStop Color="#FF2D8893" Offset="0"/>
+                            <GradientStop Color="#FF8522BD" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Grid.Background>
+                    <TextBlock Text="DASHBOARD" 
                            FontFamily="WS Simple Gallifreyan" 
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center" 
                            FontSize="16" 
                            Foreground="White"/>
-            </Grid>
+                </Grid>
 
-            <StackPanel Name="LeftMenu" Grid.Row="1">
+                <Button x:Name="Button"
+                        Margin="0,10,10,30" 
+                        Content="{materialDesign:PackIcon Kind=Menu,Size=15}"
+                        ToolTip="Paiement CB"
+                        Foreground="White" 
+                        BorderBrush="#FF4C63A2" 
+                        Width="20" 
+                        Height="20"
+                        HorizontalAlignment="Right"
+                        Click="Button_Click">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="1.9,0" StartPoint="0.0,4">
+                            <GradientStop Color="#FF2D8893"/>
+                            <GradientStop Color="#FF4C63A2" Offset="0.361"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+
+                </Button>
+
                 <Button Style="{StaticResource CustomMainButton}" 
                         x:Name="ShowArticleListManagement" 
                         Click="ShowArticleListManagement_Click" 
                         Margin="10" 
                         BorderBrush="#FF8522BD" 
                         Height="35">
-                    
+
                     <Button.Background>
                         <LinearGradientBrush EndPoint="1.9,0" StartPoint="0.0,4">
                             <GradientStop Color="#FF2D8893"/>
                             <GradientStop Color="#FF8522BD" Offset="1"/>
                         </LinearGradientBrush>
                     </Button.Background>
-                    
+
                     <Grid Width="200">
                         <materialDesign:PackIcon Kind="Number1BoxMultipleOutline" 
                                                  Foreground="White" 
                                                  VerticalAlignment="Center" 
                                                  Width="40" 
                                                  Margin="-5"/>
-                        
+
                         <TextBlock HorizontalAlignment="Center" 
                                    Text="GESTION DE STOCK" 
                                    Foreground="White" FontWeight="Bold" 
@@ -156,24 +186,24 @@
                         BorderBrush="#FF8522BD" 
                         Height="35"
                         Click="SellAnArticle_Click">
-                    
+
                     <Button.Background>
                         <LinearGradientBrush EndPoint="1.9,0" StartPoint="0.0,4">
                             <GradientStop Color="#FF2D8893"/>
                             <GradientStop Color="#FF8522BD" Offset="1"/>
                         </LinearGradientBrush>
                     </Button.Background>
-                    
+
                     <Grid Width="200">
-                        <materialDesign:PackIcon 
-                            Kind="Number2BoxMultipleOutline" 
-                            Foreground="White" 
-                            VerticalAlignment="Center" 
-                            Width="40" 
-                            Margin="-5"/>
-                        
+                        <materialDesign:PackIcon Kind="Number2BoxMultipleOutline" 
+                                                 Foreground="White" 
+                                                 VerticalAlignment="Center" 
+                                                 Width="40" 
+                                                 Margin="-5"/>
+
                         <TextBlock HorizontalAlignment="Center" 
-                                   Text="VENTE" Foreground="White" 
+                                   Text="VENTE" 
+                                   Foreground="White" 
                                    FontWeight="Bold" 
                                    VerticalAlignment="Center" 
                                    FontFamily="Champagne &amp; Limousines" 
@@ -186,20 +216,21 @@
                         Margin="10" 
                         BorderBrush="#FF8522BD" 
                         Height="35">
-                    
+
                     <Button.Background>
                         <LinearGradientBrush EndPoint="1.9,0" StartPoint="0.0,4">
                             <GradientStop Color="#FF2D8893"/>
                             <GradientStop Color="#FF8522BD" Offset="1"/>
                         </LinearGradientBrush>
                     </Button.Background>
-                    
+
                     <Grid Width="200">
                         <materialDesign:PackIcon Kind="Number3BoxMultipleOutline" 
-                                                 Foreground="White" VerticalAlignment="Center" 
+                                                 Foreground="White" 
+                                                 VerticalAlignment="Center" 
                                                  Width="40" 
                                                  Margin="-5"/>
-                        
+
                         <TextBlock HorizontalAlignment="Center" 
                                    Text="INVENTAIRE" 
                                    Foreground="White" 
@@ -209,11 +240,82 @@
                                    FontSize="12"/>
                     </Grid>
                 </Button>
+
+                <Button Style="{StaticResource CustomMainButton}" 
+                        x:Name="DashboardButton" Click="DashBoardButton_Click" 
+                        Margin="10" 
+                        BorderBrush="#FF8522BD" 
+                        Height="35">
+
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="1.9,0" StartPoint="0.0,4">
+                            <GradientStop Color="#FF2D8893"/>
+                            <GradientStop Color="#FF8522BD" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+
+                    <Grid Width="200">
+                        <materialDesign:PackIcon Kind="Number4BoxMultipleOutline" 
+                                                 Foreground="White" 
+                                                 VerticalAlignment="Center" 
+                                                 Width="40" 
+                                                 Margin="-5"/>
+
+                        <TextBlock HorizontalAlignment="Center" 
+                                   Text="DASHBOARD" 
+                                   Foreground="White" 
+                                   FontWeight="Bold" 
+                                   VerticalAlignment="Center" 
+                                   FontFamily="Champagne &amp; Limousines" 
+                                   FontSize="12"/>
+                    </Grid>
+                </Button>
             </StackPanel>
+
+            <Grid Height="55" VerticalAlignment="Bottom">
+                <Grid.Background>
+                    <LinearGradientBrush EndPoint="1.9,0" StartPoint="0.0,2">
+                        <GradientStop Color="#FF2D8893" Offset="0"/>
+                        <GradientStop Color="#FF8522BD" Offset="1"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
+
+                <materialDesign:PackIcon Kind="User" 
+                                         Foreground="White" 
+                                         VerticalAlignment="Center" 
+                                         Width="45" Height="30"/>
+
+                <TextBlock x:Name="WelcomeTxtBlock"
+                           Text="Raikho"
+                           TextAlignment="Center"
+                           FontFamily="Arial Black" 
+                           HorizontalAlignment="Center" 
+                           VerticalAlignment="Center" 
+                           FontSize="16" 
+                           Foreground="White" Width="100" Height="20"/>
+
+                <materialDesign:PackIcon x:Name="ConnectedCircle"
+                                         Kind="Circle" 
+                                         Foreground="White" 
+                                         VerticalAlignment="Center" 
+                                         Width="10" 
+                                         Margin="170,0,0,0" Height="10"/>
+
+            </Grid>
         </Grid>
 
-        <Grid Grid.Column="1" Grid.Row="2" Background="#FFB6B6B6" Name="GridView" Height="570" Width="824" VerticalAlignment="Center">
-            <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
+        <Grid Grid.Column="1" Grid.Row="1" Name="GridView" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Grid Grid.ColumnSpan="3">
+                <Border>
+                    <Border.Background>
+                        <LinearGradientBrush>
+                            <GradientStop Color="#FF2D8893" Offset="0"/>
+                            <GradientStop Color="#FF8938B9" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
+            </Grid>
+            <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
         </Grid>
     </Grid>
 </Window>

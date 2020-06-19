@@ -95,6 +95,13 @@
                 <Border HorizontalAlignment="Center" Background="White" Width="200" Height="2" Opacity="0.5"/>
             </StackPanel>
 
+            <StackPanel Margin="70,64,70,116" Grid.Row="1">
+                <TextBlock x:Name="LoginTxtBlockInfo"
+                           TextAlignment="Center"
+                           Foreground="White"
+                           Height="20"/>
+            </StackPanel>
+            
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="60,110,60,40">
                 <Button Style="{StaticResource CustomButton}" 
                         x:Name="ConnexionButton" 

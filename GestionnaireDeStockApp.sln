@@ -4,12 +4,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestionnaireDeStockApp", "GestionnaireDeStockApp\GestionnaireDeStockApp.csproj", "{8046BB1C-024A-44BC-9827-BFA5731CBAC5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CAD2A772-9E56-47A2-B835-28F58D2A0755} = {CAD2A772-9E56-47A2-B835-28F58D2A0755}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\DataLayer.csproj", "{0DC855B7-B673-4135-A837-BA69A491AEFC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi\WebApi.csproj", "{2F03145E-E93F-4D45-8365-A942ECFF2372}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{CAD2A772-9E56-47A2-B835-28F58D2A0755}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0DC855B7-B673-4135-A837-BA69A491AEFC} = {0DC855B7-B673-4135-A837-BA69A491AEFC}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

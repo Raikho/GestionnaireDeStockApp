@@ -6,46 +6,25 @@
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:local="clr-namespace:GestionnaireDeStockApp"
       mc:Ignorable="d" 
-      d:DesignHeight="554.04" d:DesignWidth="824"
+      MaxHeight="1080" MaxWidth="1920" MinHeight="400" MinWidth="700" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
       Title="SalesManagementPage">
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="500"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Grid Height="900" Width="900" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <StackPanel Margin="0,0,480,0">
+                <StackPanel>
+                    <StackPanel Orientation="Vertical" Height="20" Width="420">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox x:Name="SearchAnArticleToSellTxtBox"
+                             Text="Recherche..."
+                             Foreground="DarkGray"
+                             Width="120" 
+                             Background="Transparent"
+                             BorderBrush="CadetBlue"
+                             GotFocus="SearchAnArticleToSellTxtBox_GotFocus"
+                             KeyDown="SearchAnArticle_KeyDown"/>
 
-        <Grid Grid.ColumnSpan="2">
-            <Border>
-                <Border.Background>
-                    <LinearGradientBrush>
-                        <GradientStop Color="#FF2D8893" Offset="0"/>
-                        <GradientStop Color="#FF8938B9" Offset="1"/>
-                    </LinearGradientBrush>
-                </Border.Background>
-            </Border>
-        </Grid>
-
-        <StackPanel Margin="490,0,315,0" VerticalAlignment="Center" Grid.ColumnSpan="2">
-            <Border Height="450" VerticalAlignment="Center" Background="LightCyan" CornerRadius="50" Width="3"/>
-        </StackPanel>
-
-        <StackPanel Margin="50,50,0,454" HorizontalAlignment="Left" Orientation="Vertical" Width="210">
-            <TextBlock Text="Recherche article:" 
-                       Width="100" 
-                       Foreground="White" 
-                       HorizontalAlignment="Left" 
-                       FontFamily="Leelawadee UI Semilight"/>
-
-            <Border Height="5" Background="Transparent"/>
-
-            <StackPanel Width="130" Orientation="Horizontal">
-                <TextBox x:Name="SearchAnArticleToSellTxtBox" 
-                         Width="110" 
-                         HorizontalAlignment="Right"
-                         KeyDown="SearchAnArticle_KeyDown"/>
-
-                <Button x:Name="SearchButton" 
+                            <Button x:Name="SearchButton" 
                             Width="20" 
                             Height="20" 
                             Content="{materialDesign:PackIcon Kind=Search}"
@@ -53,231 +32,255 @@
                             Foreground="White"
                             BorderBrush="Transparent"
                             Click="SearchButton_Click"/>
-            </StackPanel>
-        </StackPanel>
+                        </StackPanel>
 
-        <StackPanel HorizontalAlignment="Center" Width="470" Margin="0,110,0,50">
-            <ScrollViewer Height="395" Width="415" VerticalScrollBarVisibility="Auto">
-                <DataGrid x:Name="ArticleToSellDataGrid" Height="395" Width="415">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Référence"
-                                        Width="110"
-                                        Binding="{Binding Path=Reference}"/>
-                        <DataGridTextColumn Header="Nom"
-                                        Width="110"
-                                        Binding="{Binding Path=Name}"/>
-                        <DataGridTextColumn Header="Prix"
-                                        Width="57"
-                                        Binding="{Binding Path=Price}"/>
-                        <DataGridTextColumn Header="Quantité"
-                                        Width="57"
-                                        Binding="{Binding Path=Quantity}"/>
-                        <DataGridTemplateColumn Width="57.9">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button x:Name="EditAnArticleButton"
+                        <StackPanel Orientation="Horizontal" Width="Auto">
+                            <Border HorizontalAlignment="Left" 
+                            Background="White" 
+                            Width="110" 
+                            Height="1" 
+                            Opacity="0.5"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Width="420" Height="880"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch">
+
+                        <DataGrid x:Name="ArticleToSellDataGrid"
+                      x:Uid="ArticleToSellDataGrid"
+                      AutoGenerateColumns="False"
+                      Background="Transparent" 
+                      AlternationCount="2" 
+                      SelectionMode="Single"
+                      Height="720">
+
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Référence"
+                                            Width="110"
+                                            Binding="{Binding Path=Reference}"/>
+                                <DataGridTextColumn Header="Nom"
+                                            Width="110"
+                                            Binding="{Binding Path=Name}"/>
+                                <DataGridTextColumn Header="Prix"
+                                            Width="57"
+                                            Binding="{Binding Path=Price}"/>
+                                <DataGridTextColumn Header="Quantité"
+                                            Width="57"
+                                            Binding="{Binding Path=Quantity}"/>
+                                <DataGridTemplateColumn Width="57.9">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button x:Name="EditAnArticleButton"
                                         Content="Ajouter"
                                         Width="50"
                                         Click="AddToSell_Click"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </ScrollViewer>
-        </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </StackPanel>
 
-        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,10">
-            <Button x:Name="RefreshButton" 
-                        Content="{materialDesign:PackIcon Kind=RefreshCircle, Size=25}" 
-                        Width="30" 
-                        Height="30" 
-                        BorderBrush="Transparent" 
-                        Background="Transparent" 
-                        Foreground="White" 
-                        Click="RefreshButton_Click"/>
-        </StackPanel>
+            </StackPanel>
 
-        <StackPanel Grid.Column="1" Margin="0,10,0,519">
-            <TextBlock Text="Ticket" 
+            <StackPanel Margin="425,0,465,0" VerticalAlignment="Center" Height="850" RenderTransformOrigin="0.5,0.5">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Border Height="800" Background="LightCyan" CornerRadius="50" Width="3"/>
+            </StackPanel>
+
+            <StackPanel Margin="425,0,150,875">
+                <TextBlock Text="Ticket" 
                        Width="100" 
                        Foreground="White" 
                        TextAlignment="Center" 
-                       FontSize="18" 
-                       FontFamily="Leelawadee UI Semilight"/>
-        </StackPanel>
+                       FontSize="16" 
+                           FontWeight="Bold"
+                       FontFamily="Leelawadee UI Semilight" Height="20"/>
+            </StackPanel>
 
-        <StackPanel Grid.Column="1" Margin="0,20,0,1">
-
-            <Grid Height="423">
-                <Grid Margin="0,0,0,-12">
-                    <Rectangle Grid.RowSpan="3" 
-                                   Margin="0,19,0,-29" 
+            <StackPanel Margin="425,0,150,60">
+                <Grid Height="720" Margin="0,10,0,0">
+                    <Grid Margin="0,0,0,10">
+                        <Rectangle Grid.RowSpan="3" 
+                                   Margin="0,10,0,-334" 
                                    Fill="White" 
                                    RadiusX="0" 
                                    RadiusY="0" 
                                    Width="290" 
                                    HorizontalAlignment="Center">
-                        <Rectangle.BitmapEffect>
-                            <DropShadowBitmapEffect Color="Gray"/>
-                        </Rectangle.BitmapEffect>
-                    </Rectangle>
+                            <Rectangle.BitmapEffect>
+                                <DropShadowBitmapEffect Color="Gray"/>
+                            </Rectangle.BitmapEffect>
+                        </Rectangle>
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="100"/>
-                        <RowDefinition Height="200"/>
-                        <RowDefinition Height="95"/>
-                    </Grid.RowDefinitions>
-                </Grid>
-                <StackPanel Grid.Row="0" Margin="30,10,30,275">
-                    <StackPanel>
-                        <TextBlock Margin="0,30,0,0" 
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100"/>
+                            <RowDefinition Height="200"/>
+                            <RowDefinition Height="95"/>
+                        </Grid.RowDefinitions>
+                    </Grid>
+                    <StackPanel Grid.Row="0" Margin="30,10,30,600">
+                        <StackPanel Height="100">
+                            <TextBlock Margin="0,30,0,0" 
                                        Text="Magasin La Belle Vie" 
-                                       Width="220" 
+                                       Width="270" 
                                        TextAlignment="Center" 
                                        HorizontalAlignment="Center" 
                                        FontFamily="Ink Free" 
                                        FontWeight="Bold" 
-                                       FontSize="14"/>
-                        <TextBlock Margin="0,0,0,0" 
+                                       FontSize="20"/>
+                            <TextBlock Margin="0,0,0,0" 
                                        Text="avenue du Capitole" 
                                        Width="220" 
                                        TextAlignment="Center" 
                                        HorizontalAlignment="Center" 
-                                       FontSize="10"/>
-                        <TextBlock Margin="0,0,0,0" 
+                                       FontSize="13"/>
+                            <TextBlock Margin="0,0,0,0" 
                                        Text="03200 Vichy" 
                                        Width="220" 
                                        TextAlignment="Center" 
                                        HorizontalAlignment="Center" 
-                                       FontSize="10"/>
-                    </StackPanel>
+                                       FontSize="13"/>
+                        </StackPanel>
 
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock  x:Name="SellerNameTxtBox"
+                        <StackPanel Orientation="Horizontal" Height="46" Width="260">
+                            <TextBlock  x:Name="SellerNameTxtBox"
                                     Margin="0,20,0,0" 
                                     Width="110" 
                                     TextAlignment="Left" 
-                                    HorizontalAlignment="Left" 
-                                    FontSize="10"/>
-                    </StackPanel>
+                                    HorizontalAlignment="Left" FontSize="11"/>
+                        </StackPanel>
 
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock  x:Name="TicketNumTxtBox"
+                        <StackPanel Orientation="Horizontal" Height="41" Width="260">
+                            <TextBlock  x:Name="TicketNumTxtBox"
                                     Margin="0,0,0,0" 
                                     Width="130" 
-                                    TextAlignment="Left" 
-                                    FontSize="10"/>
-                        <TextBlock  x:Name="DateTxtBox"
-                                    Margin="40,0,0,0" 
-                                    Width="90" 
-                                    TextAlignment="Right" 
-                                    FontSize="10"/>
+                                    TextAlignment="Left" FontSize="11"/>
+                            <TextBlock  x:Name="DateTxtBox"
+                                    Margin="19,0,0,0" 
+                                    Width="110" 
+                                    TextAlignment="Right" FontSize="11"/>
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
 
-                <StackPanel Orientation="Vertical" Margin="18,150,0,79">
+                    <StackPanel Orientation="Vertical" Margin="18,210,0,49">
 
-                    <StackPanel Height="15" Orientation="Horizontal">
-                        <TextBlock Text="Produit" 
+                        <StackPanel Height="15" Orientation="Horizontal" Width="305">
+                            <TextBlock Text="Produit" 
                                            FontSize="11"
                                            Margin="20,0,0,0"
                                            Height="20"/>
-                        <TextBlock Text="Prix(€)"
+                            <TextBlock Text="Prix(€)"
                                            FontSize="11" 
                                            Margin="73,0,0,0" 
                                            Height="20"/>
-                        <TextBlock Text="Quantité"
+                            <TextBlock Text="Quantité"
                                            FontSize="11" 
                                            Margin="5,0,0,0"
                                            Height="20"/>
-                        <TextBlock Text="Sous-total" 
+                            <TextBlock Text="Sous-total" 
                                            FontSize="11" 
                                            Margin="10,0,0,0" 
                                            Height="20"/>
-                    </StackPanel>
-                    <Border HorizontalAlignment="Center" 
+                        </StackPanel>
+                        <Border HorizontalAlignment="Center" 
                             Background="Black" 
                             Width="260" 
                             Opacity="0.5" 
                             Margin="0,0,20,0" 
                             Height="2">
-                    </Border>
+                        </Border>
 
-                    <Grid Height="180">
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,0,0,10">
-                            <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="20,0,5,5" Height="160">
+                        <Grid Height="300" Width="306">
+                            <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="20,0,5,5" Height="300" Width="285">
                                 <TextBlock x:Name="NameTxtBlock"
                                            Foreground="Black"
                                            Grid.Column="0" 
                                            Margin="2,5,5,5" 
                                            Width="100" 
-                                           Height="155"/>
+                                           Height="280"/>
 
                                 <TextBlock x:Name="PriceTxtBlock"
                                            TextAlignment="Center"
                                            Foreground="Black"
                                            Margin="6,0,0,0" 
                                            Width="22" 
-                                           Height="160"/>
+                                           Height="280"/>
 
                                 <TextBlock x:Name="QuantTxtBlock"
                                            TextAlignment="Center"
                                            Foreground="Black"
                                            Margin="12,0,0,0" 
                                            Width="37" 
-                                           Height="160"/>
+                                           Height="280"/>
 
                                 <TextBlock x:Name="SubTotalTxtBlock"
                                            TextAlignment="Right"
                                            Foreground="Black"
                                            Margin="13,0,0,0" 
                                            Width="49" 
-                                           Height="160"/>
+                                           Height="280"/>
                             </StackPanel>
-                        </ScrollViewer>
+                        </Grid>
 
-                    </Grid>
-
-                    <Border HorizontalAlignment="Center" 
+                        <Border HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
                             Background="Black" 
                             Width="260" 
                             Opacity="0.5" 
                             Margin="0,-25,20,0" 
                             Height="2">
-                    </Border>
-                </StackPanel>
+                        </Border>
+                    </StackPanel>
 
-                <StackPanel Margin="20,335,20,-12">
-                    <Grid Height="71">
-                        <TextBlock  Text="TOTAL" 
-                                    Margin="20,0,170,45"/>
-                        <TextBlock  Text="Reste à payer" 
-                                    Margin="20,16,170,30" 
-                                    FontSize="10"/>
+                    <StackPanel Margin="20,530,20,0" RenderTransformOrigin="0.5,0.5">
+                        <StackPanel.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="1"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </StackPanel.RenderTransform>
+                        <Grid Height="71">
+                            <TextBlock  Text="TOTAL" 
+                                    Margin="20,0,170,45"
+                                    FontSize="17"/>
+                            <TextBlock  Text="Reste à payer" 
+                                    Margin="20,27,170,19" 
+                                    FontSize="13"/>
 
-                        <TextBlock  x:Name="TotalTxtBlock"
+                            <TextBlock  x:Name="TotalTxtBlock"
                                     TextAlignment="Right"
-                                    Margin="140,0,19,40"/>
-                        <TextBlock  x:Name="RestToPayTxtBlock"
-                                    Margin="142,16,19,30" 
+                                    Margin="140,0,19,44" FontSize="17"/>
+                            <TextBlock  x:Name="RestToPayTxtBlock"
+                                    Margin="142,27,19,19" 
                                     TextAlignment="Right"
-                                    FontSize="10"/>
+                                    FontSize="13"/>
 
-                        <TextBlock  x:Name="PaymentTxtBlock"
+                            <TextBlock  x:Name="PaymentTxtBlock"
                                     TextAlignment="Right"
-                                    Margin="140,30,19,-15"
-                                    FontSize="10"/>
-                        <TextBlock  x:Name="PaymentMethodTxtBlock"
+                                    Margin="140,50,19,-104"
+                                    FontSize="13"/>
+                            <TextBlock  x:Name="PaymentMethodTxtBlock"
                                     TextAlignment="Left"
-                                    Margin="20,30,149,-15"
-                                    FontSize="10"/>
-                    </Grid>
-                </StackPanel>
-            </Grid>
+                                    Margin="20,50,150,-104"
+                                    FontSize="13"/>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
 
-            <StackPanel Orientation="Horizontal" Width="290" Margin="0,10,0,0">
-                <Button x:Name="CBButton"
+                <StackPanel Orientation="Horizontal" Width="290" Margin="0,10,0,0" Height="50">
+                    <Button x:Name="CBButton"
                         Margin="0,0,0,0" 
                         Content="{materialDesign:PackIcon Kind=Payment, Size=35}"
                         ToolTip="Paiement CB"
@@ -287,15 +290,15 @@
                         Width="50" 
                         Height="40"
                         Click="CBButton_Click">
-                    <Button.Effect>
-                        <DropShadowEffect 
+                        <Button.Effect>
+                            <DropShadowEffect 
                             BlurRadius="10" 
                             ShadowDepth="5" 
                             Color="Gray"/>
-                    </Button.Effect>
-                </Button>
+                        </Button.Effect>
+                    </Button>
 
-                <Button x:Name="MoneyButton"
+                    <Button x:Name="MoneyButton"
                         Margin="10,0,0,0" 
                         Content="{materialDesign:PackIcon Kind=Coin, Size=35}" 
                         ToolTip="Paiement espèces"
@@ -305,14 +308,14 @@
                         Width="50" 
                         Height="40"
                         Click="MoneyButton_Click">
-                    <Button.Effect>
-                        <DropShadowEffect BlurRadius="10" 
+                        <Button.Effect>
+                            <DropShadowEffect BlurRadius="10" 
                                           ShadowDepth="5" 
                                           Color="Gray"/>
-                    </Button.Effect>
-                </Button>
+                        </Button.Effect>
+                    </Button>
 
-                <Button x:Name="ChequeButton"
+                    <Button x:Name="ChequeButton"
                         Margin="10,0,0,0" 
                         Content="{materialDesign:PackIcon Kind=ChequeBook, Size=35}"
                         ToolTip="Paiement chèque"
@@ -325,12 +328,12 @@
                         FontWeight="Bold" 
                         FontFamily="Leelawadee UI Semilight"
                         Click="ChequeButton_Click">
-                    <Button.Effect>
-                        <DropShadowEffect BlurRadius="10" ShadowDepth="5" Color="Gray"/>
-                    </Button.Effect>
-                </Button>
+                        <Button.Effect>
+                            <DropShadowEffect BlurRadius="10" ShadowDepth="5" Color="Gray"/>
+                        </Button.Effect>
+                    </Button>
 
-                <Button x:Name="PresentChqButton"
+                    <Button x:Name="PresentChqButton"
                         Margin="10,0,0,0" 
                         Content="{materialDesign:PackIcon Kind=Present, Size=35}"
                         ToolTip="Paiement chèque cadeau"
@@ -343,12 +346,12 @@
                         FontWeight="Bold" 
                         FontFamily="Leelawadee UI Semilight"
                         Click="PresentChqButton_Click">
-                    <Button.Effect>
-                        <DropShadowEffect BlurRadius="10" ShadowDepth="5" Color="Gray"/>
-                    </Button.Effect>
-                </Button>
+                        <Button.Effect>
+                            <DropShadowEffect BlurRadius="10" ShadowDepth="5" Color="Gray"/>
+                        </Button.Effect>
+                    </Button>
 
-                <Button x:Name="OtherPaymentButton"
+                    <Button x:Name="OtherPaymentButton"
                         Margin="10,0,0,0" 
                         Content="AUTRE" 
                         FontSize="14" 
@@ -360,16 +363,15 @@
                         FontWeight="Bold" 
                         FontFamily="Leelawadee UI Semilight"
                         Click="OtherPaymentButton_Click">
-                    <Button.Effect>
-                        <DropShadowEffect BlurRadius="10" ShadowDepth="5" Color="Gray"/>
-                    </Button.Effect>
-                </Button>
-            </StackPanel>
+                        <Button.Effect>
+                            <DropShadowEffect BlurRadius="10" ShadowDepth="5" Color="Gray"/>
+                        </Button.Effect>
+                    </Button>
+                </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Width="290" Margin="0,10,0,0">
-                <Button x:Name="CancelPaymentButton"
-                        Content="Annuler le ticket" 
-                        ToolTip="Valider l'encaissement"
+                <StackPanel Orientation="Horizontal" Width="290" Margin="0,10,0,0">
+                    <Button x:Name="CancelPaymentButton"
+                        Content="Annuler le ticket"
                         HorizontalAlignment="Left" 
                         VerticalAlignment="Bottom"
                         Foreground="White" 
@@ -381,11 +383,11 @@
                         FontFamily="Leelawadee UI Semilight" 
                         FontSize="11"
                         Click="CancelPaymentButton_Click">
-                    <Button.Effect>
-                        <DropShadowEffect BlurRadius="10" ShadowDepth="5" Color="Gray"/>
-                    </Button.Effect>
-                </Button>
-                <Button x:Name="PaymentButton"
+                        <Button.Effect>
+                            <DropShadowEffect BlurRadius="10" ShadowDepth="5" Color="Gray"/>
+                        </Button.Effect>
+                    </Button>
+                    <Button x:Name="PaymentButton"
                         Margin="110,0,0,0"
                         Content="ENCAISSEMENT" 
                         ToolTip="Valider l'encaissement"
@@ -399,11 +401,23 @@
                         FontFamily="Leelawadee UI Semilight" 
                         FontSize="13"
                         Click="PaymentButton_Click">
-                    <Button.Effect>
-                        <DropShadowEffect BlurRadius="10" ShadowDepth="5" Color="Gray"/>
-                    </Button.Effect>
-                </Button>
+                        <Button.Effect>
+                            <DropShadowEffect BlurRadius="10" ShadowDepth="5" Color="Gray"/>
+                        </Button.Effect>
+                    </Button>
+                </StackPanel>
             </StackPanel>
+        </Grid>
+
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,10" Height="30" Width="30">
+            <Button x:Name="RefreshButton" 
+                        Content="{materialDesign:PackIcon Kind=RefreshCircle, Size=25}" 
+                        Width="30" 
+                        Height="30" 
+                        BorderBrush="Transparent" 
+                        Background="Transparent" 
+                        Foreground="White" 
+                        Click="RefreshButton_Click"/>
         </StackPanel>
     </Grid>
 </Page>

@@ -1,5 +1,6 @@
 ﻿using DataLayer;
 using System;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -145,12 +146,7 @@ namespace GestionnaireDeStockApp
 
         private void ClearTheBLock()
         {
-            EditAnArticleTxtBlockError.Text = string.Empty;
-            EditTxtBlockInfo.Text = string.Empty;
-            RefTxtBlockEditConfirm.Text = string.Empty;
-            NameTxtBlockEditConfirm.Text = string.Empty;
-            PriceTxtBlockEditConfirm.Text = string.Empty;
-            QuantTxtBlockEditConfirm.Text = string.Empty;
+            EditAnArticleTxtBlockInfo.Text = string.Empty;
 
             EditRefTxtBox.Foreground = new SolidColorBrush(Colors.Red);
             EditNameTxtBox.Foreground = new SolidColorBrush(Colors.Red);
@@ -199,7 +195,7 @@ namespace GestionnaireDeStockApp
                     {
                         if (MessageBox.Show("Etes-vous sûr de vouloir modifié cet article?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                         {
-                            var checkedChar = ControlInputService.CheckAllCharacteristics(EditRefTxtBox, EditNameTxtBox, EditPriceTxtBox, EditQuantTxtBox, EditAnArticleTxtBlockError);
+                            var checkedChar = ControlInputService.CheckAllCharacteristics(EditRefTxtBox, EditNameTxtBox, EditPriceTxtBox, EditQuantTxtBox, EditAnArticleTxtBlockInfo);
                             if (checkedChar == false)
                             {
                                 MessageBox.Show("Une erreur de saisie est survenue.");
@@ -212,16 +208,12 @@ namespace GestionnaireDeStockApp
                                 selectedItem.Price = Convert.ToDouble(EditPriceTxtBox.Text);
                                 selectedItem.Quantity = Convert.ToInt32(EditQuantTxtBox.Text);
 
-                                RefTxtBlockEditConfirm.Text = $"{selectedItem.Reference}";
-                                NameTxtBlockEditConfirm.Text = selectedItem.Name;
-                                PriceTxtBlockEditConfirm.Text = selectedItem.Price.ToString();
-                                QuantTxtBlockEditConfirm.Text = selectedItem.Quantity.ToString();
-
-                                EditTxtBlockInfo.Text = "Le produit a été modifié avec succès:";
-                                MessageBox.Show("Le produit a été modifié avec succès!");
-
+                                EditAnArticleTxtBlockInfo.Foreground = new SolidColorBrush(Colors.GreenYellow);
+                                EditAnArticleTxtBlockInfo.Text = "Le produit a été modifié avec succès";
+                                
                                 dbContext.Update(selectedItem);
                                 dbContext.SaveChanges();
+
                                 Close();
                                 ArticlesListManagementPage.LoadDataBaseProducts();
                             }

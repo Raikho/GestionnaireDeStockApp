@@ -6,10 +6,10 @@
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:local="clr-namespace:GestionnaireDeStockApp"
       mc:Ignorable="d" 
-      d:DesignHeight="554.04" d:DesignWidth="824"
-      Title="ArticlesListPage">
+      MaxHeight="1080" MaxWidth="1920" MinHeight="400" MinWidth="700"
+      Title="ArticlesListPage" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 
-    <Grid x:Name="MainGrid">
+    <Grid x:Name="MainGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <Grid>
             <Border Grid.RowSpan="2">
                 <Border.Background>
@@ -19,84 +19,6 @@
                     </LinearGradientBrush>
                 </Border.Background>
             </Border>
-
-            <StackPanel Margin="30,10,0,0" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <StackPanel Orientation="Horizontal">
-                    <TextBox x:Name="SearchTextBox"
-                             Text="Recherche..."
-                             Foreground="DarkGray" 
-                             Width="120" 
-                             Background="Transparent"
-                             BorderBrush="Transparent"
-                             GotFocus="SearchTextBox_GotFocus"
-                             KeyDown="SearchTextBox_KeyDown"/>
-
-                    <Button x:Name="SearchButton" 
-                            Width="20" 
-                            Height="20" 
-                            Content="{materialDesign:PackIcon Kind=Search}"
-                            Background="Transparent"
-                            Foreground="White"
-                            BorderBrush="Transparent"
-                            Click="SearchButton_Click"/>
-
-                    <TextBox x:Name="SearchMinPriceTxtBox" 
-                             HorizontalAlignment="Left" 
-                             Margin="50,0,0,0" 
-                             Text="Prix min..." 
-                             TextAlignment="Center"
-                             Foreground="DarkGray" 
-                             VerticalAlignment="Top" 
-                             Width="55"
-                             Background="Transparent"
-                             BorderBrush="Transparent"
-                             GotFocus="SearchMinPriceTxtBox_GotFocus"
-                             KeyDown="SearchMinPriceTxtBox_KeyDown"/>
-                    
-                    <TextBox x:Name="SearchMaxPriceTxtBox" 
-                             HorizontalAlignment="Left" 
-                             Margin="5,0,0,0" 
-                             Text="Prix max..." 
-                             TextAlignment="Center"
-                             Foreground="DarkGray" 
-                             VerticalAlignment="Top" 
-                             Width="55"
-                             Background="Transparent"
-                             BorderBrush="Transparent"
-                             GotFocus="SearchMaxPriceTxtBox_GotFocus"
-                             KeyDown="SearchMaxPriceTxtBox_KeyDown"/>
-
-                    <Button x:Name="PriceSearchButton" 
-                            Width="20" 
-                            Height="20" 
-                            Content="{materialDesign:PackIcon Kind=Search}"
-                            Background="Transparent"
-                            Foreground="White"
-                            BorderBrush="Transparent"
-                            Click="PriceSearchButton_Click"/>
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal">
-                    <Border HorizontalAlignment="Left" 
-                            Background="White" 
-                            Width="120" 
-                            Height="1" 
-                            Opacity="0.5"/>
-                    <Border Margin="70,0,0,0" 
-                            HorizontalAlignment="Left" 
-                            Background="White" 
-                            Width="55" 
-                            Height="1" 
-                            Opacity="0.5"/>
-                    <Border Margin="5,0,0,0" 
-                            HorizontalAlignment="Left" 
-                            Background="White" 
-                            Width="55" 
-                            Height="1" 
-                            Opacity="0.5"/>
-                </StackPanel>
-            </StackPanel>
-
 
             <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,25,15">
                 <Button x:Name="AddANewArticleButton" 
@@ -119,52 +41,137 @@
                         Click="RefreshButton_Click"/>
             </StackPanel>
 
-            <StackPanel Height="554.04" Width="824" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <ScrollViewer Height="455" Width="770" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="0,40,0,0">
+
+            <StackPanel Height="800" Width="1400"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,55">
+                <StackPanel  Orientation="Vertical" Height="20">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox x:Name="SearchTextBox"
+                             Text="Recherche..."
+                             Foreground="DarkGray" 
+                             Width="120" 
+                             Background="Transparent"
+                             BorderBrush="CadetBlue"
+                             GotFocus="SearchTextBox_GotFocus"
+                             KeyDown="SearchTextBox_KeyDown"/>
+
+                        <Button x:Name="SearchButton" 
+                            Width="20" 
+                            Height="20" 
+                            Content="{materialDesign:PackIcon Kind=Search}"
+                            Background="Transparent"
+                            Foreground="White"
+                            BorderBrush="Transparent"
+                            Click="SearchButton_Click"/>
+
+                        <TextBox x:Name="SearchMinPriceTxtBox" 
+                             Margin="50,0,0,0" 
+                             Text="Prix min..." 
+                             TextAlignment="Center"
+                             Foreground="DarkGray" 
+                             VerticalAlignment="Top" 
+                             Width="55"
+                             Background="Transparent"
+                             BorderBrush="CadetBlue"
+                             GotFocus="SearchMinPriceTxtBox_GotFocus"
+                             KeyDown="SearchMinPriceTxtBox_KeyDown" Height="20"/>
+
+                        <TextBox x:Name="SearchMaxPriceTxtBox" 
+                             Margin="5,0,0,0" 
+                             Text="Prix max..." 
+                             TextAlignment="Center"
+                             Foreground="DarkGray" 
+                             VerticalAlignment="Top" 
+                             Width="55"
+                             Background="Transparent"
+                             BorderBrush="CadetBlue"
+                             GotFocus="SearchMaxPriceTxtBox_GotFocus"
+                             KeyDown="SearchMaxPriceTxtBox_KeyDown" Height="20"/>
+
+                        <Button x:Name="PriceSearchButton" 
+                            Width="20" 
+                            Height="20" 
+                            Content="{materialDesign:PackIcon Kind=Search}"
+                            Background="Transparent"
+                            Foreground="White"
+                            BorderBrush="Transparent"
+                            Click="PriceSearchButton_Click"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Width="Auto">
+                        <Border HorizontalAlignment="Left" 
+                            Background="White" 
+                            Width="120" 
+                            Height="1" 
+                            Opacity="0.5"/>
+                        <Border Margin="70,0,0,0" 
+                            HorizontalAlignment="Left" 
+                            Background="White" 
+                            Width="55" 
+                            Height="1" 
+                            Opacity="0.5"/>
+                        <Border Margin="5,0,0,0" 
+                            HorizontalAlignment="Left" 
+                            Background="White" 
+                            Width="55" 
+                            Height="1" 
+                            Opacity="0.5"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Width="1400" Height="780"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch">
+                    <ScrollViewer Height="780"
+                              Width="1400"
+                              VerticalScrollBarVisibility="Auto"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch">
                     <DataGrid x:Name="ProductsDataGrid"
                               x:Uid="ProductsDataGrid"
+                              Height="780"
                               AutoGenerateColumns="False" 
                               Background="Transparent" 
                               AlternationCount="2" 
                               SelectionMode="Single"
-                              Height="455" 
-                              Width="770">
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch">
 
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Référence"
+                                <DataGridTextColumn Header="Référence"
                                                 Width="200"
                                                 Binding="{Binding Path=Reference}"/>
-                            <DataGridTextColumn Header="Nom"
+                                <DataGridTextColumn Header="Nom"
                                                 Width="200"
                                                 Binding="{Binding Path=Name}"/>
-                            <DataGridTextColumn Header="Prix" 
+                                <DataGridTextColumn Header="Prix" 
                                                 Width="70"
                                                 Binding="{Binding Path=Price}"/>
-                            <DataGridTextColumn Header="Quantité"
+                                <DataGridTextColumn Header="Quantité"
                                                 Width="70"
                                                 Binding="{Binding Path=Quantity}"/>
-                            <DataGridTemplateColumn Header="Modifier">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button x:Name="EditAnArticleButton" 
+                                <DataGridTemplateColumn Header="Modifier">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button x:Name="EditAnArticleButton" 
                                                 Content="Modifier" 
                                                 Click="EditAnArticleButton_Click"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn Header="Supprimer">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button x:Name="DeleteAnArticleButton" 
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Supprimer">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button x:Name="DeleteAnArticleButton" 
                                                 Content="Supprimer" 
                                                 Command="Delete" 
                                                 Click="DeleteAnArticleButton_Click"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </ScrollViewer>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </ScrollViewer>
+                </StackPanel>
             </StackPanel>
         </Grid>
     </Grid>

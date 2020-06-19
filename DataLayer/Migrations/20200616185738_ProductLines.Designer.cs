@@ -4,14 +4,16 @@ using DataLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(StockContext))]
-    partial class StockContextModelSnapshot : ModelSnapshot
+    [Migration("20200616185738_ProductLines")]
+    partial class ProductLines
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,12 +21,54 @@ namespace DataLayer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DataLayer.Invoice", b =>
+            modelBuilder.Entity("DataLayer.Product", b =>
                 {
-                    b.Property<int>("InvoiceId")
+                    b.Property<string>("Reference")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Reference");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("DataLayer.ProductLine", b =>
+                {
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ProductReference")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<float>("Quantity")
+                        .HasColumnType("real");
+
+                    b.Property<string>("TicketRef")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ProductReference");
+
+                    b.HasIndex("TicketRef");
+
+                    b.ToTable("ProductLine");
+                });
+
+            modelBuilder.Entity("DataLayer.Invoice", b =>
+                {
+                    b.Property<string>("TicketRef")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
@@ -41,61 +85,9 @@ namespace DataLayer.Migrations
                     b.Property<double>("Recipe")
                         .HasColumnType("float");
 
-                    b.Property<string>("TicketRef")
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("TicketRef");
 
-                    b.HasKey("InvoiceId");
-
-                    b.ToTable("Invoice");
-                });
-
-            modelBuilder.Entity("DataLayer.Product", b =>
-                {
-                    b.Property<int>("ProductId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Reference")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ProductId");
-
-                    b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("DataLayer.ProductLine", b =>
-                {
-                    b.Property<int>("ProductLineId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<float>("Quantity")
-                        .HasColumnType("real");
-
-                    b.Property<int?>("TicketInvoiceId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductLineId");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("TicketInvoiceId");
-
-                    b.ToTable("ProductLine");
+                    b.ToTable("Invoices");
                 });
 
             modelBuilder.Entity("DataLayer.User", b =>
@@ -121,11 +113,11 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("DataLayer.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductReference");
 
-                    b.HasOne("DataLayer.Invoice", "Ticket")
+                    b.HasOne("DataLayer.Ticket", "Ticket")
                         .WithMany("ProductLines")
-                        .HasForeignKey("TicketInvoiceId");
+                        .HasForeignKey("TicketRef");
                 });
 #pragma warning restore 612, 618
         }

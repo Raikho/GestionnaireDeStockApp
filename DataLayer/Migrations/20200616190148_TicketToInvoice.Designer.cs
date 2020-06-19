@@ -4,14 +4,16 @@ using DataLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(StockContext))]
-    partial class StockContextModelSnapshot : ModelSnapshot
+    [Migration("20200616190148_TicketToInvoice")]
+    partial class TicketToInvoice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,10 +23,8 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Invoice", b =>
                 {
-                    b.Property<int>("InvoiceId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("TicketRef")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
@@ -41,20 +41,15 @@ namespace DataLayer.Migrations
                     b.Property<double>("Recipe")
                         .HasColumnType("float");
 
-                    b.Property<string>("TicketRef")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("InvoiceId");
+                    b.HasKey("TicketRef");
 
                     b.ToTable("Invoice");
                 });
 
             modelBuilder.Entity("DataLayer.Product", b =>
                 {
-                    b.Property<int>("ProductId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Reference")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -65,35 +60,32 @@ namespace DataLayer.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<string>("Reference")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ProductId");
+                    b.HasKey("Reference");
 
                     b.ToTable("Products");
                 });
 
             modelBuilder.Entity("DataLayer.ProductLine", b =>
                 {
-                    b.Property<int>("ProductLineId")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
+                    b.Property<string>("ProductReference")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<float>("Quantity")
                         .HasColumnType("real");
 
-                    b.Property<int?>("TicketInvoiceId")
-                        .HasColumnType("int");
+                    b.Property<string>("TicketRef")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("ProductLineId");
+                    b.HasKey("ID");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductReference");
 
-                    b.HasIndex("TicketInvoiceId");
+                    b.HasIndex("TicketRef");
 
                     b.ToTable("ProductLine");
                 });
@@ -121,11 +113,11 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("DataLayer.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductReference");
 
                     b.HasOne("DataLayer.Invoice", "Ticket")
                         .WithMany("ProductLines")
-                        .HasForeignKey("TicketInvoiceId");
+                        .HasForeignKey("TicketRef");
                 });
 #pragma warning restore 612, 618
         }

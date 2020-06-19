@@ -9,7 +9,7 @@
         Title="AlertWindow" Height="450" Width="800"
         AllowsTransparency="True" Background="Transparent" 
         ResizeMode="NoResize" WindowStyle="None" WindowStartupLocation="CenterScreen"
-        KeyDown="Window_KeyDown">
+        KeyDown="Window_KeyDown" BorderBrush="Black">
 
     <Grid x:Name="MainGrid" MouseDown="MainGrid_MouseDown" KeyDown="MainGrid_KeyDown">
         <Grid>

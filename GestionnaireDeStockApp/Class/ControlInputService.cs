@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace GestionnaireDeStockApp
 {
@@ -36,6 +37,7 @@ namespace GestionnaireDeStockApp
                 string newInput = textBox.Text;
                 if (!Regex.IsMatch(newInput, @"^[a-zA-Z0-9, ]+$"))
                 {
+                    textBlockError.Foreground = new SolidColorBrush(Colors.Orange);
                     textBlockError.Text += "Référence: veuillez effectuer une saisie alphanumérique.\n";
                     return CorrectPickedChara = false;
                 }
@@ -62,6 +64,7 @@ namespace GestionnaireDeStockApp
                 bool correctNum = double.TryParse(newInput, out double price);
                 if (!correctNum)
                 {
+                    textBlockError.Foreground = new SolidColorBrush(Colors.Orange);
                     textBlockError.Text += "Prix: veuillez saisir un prix chiffré.\n";
                     return CorrectPickedChara = false;
                 }
@@ -87,6 +90,7 @@ namespace GestionnaireDeStockApp
                 bool correctNum = int.TryParse(newInput, out int quantity);
                 if (!correctNum)
                 {
+                    textBlockError.Foreground = new SolidColorBrush(Colors.Orange);
                     textBlockError.Text += "Quantité: veuillez saisir une quantité chiffrée.\n";
                     return CorrectPickedChara = false;
                 }

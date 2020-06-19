@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace GestionnaireDeStockApp
 {
@@ -9,6 +10,8 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        bool MenuClosed = true;
+
         public static LoginWindow loginWindow { get; set; }
 
         static MainWindow mainWindow;
@@ -22,6 +25,22 @@ namespace GestionnaireDeStockApp
             HideAllItems();
 
             ConnectToSession();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (MenuClosed)
+            {
+                Storyboard openMenu = (Storyboard)Button.FindResource("OpenMenu");
+                openMenu.Begin();
+            }
+            else
+            {
+                Storyboard closeMenu = (Storyboard)Button.FindResource("CloseMenu");
+                closeMenu.Begin();
+            }
+
+            MenuClosed = !MenuClosed;
         }
 
         private void ConnectToSession()
@@ -40,8 +59,9 @@ namespace GestionnaireDeStockApp
 
         public static void ShowCurrentUserName(string name)
         {
-            mainWindow.WelcomeTxtBlock.Foreground = new SolidColorBrush(Colors.GreenYellow);
-            mainWindow.WelcomeTxtBlock.Text = $"{name} est connecté";
+            mainWindow.WelcomeTxtBlock.Text = $"{name}";
+            mainWindow.ConnectedCircle.Foreground = new SolidColorBrush(Colors.Green);
+            mainWindow.SuggestToConnect.Text = string.Empty;
         }
 
         private void TopGridBar_MouseDown(object sender, MouseButtonEventArgs e)
@@ -65,10 +85,24 @@ namespace GestionnaireDeStockApp
 
         private void ResizeWindow_Click(object sender, RoutedEventArgs e)
         {
-            if (WindowState == WindowState.Maximized)
+            if (IsMaximized)
+            {
                 WindowState = WindowState.Normal;
+            }
             else
+            {
                 WindowState = WindowState.Maximized;
+            }
+        }
+        bool IsMaximized
+        {
+            get
+            {
+                if (WindowState == WindowState.Maximized)
+                    return true;
+                else
+                    return false;
+            }
         }
 
         private void AlertButton_Click(object sender, RoutedEventArgs e)
@@ -162,9 +196,14 @@ namespace GestionnaireDeStockApp
                 if (e.Key == Key.F7)
                 {
                     AccountCreationWindow accountCreationWindow = new AccountCreationWindow();
-                    accountCreationWindow.Show();
+                    accountCreationWindow.ShowDialog();
                 }
             }
+        }
+
+        private void DashBoardButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

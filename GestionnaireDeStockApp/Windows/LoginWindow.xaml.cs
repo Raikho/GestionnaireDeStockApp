@@ -88,7 +88,7 @@ namespace GestionnaireDeStockApp
                     || PasswordTxtBox.Password == ""
                     || UserNameTxtBoxClick == false
                     || PasswordTxtBoxClick == false)
-                    MessageBox.Show("Veuillez renseigner tous les champs.");
+                    LoginTxtBlockInfo.Text = "Veuillez renseigner tous les champs";
                 else
                 {
                     User newUserConnectionTry = null;
@@ -100,7 +100,7 @@ namespace GestionnaireDeStockApp
                     if (newUserConnectionTry != null)
                     {
                         connectionState = true;
-                        MessageBox.Show("Connexion réussie.");
+                        LoginTxtBlockInfo.Text ="Connexion réussie";
                         CurrentUser = newUserConnectionTry;
                         Username = CurrentUser.Username;
                         MainWindow.ShowCurrentUserName(Username);
@@ -108,7 +108,7 @@ namespace GestionnaireDeStockApp
                     }
                     else
                     {
-                        MessageBox.Show("Connexion échouée, veuillez réessayer.");
+                        LoginTxtBlockInfo.Text = "Connexion échouée, veuillez réessayer";
                     }
                 }
             }

@@ -8,7 +8,7 @@ namespace DataLayer
 
         public DbSet<Product> Products { get; set; }
 
-        public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

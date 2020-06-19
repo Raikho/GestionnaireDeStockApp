@@ -151,24 +151,22 @@ namespace GestionnaireDeStockApp
                         MessageBox.Show("L'encaissement est incomplet. Veuillez procéder au paiement.");
                     else
                     {
-                        using (var dbContext = new StockContext())
-                        {
-                            var tickets = dbContext.Tickets;
+                        using var dbContext = new StockContext();
+                        var tickets = dbContext.Invoices;
 
-                            var ticket = new Ticket()
-                            {
-                                TicketRef = TicketRef,
-                                NameSeller = LoginWindow.Username,
-                                Recipe = CalculateRecipe(),
-                                Discount = Discount,
-                                PaymentMethod = ShowPaymentMethod(),
-                                CreationDate = DateTime.Now.Date
-                            };
-                            dbContext.Add(ticket);
-                            dbContext.SaveChanges();
-                            MessageBox.Show("Vente terminée! Le ticket a été validé.");
-                            ResetTheTicket();
-                        }
+                        var ticket = new Invoice()
+                        {
+                            TicketRef = TicketRef,
+                            NameSeller = LoginWindow.Username,
+                            Recipe = CalculateRecipe(),
+                            Discount = Discount,
+                            PaymentMethod = ShowPaymentMethod(),
+                            CreationDate = DateTime.Now.Date
+                        };
+                        dbContext.Add(ticket);
+                        dbContext.SaveChanges();
+                        MessageBox.Show("Vente terminée! Le ticket a été validé.");
+                        ResetTheTicket();
                     }
                 }
             }
@@ -254,41 +252,39 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                using (var dbContext = new StockContext())
+                using var dbContext = new StockContext();
+                var products = dbContext.Products;
+                var selectedRow = salesManagementPage.ArticleToSellDataGrid.CurrentCell.Item;
+                Product articleToSell = (Product)selectedRow;
+
+                double sum;
+                double totalSum = 0;
+
+                if (ControlInputService.CorrectPickedChara == false || SalesParametersWindow.Quantity == 0)
+                    MessageBox.Show("Veuillez saisir une quantité.");
+                else
                 {
-                    var products = dbContext.Products;
-                    var selectedRow = salesManagementPage.ArticleToSellDataGrid.CurrentCell.Item;
-                    Product articleToSell = (Product)selectedRow;
-
-                    double sum;
-                    double totalSum = 0;
-
-                    if (ControlInputService.CorrectPickedChara == false || SalesParametersWindow.Quantity == 0)
-                        MessageBox.Show("Veuillez saisir une quantité.");
-                    else
+                    if (MessageBox.Show("Etes-vous sûr de vouloir ajouter cet article?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
-                        if (MessageBox.Show("Etes-vous sûr de vouloir ajouter cet article?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                        {
-                            salesManagementPage.NameTxtBlock.Text += $"{articleToSell.Name}\n";
-                            salesManagementPage.PriceTxtBlock.Text += $"{articleToSell.Price}\n";
-                            salesManagementPage.QuantTxtBlock.Text += $"{SalesParametersWindow.Quantity}\n";
+                        salesManagementPage.NameTxtBlock.Text += $"{articleToSell.Name}\n";
+                        salesManagementPage.PriceTxtBlock.Text += $"{articleToSell.Price}\n";
+                        salesManagementPage.QuantTxtBlock.Text += $"{SalesParametersWindow.Quantity}\n";
 
-                            sum = articleToSell.Price * SalesParametersWindow.Quantity;
-                            salesManagementPage.SubTotalTxtBlock.Text += $"{Math.Round(sum, 2)}\n";
+                        sum = articleToSell.Price * SalesParametersWindow.Quantity;
+                        salesManagementPage.SubTotalTxtBlock.Text += $"{Math.Round(sum, 2)}\n";
 
-                            var tempTotal = salesManagementPage.CalculateADiscountPrice(sum);
+                        var tempTotal = salesManagementPage.CalculateADiscountPrice(sum);
 
-                            totalSumList.Add(tempTotal);
-                        }
+                        totalSumList.Add(tempTotal);
                     }
-                    foreach (var item in totalSumList)
-                    {
-                        totalSum += item;
-                    }
-                    FinalTotal = totalSum;
-                    salesManagementPage.TotalTxtBlock.Text = $"{Math.Round(FinalTotal, 2)}€ TTC";
-                    salesManagementPage.RestToPayTxtBlock.Text = $"{Math.Round(FinalTotal, 2)}€";
                 }
+                foreach (var item in totalSumList)
+                {
+                    totalSum += item;
+                }
+                FinalTotal = totalSum;
+                salesManagementPage.TotalTxtBlock.Text = $"{Math.Round(FinalTotal, 2)}€ TTC";
+                salesManagementPage.RestToPayTxtBlock.Text = $"{Math.Round(FinalTotal, 2)}€";
             }
             catch (Exception exception)
             {
@@ -302,13 +298,8 @@ namespace GestionnaireDeStockApp
             double discount = SalesParametersWindow.Discount;
 
             Discount = pourcentDiscount + discount;
-
-            double pourcentDiscountPrice = 0;
-            double discountPrice = 0;
-
-            pourcentDiscountPrice = totalSum - (totalSum * pourcentDiscount);
-            discountPrice = pourcentDiscountPrice - discount;
-
+            double pourcentDiscountPrice = totalSum - totalSum * pourcentDiscount;
+            double discountPrice = pourcentDiscountPrice - discount;
             double totalDiscount = totalSum - discountPrice;
 
             if (totalDiscount == 0)
@@ -320,19 +311,19 @@ namespace GestionnaireDeStockApp
             }
             return discountPrice;
         }
-        
+
         private string CalculateTicketNumber()
         {
-            List<Ticket> tickets = new List<Ticket>();
+            List<Invoice> invoicesList = new List<Invoice>();
             var dbContext = new StockContext();
-            var ticks = dbContext.Tickets;
+            var invoices = dbContext.Invoices;
 
-            foreach (var item in ticks)
+            foreach (var item in invoices)
             {
-                tickets.Add(item);
+                invoicesList.Add(item);
             }
 
-            var lastTicket = tickets.Last();
+            var lastTicket = invoicesList.Last();
 
             var refToSum = lastTicket.TicketRef.Substring(11);
 
@@ -344,24 +335,23 @@ namespace GestionnaireDeStockApp
 
         public static void LoadDataBaseProducts()
         {
-            using (var dbContext = new StockContext())
+            using var dbContext = new StockContext();
+            List<Product> productAdded = new List<Product>();
+
+            var products = dbContext.Products;
+
+            foreach (var product in products)
             {
-                List<Product> productAdded = new List<Product>();
-
-                var products = dbContext.Products;
-
-                foreach (var product in products)
+                productAdded.Add(new Product()
                 {
-                    productAdded.Add(new Product()
-                    {
-                        Reference = product.Reference,
-                        Name = product.Name,
-                        Price = product.Price,
-                        Quantity = product.Quantity
-                    });
-                }
-                salesManagementPage.ArticleToSellDataGrid.ItemsSource = productAdded;
+                    ProductId = product.ProductId,
+                    Reference = product.Reference,
+                    Name = product.Name,
+                    Price = product.Price,
+                    Quantity = product.Quantity
+                });
             }
+            salesManagementPage.ArticleToSellDataGrid.ItemsSource = productAdded;
         }
 
         public static void MakeACBPayment()
@@ -448,6 +438,11 @@ namespace GestionnaireDeStockApp
         private double CalculateRecipe()
         {
             return CBPayment + MoneyPayment + ChequePayment;
+        }
+
+        private void SearchAnArticleToSellTxtBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

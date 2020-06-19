@@ -110,16 +110,13 @@ namespace GestionnaireDeStockApp
 
         private void ClearTheBLock()
         {
-            AddAnArticleTxtBlockError.Text = string.Empty;
-            CreateTxtBlockInfo.Text = string.Empty;
-            RefTxtBlockConfirm.Text = string.Empty;
-            NameTxtBlockConfirm.Text = string.Empty;
-            PriceTxtBlockConfirm.Text = string.Empty;
-            QuantTxtBlockConfirm.Text = string.Empty;
-            CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.GreenYellow);
+            AddAnArticleTxtBlockInfo.Text = string.Empty;
+            AddAnArticleTxtBlockInfo.Text = string.Empty;
+            AddAnArticleTxtBlockInfo.FontSize = 10;
+            AddAnArticleTxtBlockInfo.Foreground = new SolidColorBrush(Colors.GreenYellow);
         }
 
-        void CreateNewArticle()
+        private void CreateNewArticle()
         {
             try
             {
@@ -133,8 +130,9 @@ namespace GestionnaireDeStockApp
                         if (product.Reference.ToLower() == AddRefTxtBox.Text.ToLower())
                         {
                             duplicate = true;
-                            CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Yellow);
-                            CreateTxtBlockInfo.Text = "L'article existe déjà";
+                            AddAnArticleTxtBlockInfo.FontSize = 12;
+                            AddAnArticleTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Yellow);
+                            AddAnArticleTxtBlockInfo.Text = "L'article existe déjà";
                             break;
                         }
                     }
@@ -143,10 +141,10 @@ namespace GestionnaireDeStockApp
                     {
                         if (MessageBox.Show("Etes-vous sûr de vouloir ajouté cet article au stock?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                         {
-                            var checkedChar = ControlInputService.CheckAllCharacteristics(AddRefTxtBox, AddNameTxtBox, AddPriceTxtBox, AddQuantTxtBox, AddAnArticleTxtBlockError);
+                            var checkedChar = ControlInputService.CheckAllCharacteristics(AddRefTxtBox, AddNameTxtBox, AddPriceTxtBox, AddQuantTxtBox, AddAnArticleTxtBlockInfo);
                             if (checkedChar == false)
                             {
-                                MessageBox.Show("Une erreur de saisie est survenue.");
+                                
                             }
                             else
                             {
@@ -160,8 +158,8 @@ namespace GestionnaireDeStockApp
                                 products.Add(product);
                                 dbContext.SaveChanges();
 
-                                CreateTxtBlockInfo.Text = "Le nouveau produit a été intégré au stock:";
-                                ShowAnArticle(product.Reference, product.Name, product.Price, product.Quantity);
+                                AddAnArticleTxtBlockInfo.FontSize = 12;
+                                AddAnArticleTxtBlockInfo.Text = "Le nouveau produit a été intégré au stock";
                                 ArticlesListManagementPage.LoadDataBaseProducts();
                             }
                         }
@@ -170,17 +168,9 @@ namespace GestionnaireDeStockApp
             }
             catch (Exception except)
             {
-                CreateTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Orange);
-                CreateTxtBlockInfo.Text = $"L'erreur suivante est survenue: {except.Message}";
+                AddAnArticleTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Orange);
+                AddAnArticleTxtBlockInfo.Text = $"L'erreur suivante est survenue: {except.Message}";
             }
-        }
-
-        void ShowAnArticle(string reference, string name, double price, int quantity)
-        {
-            RefTxtBlockConfirm.Text = $"{reference}";
-            NameTxtBlockConfirm.Text = $"{name}";
-            PriceTxtBlockConfirm.Text = $"{price}";
-            QuantTxtBlockConfirm.Text = $"{quantity}";
         }
     }
 }

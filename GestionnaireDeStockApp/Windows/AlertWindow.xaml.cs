@@ -47,6 +47,7 @@ namespace GestionnaireDeStockApp
                     {
                         productAdded.Add(new Product()
                         {
+                            ProductId = product.ProductId,
                             Reference = product.Reference,
                             Name = product.Name,
                             Price = product.Price,
