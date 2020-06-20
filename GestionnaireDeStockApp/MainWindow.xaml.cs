@@ -33,11 +33,17 @@ namespace GestionnaireDeStockApp
             {
                 Storyboard openMenu = (Storyboard)Button.FindResource("OpenMenu");
                 openMenu.Begin();
+
+                LogoTxtBlock.FontSize = 16;
+                ConnectedCircle.Width = 270;
             }
             else
             {
                 Storyboard closeMenu = (Storyboard)Button.FindResource("CloseMenu");
                 closeMenu.Begin();
+
+                LogoTxtBlock.FontSize = 5;
+                ConnectedCircle.Width = 30;
             }
 
             MenuClosed = !MenuClosed;
@@ -137,6 +143,7 @@ namespace GestionnaireDeStockApp
             ShowArticleListManagement.Visibility = Visibility.Hidden;
             SellAnArticle.Visibility = Visibility.Hidden;
             InventoryButton.Visibility = Visibility.Hidden;
+            DashboardButton.Visibility = Visibility.Hidden;
         }
 
         private void ShowAllItems()
@@ -145,6 +152,7 @@ namespace GestionnaireDeStockApp
             ShowArticleListManagement.Visibility = Visibility.Visible;
             SellAnArticle.Visibility = Visibility.Visible;
             InventoryButton.Visibility = Visibility.Visible;
+            DashboardButton.Visibility = Visibility.Visible;
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)

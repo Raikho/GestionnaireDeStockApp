@@ -48,12 +48,15 @@
                         VerticalAlignment="Stretch">
 
                         <DataGrid x:Name="ArticleToSellDataGrid"
-                      x:Uid="ArticleToSellDataGrid"
-                      AutoGenerateColumns="False"
-                      Background="Transparent" 
-                      AlternationCount="2" 
-                      SelectionMode="Single"
-                      Height="720">
+                                  AlternatingRowBackground="LightGray"
+
+                                  x:Uid="ArticleToSellDataGrid"
+                                  AutoGenerateColumns="False"
+                                  Background="Transparent" 
+                                  AlternationCount="2" 
+                                  SelectionMode="Single"
+                                  Height="720"
+                                  BorderBrush="Transparent">
 
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Référence"
@@ -128,8 +131,8 @@
                             <RowDefinition Height="95"/>
                         </Grid.RowDefinitions>
                     </Grid>
-                    <StackPanel Grid.Row="0" Margin="30,10,30,600">
-                        <StackPanel Height="100">
+                    <StackPanel Grid.Row="0" Margin="30,10,30,510">
+                        <StackPanel Height="110">
                             <TextBlock Margin="0,30,0,0" 
                                        Text="Magasin La Belle Vie" 
                                        Width="270" 
@@ -172,77 +175,94 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <StackPanel Orientation="Vertical" Margin="18,210,0,49">
+                    <StackPanel Height="460" Width="390" Orientation="Vertical" Margin="18,210,-64,50">
 
-                        <StackPanel Height="15" Orientation="Horizontal" Width="305">
+                        <StackPanel Height="15" Orientation="Horizontal" Width="289" HorizontalAlignment="Left">
                             <TextBlock Text="Produit" 
-                                           FontSize="11"
-                                           Margin="20,0,0,0"
-                                           Height="20"/>
+                                       FontSize="10"
+                                       Margin="15,0,0,0"
+                                       Height="20"/>
                             <TextBlock Text="Prix(€)"
-                                           FontSize="11" 
-                                           Margin="73,0,0,0" 
-                                           Height="20"/>
+                                       FontSize="10" 
+                                       Margin="95,0,0,0" 
+                                       Height="20"/>
                             <TextBlock Text="Quantité"
-                                           FontSize="11" 
-                                           Margin="5,0,0,0"
-                                           Height="20"/>
+                                       FontSize="10" 
+                                       Margin="10,0,0,0"
+                                       Height="20"/>
                             <TextBlock Text="Sous-total" 
-                                           FontSize="11" 
-                                           Margin="10,0,0,0" 
-                                           Height="20"/>
+                                       FontSize="10" 
+                                       Margin="8,0,0,0" 
+                                       Height="20"/>
                         </StackPanel>
-                        <Border HorizontalAlignment="Center" 
+                        <Border HorizontalAlignment="Left" 
                             Background="Black" 
-                            Width="260" 
+                            Width="270" 
                             Opacity="0.5" 
-                            Margin="0,0,20,0" 
+                            Margin="10,0,20,0" 
                             Height="2">
                         </Border>
 
-                        <Grid Height="300" Width="306">
-                            <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="20,0,5,5" Height="300" Width="285">
-                                <TextBlock x:Name="NameTxtBlock"
-                                           Foreground="Black"
-                                           Grid.Column="0" 
-                                           Margin="2,5,5,5" 
-                                           Width="100" 
-                                           Height="280"/>
+                        <StackPanel Orientation="Horizontal" Height="Auto" Width="386" Margin="9,0,0,0">
+                            <ScrollViewer x:Name="InvoiceScroll"  
+                                              Width="362"
+                                              Height="280"
+                                              Margin="0,8,12,12"
+                                              HorizontalScrollBarVisibility="Disabled"
+                                              VerticalScrollBarVisibility="Auto">
+                                <DataGrid x:Name="InvoiceDataGrid"
+                                              Foreground="Black"
+                                              Margin="0,0,0,0"
+                                              Width="348"
+                                              Height="Auto"
+                                              HorizontalAlignment="Left"
+                                              HeadersVisibility="None"
+                                              GridLinesVisibility="None"
+                                              AutoGenerateColumns="False"
+                                              CanUserAddRows="False"
+                                              Background="Transparent"
+                                              BorderBrush="Transparent"
+                                              HorizontalScrollBarVisibility="Disabled">
 
-                                <TextBlock x:Name="PriceTxtBlock"
-                                           TextAlignment="Center"
-                                           Foreground="Black"
-                                           Margin="6,0,0,0" 
-                                           Width="22" 
-                                           Height="280"/>
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn 
+                                                                Width="138"
+                                                                Binding="{Binding Path=ProductToSellName}"/>
+                                        <DataGridTextColumn 
+                                                                Width="40"
+                                                                Binding="{Binding Path=ProductToSellPrice}"/>
+                                        <DataGridTextColumn 
+                                                                Width="46"
+                                                                Binding="{Binding Path=ProductToSellQuant}"/>
+                                        <DataGridTextColumn 
+                                                                Width="55"
+                                                                Binding="{Binding Path=ProductToSellSubTotal}"/>
+                                        <DataGridTemplateColumn Width="66">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button x:Name="DeleteProductToSell"
+                                                            Content="Supprimer"
+                                                            Width="64"
+                                                            Click="DeleteProductToSell_Click"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </ScrollViewer>
+                        </StackPanel>
 
-                                <TextBlock x:Name="QuantTxtBlock"
-                                           TextAlignment="Center"
-                                           Foreground="Black"
-                                           Margin="12,0,0,0" 
-                                           Width="37" 
-                                           Height="280"/>
-
-                                <TextBlock x:Name="SubTotalTxtBlock"
-                                           TextAlignment="Right"
-                                           Foreground="Black"
-                                           Margin="13,0,0,0" 
-                                           Width="49" 
-                                           Height="280"/>
-                            </StackPanel>
-                        </Grid>
-
-                        <Border HorizontalAlignment="Center"
+                        <Border HorizontalAlignment="Left"
                             VerticalAlignment="Bottom"
                             Background="Black" 
-                            Width="260" 
+                            Width="270" 
                             Opacity="0.5" 
-                            Margin="0,-25,20,0" 
+                            Margin="10,-25,20,0" 
                             Height="2">
                         </Border>
                     </StackPanel>
 
-                    <StackPanel Margin="20,530,20,0" RenderTransformOrigin="0.5,0.5">
+                    <StackPanel Margin="10,530,10,0" RenderTransformOrigin="0.5,0.5">
                         <StackPanel.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleX="1"/>
@@ -409,7 +429,7 @@
             </StackPanel>
         </Grid>
 
-        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,10" Height="30" Width="30">
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="25,0,0,20" Height="30" Width="30">
             <Button x:Name="RefreshButton" 
                         Content="{materialDesign:PackIcon Kind=RefreshCircle, Size=25}" 
                         Width="30" 

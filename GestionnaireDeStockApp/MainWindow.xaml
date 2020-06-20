@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:GestionnaireDeStockApp"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d" 
-        Title="Gestionnaire de stock 1.0" Height="1080" Width="1920"  MinHeight="550" MinWidth="830"
+        Title="Gestionnaire de stock 1.0" 
+        Height="600" Width="800" MaxHeight="1090" MaxWidth="1925"  MinHeight="550" MinWidth="830"
         WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="CanResizeWithGrip"
         AllowsTransparency="True" Background="Transparent" KeyDown="Window_KeyDown" VerticalAlignment="Stretch">
 
@@ -100,7 +101,7 @@
             </StackPanel>
         </Grid>
 
-        <Grid x:Name="Menu" Width="200" Grid.Row="1" RenderTransformOrigin="0.5,0.5">
+        <Grid x:Name="Menu" Width="70" Grid.Row="1" RenderTransformOrigin="0.5,0.5">
             <StackPanel Name="LeftMenu" Grid.Row="1" RenderTransformOrigin="0.5,0.5">
                 <StackPanel.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -123,12 +124,14 @@
                             <GradientStop Color="#FF8522BD" Offset="1"/>
                         </LinearGradientBrush>
                     </Grid.Background>
-                    <TextBlock Text="DASHBOARD" 
-                           FontFamily="WS Simple Gallifreyan" 
-                           HorizontalAlignment="Center" 
-                           VerticalAlignment="Center" 
-                           FontSize="16" 
-                           Foreground="White"/>
+                    <TextBlock x:Name="LogoTxtBlock"
+                               Text="DASHBOARD" 
+                               FontFamily="WS Simple Gallifreyan" 
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Center" 
+                               FontSize="6"
+                               FontStretch="UltraExpanded"
+                               Foreground="White"/>
                 </Grid>
 
                 <Button x:Name="Button"
@@ -272,7 +275,7 @@
                 </Button>
             </StackPanel>
 
-            <Grid Height="55" VerticalAlignment="Bottom">
+            <Grid Height="55" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
                 <Grid.Background>
                     <LinearGradientBrush EndPoint="1.9,0" StartPoint="0.0,2">
                         <GradientStop Color="#FF2D8893" Offset="0"/>
@@ -285,22 +288,30 @@
                                          VerticalAlignment="Center" 
                                          Width="45" Height="30"/>
 
-                <TextBlock x:Name="WelcomeTxtBlock"
+                <Grid Width="200">
+                    <TextBlock x:Name="WelcomeTxtBlock"
                            Text="Raikho"
-                           TextAlignment="Center"
+                           TextAlignment="Left"
                            FontFamily="Arial Black" 
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center" 
                            FontSize="16" 
-                           Foreground="White" Width="100" Height="20"/>
+                           Foreground="White" 
+                           Width="100" 
+                           Height="20"
+                               Margin="40,0,0,0"/>
+                </Grid>
 
-                <materialDesign:PackIcon x:Name="ConnectedCircle"
+                <StackPanel MinWidth="0" MaxWidth="250"  Height="10" HorizontalAlignment="Stretch">
+                    <materialDesign:PackIcon x:Name="ConnectedCircle"
                                          Kind="Circle" 
-                                         Foreground="White" 
+                                         Foreground="Red" 
                                          VerticalAlignment="Center" 
-                                         Width="10" 
-                                         Margin="170,0,0,0" Height="10"/>
-
+                                         HorizontalAlignment="Stretch"
+                                         Width="10"
+                                         Height="10"
+                                         Margin="30,0,0,0"/>
+                </StackPanel>
             </Grid>
         </Grid>
 

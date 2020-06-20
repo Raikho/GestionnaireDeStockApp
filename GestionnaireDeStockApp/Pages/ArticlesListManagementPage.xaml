@@ -126,17 +126,19 @@
                               VerticalScrollBarVisibility="Auto"
                               HorizontalAlignment="Stretch"
                               VerticalAlignment="Stretch">
-                    <DataGrid x:Name="ProductsDataGrid"
-                              x:Uid="ProductsDataGrid"
-                              Height="780"
-                              AutoGenerateColumns="False" 
-                              Background="Transparent" 
-                              AlternationCount="2" 
-                              SelectionMode="Single"
-                              HorizontalAlignment="Stretch"
-                              VerticalAlignment="Stretch">
+                        <DataGrid x:Name="ProductsDataGrid"
+                                  x:Uid="ProductsDataGrid"
+                                  Height="780"
+                                  AutoGenerateColumns="False" 
+                                  Background="Transparent" 
+                                  AlternatingRowBackground="LightGray"
+                                  AlternationCount="2" 
+                                  SelectionMode="Single"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  BorderBrush="Transparent">
 
-                        <DataGrid.Columns>
+                            <DataGrid.Columns>
                                 <DataGridTextColumn Header="Référence"
                                                 Width="200"
                                                 Binding="{Binding Path=Reference}"/>

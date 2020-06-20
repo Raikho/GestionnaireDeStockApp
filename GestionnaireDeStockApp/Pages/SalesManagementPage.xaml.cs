@@ -1,11 +1,13 @@
 ﻿using DataLayer;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace GestionnaireDeStockApp
 {
@@ -25,6 +27,8 @@ namespace GestionnaireDeStockApp
         public static string TicketRef { get; private set; }
         public static double Discount { get; private set; }
         public static string PaymentMethod { get; private set; }
+
+        static ObservableCollection<ProductToSell> productToSells = new ObservableCollection<ProductToSell>();
 
         static SalesManagementPage salesManagementPage;
         public SalesManagementPage()
@@ -63,6 +67,17 @@ namespace GestionnaireDeStockApp
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
             LoadDataBaseProducts();
+        }
+
+        private void SearchAnArticleToSellTxtBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            SearchAnArticleToSellTxtBox.Text = string.Empty;
+            SearchAnArticleToSellTxtBox.Foreground = new SolidColorBrush(Colors.White);
+            SearchAnArticleToSellTxtBox.GotFocus += SearchAnArticleToSellTxtBox_GotFocus;
+            if (SearchAnArticleToSellTxtBox.Text == string.Empty)
+            {
+                LoadDataBaseProducts();
+            }
         }
 
         private void AddToSell_Click(object sender, RoutedEventArgs e)
@@ -184,10 +199,8 @@ namespace GestionnaireDeStockApp
 
         private void ResetTheTicket()
         {
-            NameTxtBlock.Text = string.Empty;
-            PriceTxtBlock.Text = string.Empty;
-            QuantTxtBlock.Text = string.Empty;
-            SubTotalTxtBlock.Text = string.Empty;
+            productToSells.Clear();
+
             TotalTxtBlock.Text = string.Empty;
             RestToPayTxtBlock.Text = string.Empty;
             PaymentTxtBlock.Text = string.Empty;
@@ -266,12 +279,15 @@ namespace GestionnaireDeStockApp
                 {
                     if (MessageBox.Show("Etes-vous sûr de vouloir ajouter cet article?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
-                        salesManagementPage.NameTxtBlock.Text += $"{articleToSell.Name}\n";
-                        salesManagementPage.PriceTxtBlock.Text += $"{articleToSell.Price}\n";
-                        salesManagementPage.QuantTxtBlock.Text += $"{SalesParametersWindow.Quantity}\n";
-
                         sum = articleToSell.Price * SalesParametersWindow.Quantity;
-                        salesManagementPage.SubTotalTxtBlock.Text += $"{Math.Round(sum, 2)}\n";
+                        productToSells.Add(new ProductToSell()
+                        {
+                            ProductToSellName = articleToSell.Name,
+                            ProductToSellPrice = articleToSell.Price,
+                            ProductToSellQuant = SalesParametersWindow.Quantity,
+                            ProductToSellSubTotal = sum
+                        });
+                        salesManagementPage.InvoiceDataGrid.ItemsSource = productToSells;
 
                         var tempTotal = salesManagementPage.CalculateADiscountPrice(sum);
 
@@ -306,8 +322,8 @@ namespace GestionnaireDeStockApp
                 return discountPrice;
             else
             {
-                salesManagementPage.NameTxtBlock.Text += "Remise\n";
-                salesManagementPage.SubTotalTxtBlock.Text += $"-{Math.Round(totalDiscount, 2)}\n";
+                //InvoiceDataGrid.BindingGroup.Name += "Remise\n";
+                //salesManagementPage.SubTotalTxtBlock.Text += $"-{Math.Round(totalDiscount, 2)}\n";
             }
             return discountPrice;
         }
@@ -440,9 +456,37 @@ namespace GestionnaireDeStockApp
             return CBPayment + MoneyPayment + ChequePayment;
         }
 
-        private void SearchAnArticleToSellTxtBox_GotFocus(object sender, RoutedEventArgs e)
+        private void DeleteProductToSell_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                var selectedRow = InvoiceDataGrid.CurrentCell.Item;
+                ProductToSell currentProdToSell = (ProductToSell)selectedRow;
 
+                if (selectedRow != DBNull.Value)
+                {
+                    if (MessageBox.Show("Etes-vous sûr de vouloir supprimer cet article?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
+                        foreach (var productToSell in productToSells)
+                        {
+                            if (productToSell.ProductToSellName.ToLower() == currentProdToSell.ProductToSellName.ToLower())
+                            {
+                                FinalTotal -= productToSell.ProductToSellSubTotal;
+                                totalSumList.Remove(productToSell.ProductToSellSubTotal);
+                                productToSells.Remove(productToSell);
+                                break;
+                            }
+                        }
+                        salesManagementPage.TotalTxtBlock.Text = $"{Math.Round(FinalTotal, 2)}€ TTC";
+                        salesManagementPage.RestToPayTxtBlock.Text = $"{Math.Round(FinalTotal, 2)}€";
+                        salesManagementPage.InvoiceDataGrid.ItemsSource = productToSells;
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
         }
     }
 }
