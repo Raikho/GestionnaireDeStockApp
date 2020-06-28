@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessLogicLayer;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -10,13 +11,14 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class ChequePaymentWindow : Window
     {
-        public static double ChequePayment { get; private set; }
+        CashRegisterManager CashRegisterManager = new CashRegisterManager();
+        SalesManagementPage SalesManagementPage = new SalesManagementPage();
 
         public ChequePaymentWindow()
         {
             InitializeComponent();
 
-            ChqTxtBox.Text = SalesManagementPage.FinalTotal.ToString();
+            ChqTxtBox.Text = CashRegisterManager._ProductLine.FinalTotalPrice.ToString();
             ChqTxtBox.Focus();
         }
 
@@ -40,7 +42,7 @@ namespace GestionnaireDeStockApp
         private void ValidateButton_Click(object sender, RoutedEventArgs e)
         {
             SetAChequeAmount();
-            SalesManagementPage.MakeAChequePayment();
+            SalesManagementPage.ShowAChequePayment();
             Close();
         }
 
@@ -54,7 +56,7 @@ namespace GestionnaireDeStockApp
             if (e.Key == Key.Enter)
             {
                 SetAChequeAmount();
-                SalesManagementPage.MakeAChequePayment();
+                SalesManagementPage.ShowAChequePayment();
                 Close();
             }
         }
@@ -79,11 +81,13 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                ControlInputService.CheckDoubleTypeInput(ChqTxtBox);
-                if (ControlInputService.CorrectPickedChara == false || ChqTxtBox.Text == "")
+                CheckInputService.CheckDoubleTypeInput(ChqTxtBox);
+                if (CheckInputService.CorrectPickedChara == false || ChqTxtBox.Text == "")
                     return 0;
                 else
-                    return ChequePayment = Convert.ToDouble(ChqTxtBox.Text);
+                {
+                    return CashRegisterManager._methodPayment.Cheque = Convert.ToDouble(ChqTxtBox.Text);
+                }
             }
             catch (Exception exception)
             {

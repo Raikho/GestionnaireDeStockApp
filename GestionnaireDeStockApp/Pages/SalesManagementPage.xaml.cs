@@ -1,9 +1,6 @@
-﻿using DataLayer;
+﻿using BusinessLogicLayer;
+using DataTransfertObject;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -16,31 +13,18 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class SalesManagementPage : Page
     {
-        public static List<double> totalSumList = new List<double>();
+        CashRegisterManager CashRegisterManager = new CashRegisterManager();
+        MethodPaymentManager MethodPaymentManager = new MethodPaymentManager();
+        SalesParameter SalesParameter = new SalesParameter();
 
-        public static double FinalTotal { get; private set; }
-
-        public static double CBPayment { get; private set; }
-        public static double MoneyPayment { get; private set; }
-        public static double ChequePayment { get; private set; }
-
-        public static string TicketRef { get; private set; }
-        public static double Discount { get; private set; }
-        public static string PaymentMethod { get; private set; }
-
-        static ObservableCollection<ProductToSell> productToSells = new ObservableCollection<ProductToSell>();
-
-        static SalesManagementPage salesManagementPage;
         public SalesManagementPage()
         {
-            salesManagementPage = this;
-
             InitializeComponent();
             SearchAnArticleToSellTxtBox.Focus();
-            LoadDataBaseProducts();
+            ArticleToSellDataGrid.ItemsSource = ProductManager.LoadProductsDataBase();
             ShowSellerNameOnTicket();
             ShowDateOnTicket();
-            CalculateTicketNumber();
+            ShowTicketNumber();
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
@@ -56,7 +40,14 @@ namespace GestionnaireDeStockApp
 
         private void ShowSellerNameOnTicket()
         {
-            SellerNameTxtBox.Text = $"Vendeur: {LoginWindow.Username}";
+            try
+            {
+                SellerNameTxtBox.Text = $"Vendeur: {LoginManager.Username}";
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
         }
 
         private void ShowDateOnTicket()
@@ -66,7 +57,7 @@ namespace GestionnaireDeStockApp
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
-            LoadDataBaseProducts();
+            ArticleToSellDataGrid.ItemsSource = ProductManager.LoadProductsDataBase();
         }
 
         private void SearchAnArticleToSellTxtBox_GotFocus(object sender, RoutedEventArgs e)
@@ -76,16 +67,22 @@ namespace GestionnaireDeStockApp
             SearchAnArticleToSellTxtBox.GotFocus += SearchAnArticleToSellTxtBox_GotFocus;
             if (SearchAnArticleToSellTxtBox.Text == string.Empty)
             {
-                LoadDataBaseProducts();
+                ProductManager.LoadProductsDataBase();
             }
         }
 
-        private void AddToSell_Click(object sender, RoutedEventArgs e)
+        private void AddToSellButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 SalesParametersWindow salesParametersWindow = new SalesParametersWindow();
-                salesParametersWindow.Show();
+                salesParametersWindow.ShowDialog();
+
+                if (salesParametersWindow.rightParameters == true)
+                {
+                    CalculateTheTicketPrice();
+                    ProductManager.LoadProductsDataBase();
+                }    
             }
             catch (Exception exception)
             {
@@ -156,31 +153,40 @@ namespace GestionnaireDeStockApp
             }
         }
 
+        private void CancelPaymentButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Etes-vous sûr de vouloir annuler le ticket?", "Ticket", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                ResetTheTicket();
+        }
+
+        private void ResetTheTicket()
+        {
+            TotalTxtBlock.Text = string.Empty;
+            RestToPayTxtBlock.Text = string.Empty;
+            PaymentTxtBlock.Text = string.Empty;
+            PaymentMethodTxtBlock.Text = string.Empty;
+            DiscountTxtBlock.Text = string.Empty;
+            TotalDiscountTxtBlock.Text = string.Empty;
+            TicketNumTxtBox.Text = ShowTicketNumber();
+
+            CashRegisterManager._ProductLine.FinalTotalPrice = 0;
+            CashRegisterManager.productLinesList.Clear();
+        }
+
         private void PaymentButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 if (MessageBox.Show("Voulez-vous valider l'encaissement?", "Caisse", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    if (FinalTotal > 0)
+                    if (CashRegisterManager._ProductLine.FinalTotalPrice > 0)
                         MessageBox.Show("L'encaissement est incomplet. Veuillez procéder au paiement.");
                     else
                     {
-                        using var dbContext = new StockContext();
-                        var tickets = dbContext.Invoices;
-
-                        var ticket = new Invoice()
-                        {
-                            TicketRef = TicketRef,
-                            NameSeller = LoginWindow.Username,
-                            Recipe = CalculateRecipe(),
-                            Discount = Discount,
-                            PaymentMethod = ShowPaymentMethod(),
-                            CreationDate = DateTime.Now.Date
-                        };
-                        dbContext.Add(ticket);
-                        dbContext.SaveChanges();
+                        InvoiceManager.SaveInvoiceToDataBase(CashRegisterManager._invoice.TicketRef, LoginManager.Username, CashRegisterManager.CalculateTheTotalPayment(), CashRegisterManager._ProductLine.TotalDiscount, CashRegisterManager.MakeAPaymentMethod(), DateTime.Now);
                         MessageBox.Show("Vente terminée! Le ticket a été validé.");
+                        ProductLineManager.SaveProductLine(CashRegisterManager.productLinesList);
+                        MethodPaymentManager.SavePaymentMethod();
                         ResetTheTicket();
                     }
                 }
@@ -191,68 +197,14 @@ namespace GestionnaireDeStockApp
             }
         }
 
-        private void CancelPaymentButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (MessageBox.Show("Etes-vous sûr de vouloir annuler le ticket?", "Ticket", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                ResetTheTicket();
-        }
-
-        private void ResetTheTicket()
-        {
-            productToSells.Clear();
-
-            TotalTxtBlock.Text = string.Empty;
-            RestToPayTxtBlock.Text = string.Empty;
-            PaymentTxtBlock.Text = string.Empty;
-            PaymentMethodTxtBlock.Text = string.Empty;
-            TicketNumTxtBox.Text = CalculateTicketNumber();
-
-            FinalTotal = 0;
-            totalSumList.Clear();
-        }
-
-        private void SearchAnArticleToSell()
+        public void SearchAnArticleToSell()
         {
             try
             {
-                string input = SearchAnArticleToSellTxtBox.Text;
-                if (!Regex.IsMatch(input, @"^[a-zA-Z0-9, ]+$"))
+                var input = CheckInputService.CheckStringTypeInput(SearchAnArticleToSellTxtBox);
+                if (input == true)
                 {
-                    MessageBox.Show("La saisie ne correspond pas à une saisie alphanumérique.");
-                }
-                else
-                {
-                    List<Product> productAdded = new List<Product>();
-                    Product articleToFind = null;
-
-                    using (var dbContext = new StockContext())
-                    {
-                        var products = dbContext.Products;
-
-                        foreach (var product in products)
-                        {
-                            if (product.Reference.ToString().ToLower().Contains(input.ToString().ToLower())
-                                || product.Name.ToString().ToLower().Contains(input.ToString().ToLower())
-                                || product.Price.ToString().ToLower().Contains(input.ToString().ToLower())
-                                || product.Quantity.ToString().ToLower().Contains(input.ToString().ToLower()))
-                            {
-                                articleToFind = product;
-
-                                productAdded.Add(new Product()
-                                {
-                                    Reference = product.Reference,
-                                    Name = product.Name,
-                                    Price = product.Price,
-                                    Quantity = product.Quantity
-                                });
-                            }
-                        }
-                        ArticleToSellDataGrid.ItemsSource = productAdded;
-                    }
-                    if (articleToFind == null)
-                    {
-                        MessageBox.Show("Article introuvable");
-                    }
+                    ArticleToSellDataGrid.ItemsSource = ProductManager.GetProductByGlobalResearch(SearchAnArticleToSellTxtBox.Text);
                 }
             }
             catch (Exception exception)
@@ -261,46 +213,19 @@ namespace GestionnaireDeStockApp
             }
         }
 
-        public static void CalculateTheTicketPrice()
+        public void CalculateTheTicketPrice()
         {
             try
             {
-                using var dbContext = new StockContext();
-                var products = dbContext.Products;
-                var selectedRow = salesManagementPage.ArticleToSellDataGrid.CurrentCell.Item;
-                Product articleToSell = (Product)selectedRow;
-
-                double sum;
-                double totalSum = 0;
-
-                if (ControlInputService.CorrectPickedChara == false || SalesParametersWindow.Quantity == 0)
-                    MessageBox.Show("Veuillez saisir une quantité.");
-                else
+                CashRegisterManager.ExecuteAPriceCalculCycle(ProductManager.SelectAProductByRow(ArticleToSellDataGrid.CurrentCell.Item), SalesParametersWindow.SalesParameter.Quantity, SalesParametersWindow.SalesParameter.PourcentDiscount, SalesParametersWindow.SalesParameter.Discount);
+                InvoiceDataGrid.ItemsSource = CashRegisterManager.productLinesList;
+                TotalTxtBlock.Text = $"{Math.Round(CashRegisterManager._ProductLine.FinalTotalPrice, 2)}€ TTC";
+                RestToPayTxtBlock.Text = $"{Math.Round(CashRegisterManager._ProductLine.FinalTotalPrice, 2)}€";
+                if (CashRegisterManager._ProductLine.TotalDiscount > 0)
                 {
-                    if (MessageBox.Show("Etes-vous sûr de vouloir ajouter cet article?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                    {
-                        sum = articleToSell.Price * SalesParametersWindow.Quantity;
-                        productToSells.Add(new ProductToSell()
-                        {
-                            ProductToSellName = articleToSell.Name,
-                            ProductToSellPrice = articleToSell.Price,
-                            ProductToSellQuant = SalesParametersWindow.Quantity,
-                            ProductToSellSubTotal = sum
-                        });
-                        salesManagementPage.InvoiceDataGrid.ItemsSource = productToSells;
-
-                        var tempTotal = salesManagementPage.CalculateADiscountPrice(sum);
-
-                        totalSumList.Add(tempTotal);
-                    }
+                    DiscountTxtBlock.Text = "Remise";
+                    TotalDiscountTxtBlock.Text = $"-{Math.Round(CashRegisterManager._ProductLine.TotalDiscount, 2)}";
                 }
-                foreach (var item in totalSumList)
-                {
-                    totalSum += item;
-                }
-                FinalTotal = totalSum;
-                salesManagementPage.TotalTxtBlock.Text = $"{Math.Round(FinalTotal, 2)}€ TTC";
-                salesManagementPage.RestToPayTxtBlock.Text = $"{Math.Round(FinalTotal, 2)}€";
             }
             catch (Exception exception)
             {
@@ -308,82 +233,23 @@ namespace GestionnaireDeStockApp
             }
         }
 
-        private double CalculateADiscountPrice(double totalSum)
+        private string ShowTicketNumber()
         {
-            double pourcentDiscount = SalesParametersWindow.PourcentDiscount / 100;
-            double discount = SalesParametersWindow.Discount;
-
-            Discount = pourcentDiscount + discount;
-            double pourcentDiscountPrice = totalSum - totalSum * pourcentDiscount;
-            double discountPrice = pourcentDiscountPrice - discount;
-            double totalDiscount = totalSum - discountPrice;
-
-            if (totalDiscount == 0)
-                return discountPrice;
-            else
-            {
-                //InvoiceDataGrid.BindingGroup.Name += "Remise\n";
-                //salesManagementPage.SubTotalTxtBlock.Text += $"-{Math.Round(totalDiscount, 2)}\n";
-            }
-            return discountPrice;
-        }
-
-        private string CalculateTicketNumber()
-        {
-            List<Invoice> invoicesList = new List<Invoice>();
-            var dbContext = new StockContext();
-            var invoices = dbContext.Invoices;
-
-            foreach (var item in invoices)
-            {
-                invoicesList.Add(item);
-            }
-
-            var lastTicket = invoicesList.Last();
-
-            var refToSum = lastTicket.TicketRef.Substring(11);
-
-            int newTicketRef = Convert.ToInt32(refToSum) + 1;
+            var ticketRef = CashRegisterManager.CalculateTicketNumber();
 
             string numFormat = "0000.##";
-            return TicketRef = TicketNumTxtBox.Text = $"{DateTime.Now.ToShortDateString()}/{newTicketRef.ToString(numFormat)}";
+            return CashRegisterManager._invoice.TicketRef = TicketNumTxtBox.Text = $"{DateTime.Now.ToShortDateString()}/{ticketRef.ToString(numFormat)}";
         }
 
-        public static void LoadDataBaseProducts()
-        {
-            using var dbContext = new StockContext();
-            List<Product> productAdded = new List<Product>();
-
-            var products = dbContext.Products;
-
-            foreach (var product in products)
-            {
-                productAdded.Add(new Product()
-                {
-                    ProductId = product.ProductId,
-                    Reference = product.Reference,
-                    Name = product.Name,
-                    Price = product.Price,
-                    Quantity = product.Quantity
-                });
-            }
-            salesManagementPage.ArticleToSellDataGrid.ItemsSource = productAdded;
-        }
-
-        public static void MakeACBPayment()
+        public void ShowACBPayment()
         {
             try
             {
-                var totalToPay = FinalTotal;
-                CBPayment = CreditCardPaymentWindow.CreditCardPayment;
+                CashRegisterManager.MakeACBPayment();
+                PaymentMethodTxtBlock.Text += "Paiement CB:\n";
+                PaymentTxtBlock.Text += $"{Math.Round(CashRegisterManager._methodPayment.CB, 2)}€\n";
 
-                var restToPay = totalToPay - CBPayment;
-
-                salesManagementPage.PaymentMethodTxtBlock.Text += "Paiement CB:\n";
-                salesManagementPage.PaymentTxtBlock.Text += $"{Math.Round(CBPayment, 2)}€\n";
-
-                FinalTotal = restToPay;
-                salesManagementPage.RestToPayTxtBlock.Text = $"{Math.Round(FinalTotal, 2)}€";
+                RestToPayTxtBlock.Text = $"{Math.Round(CashRegisterManager._ProductLine.FinalTotalPrice, 2)}€";
             }
             catch (Exception exception)
             {
@@ -391,20 +257,15 @@ namespace GestionnaireDeStockApp
             }
         }
 
-        public static void MakeAMoneyPayment()
+        public void ShowAMoneyPayment()
         {
             try
             {
-                var totalToPay = FinalTotal;
-                MoneyPayment = MoneyPaymentWindow.MoneyPayment;
+                CashRegisterManager.MakeAMoneyPayment();
+                PaymentMethodTxtBlock.Text += "Paiement espèces:\n";
+                PaymentTxtBlock.Text += $"{Math.Round(CashRegisterManager._methodPayment.Money, 2)}€\n";
 
-                var restToPay = totalToPay - MoneyPayment;
-
-                salesManagementPage.PaymentMethodTxtBlock.Text += "Paiement espèces:\n";
-                salesManagementPage.PaymentTxtBlock.Text += $"{Math.Round(MoneyPayment, 2)}€\n";
-
-                FinalTotal = restToPay;
-                salesManagementPage.RestToPayTxtBlock.Text = $"{Math.Round(FinalTotal, 2)}€";
+                RestToPayTxtBlock.Text = $"{Math.Round(CashRegisterManager._ProductLine.FinalTotalPrice, 2)}€";
             }
             catch (Exception exception)
             {
@@ -412,74 +273,36 @@ namespace GestionnaireDeStockApp
             }
         }
 
-        public static void MakeAChequePayment()
+        public void ShowAChequePayment()
         {
             try
             {
-                var totalToPay = FinalTotal;
-                ChequePayment = ChequePaymentWindow.ChequePayment;
+                CashRegisterManager.MakeAChequePayment();
+                PaymentMethodTxtBlock.Text += "Paiement chèque:\n";
+                PaymentTxtBlock.Text += $"{Math.Round(CashRegisterManager._methodPayment.Cheque, 2)}€\n";
 
-                var restToPay = totalToPay - ChequePayment;
-
-                salesManagementPage.PaymentMethodTxtBlock.Text += "Paiement chèque:\n";
-                salesManagementPage.PaymentTxtBlock.Text += $"{Math.Round(ChequePayment, 2)}€\n";
-
-                FinalTotal = restToPay;
-                salesManagementPage.RestToPayTxtBlock.Text = $"{Math.Round(FinalTotal, 2)}€";
+                RestToPayTxtBlock.Text = $"{Math.Round(CashRegisterManager._ProductLine.FinalTotalPrice, 2)}€";
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message);
             }
-        }
-
-        public static string ShowPaymentMethod()
-        {
-            if (CreditCardPaymentWindow.CreditCardPayment > 0 && MoneyPaymentWindow.MoneyPayment == 0 && ChequePaymentWindow.ChequePayment == 0)
-                return "CB";
-            else if (CreditCardPaymentWindow.CreditCardPayment == 0 && MoneyPaymentWindow.MoneyPayment > 0 && ChequePaymentWindow.ChequePayment == 0)
-                return "ESPECES";
-            else if (CreditCardPaymentWindow.CreditCardPayment == 0 && MoneyPaymentWindow.MoneyPayment == 0 && ChequePaymentWindow.ChequePayment > 0)
-                return "CHEQUE";
-            else if (CreditCardPaymentWindow.CreditCardPayment > 0 && MoneyPaymentWindow.MoneyPayment > 0 && ChequePaymentWindow.ChequePayment == 0)
-                return "CB/ESPECES";
-            else if (CreditCardPaymentWindow.CreditCardPayment == 0 && MoneyPaymentWindow.MoneyPayment == 0 && ChequePaymentWindow.ChequePayment > 0)
-                return "CB/CHEQUE";
-            else if (CreditCardPaymentWindow.CreditCardPayment == 0 && MoneyPaymentWindow.MoneyPayment > 0 && ChequePaymentWindow.ChequePayment > 0)
-                return "ESPECES/CHEQUE";
-            else
-                return "CB/ESPECES/CHEQUE";
-        }
-
-        private double CalculateRecipe()
-        {
-            return CBPayment + MoneyPayment + ChequePayment;
         }
 
         private void DeleteProductToSell_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                var selectedRow = InvoiceDataGrid.CurrentCell.Item;
-                ProductToSell currentProdToSell = (ProductToSell)selectedRow;
-
-                if (selectedRow != DBNull.Value)
+                var selectedRow = ProductManager.SelectAProductToSellByRow(InvoiceDataGrid.CurrentCell.Item);
+                if (selectedRow != null)
                 {
                     if (MessageBox.Show("Etes-vous sûr de vouloir supprimer cet article?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
-                        foreach (var productToSell in productToSells)
-                        {
-                            if (productToSell.ProductToSellName.ToLower() == currentProdToSell.ProductToSellName.ToLower())
-                            {
-                                FinalTotal -= productToSell.ProductToSellSubTotal;
-                                totalSumList.Remove(productToSell.ProductToSellSubTotal);
-                                productToSells.Remove(productToSell);
-                                break;
-                            }
-                        }
-                        salesManagementPage.TotalTxtBlock.Text = $"{Math.Round(FinalTotal, 2)}€ TTC";
-                        salesManagementPage.RestToPayTxtBlock.Text = $"{Math.Round(FinalTotal, 2)}€";
-                        salesManagementPage.InvoiceDataGrid.ItemsSource = productToSells;
+                        CashRegisterManager.DeleteProductToSell();
+                        TotalTxtBlock.Text = $"{Math.Round(CashRegisterManager._ProductLine.FinalTotalPrice, 2)}€ TTC";
+                        RestToPayTxtBlock.Text = $"{Math.Round(CashRegisterManager._ProductLine.FinalTotalPrice, 2)}€";
+                        TotalDiscountTxtBlock.Text = $"-{Math.Round(CashRegisterManager._ProductLine.TotalDiscount, 2)}";
+                        InvoiceDataGrid.ItemsSource = CashRegisterManager.productLinesList;
                     }
                 }
             }

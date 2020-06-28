@@ -5,10 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Invoice.cs" />
     <Compile Remove="Migrations\20200615161117_Payment.cs" />
     <Compile Remove="Migrations\20200615161117_Payment.Designer.cs" />
     <Compile Remove="Migrations\20200615212755_Payment.cs" />
     <Compile Remove="Migrations\20200615212755_Payment.Designer.cs" />
+    <Compile Remove="ProductLine.cs" />
+    <Compile Remove="User.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +26,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DataTransfertObject\DataTransfertObject.csproj" />
   </ItemGroup>
 
 </Project>

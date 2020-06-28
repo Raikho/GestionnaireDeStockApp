@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BusinessLogicLayer;
+using DataTransfertObject;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -11,11 +13,8 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class SalesParametersWindow : Window
     {
-        public static double Quantity { get; private set; }
-
-        public static double PourcentDiscount { get; private set; }
-
-        public static double Discount { get; private set; }
+        public static SalesParameter SalesParameter = new SalesParameter();
+        public bool rightParameters { get; set; }
 
         public SalesParametersWindow()
         {
@@ -106,46 +105,67 @@ namespace GestionnaireDeStockApp
                 textBox.SelectAll();
         }
 
-        private void SetAParamPack()
+        public bool SetAParamPack()
         {
-            Quantity = 0;
-            PourcentDiscount = 0;
-            Discount = 0;
+            SalesParameter.Quantity = 0;
+            SalesParameter.PourcentDiscount = 0;
+            SalesParameter.Discount = 0;
 
             SetQuantityParameter();
             SetPourcentDiscountParamater();
             SetDiscountParameter();
-            SalesManagementPage.CalculateTheTicketPrice();
-            SalesManagementPage.LoadDataBaseProducts();
-            if (Quantity != 0)
+
+            var paramBool = SetSaleParameter();
+            if (paramBool == true && SalesParameter.Quantity != 0)
+            {
                 Close();
+                return rightParameters = true;
+            }
+            else
+                return rightParameters = false;
+        }
+
+        private bool SetSaleParameter()
+        {
+            bool paramater = false;
+            if (CheckInputService.CorrectPickedChara == false || SalesParameter.Quantity == 0)
+            {
+                MessageBox.Show("Veuillez saisir une quantité.");
+                paramater = false;
+            }
+            else
+            {
+                if (MessageBox.Show("Etes-vous sûr de vouloir ajouter cet article?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                paramater = true;
+            }
+            return paramater;
         }
 
         private double SetQuantityParameter()
         {
-            ControlInputService.CheckDoubleTypeInput(QuantParamTxtBox);
-            if (ControlInputService.CorrectPickedChara == false || QuantParamTxtBox.Text == "")
+            CheckInputService.CheckDoubleTypeInput(QuantParamTxtBox);
+            if (CheckInputService.CorrectPickedChara == false || QuantParamTxtBox.Text == "")
                 return 0;
             else
-                return Quantity = Convert.ToInt32(QuantParamTxtBox.Text);
+                return SalesParameter.Quantity = Convert.ToInt32(QuantParamTxtBox.Text);
         }
 
         private double SetPourcentDiscountParamater()
         {
-            ControlInputService.CheckDoubleTypeInput(PourcentDiscountTxtBox);
-            if (ControlInputService.CorrectPickedChara == false || PourcentDiscountTxtBox.Text == "")
+            CheckInputService.CheckDoubleTypeInput(PourcentDiscountTxtBox);
+            if (CheckInputService.CorrectPickedChara == false || PourcentDiscountTxtBox.Text == "")
                 return 0;
             else
-                return PourcentDiscount = Convert.ToInt32(PourcentDiscountTxtBox.Text);
+                return SalesParameter.PourcentDiscount = Convert.ToInt32(PourcentDiscountTxtBox.Text);
         }
 
         private double SetDiscountParameter()
         {
-            ControlInputService.CheckDoubleTypeInput(DiscountTxtBox);
-            if (ControlInputService.CorrectPickedChara == false || DiscountTxtBox.Text == "")
+            CheckInputService.CheckDoubleTypeInput(DiscountTxtBox);
+            if (CheckInputService.CorrectPickedChara == false || DiscountTxtBox.Text == "")
                 return 0;
             else
-                return Discount = Convert.ToInt32(DiscountTxtBox.Text);
+                return SalesParameter.Discount = Convert.ToInt32(DiscountTxtBox.Text);
         }
     }
 }

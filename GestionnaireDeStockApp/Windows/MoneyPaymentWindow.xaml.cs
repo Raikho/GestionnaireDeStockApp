@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessLogicLayer;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -10,13 +11,14 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class MoneyPaymentWindow : Window
     {
-        public static double MoneyPayment { get; private set; }
+        CashRegisterManager CashRegisterManager = new CashRegisterManager();
+        SalesManagementPage SalesManagementPage = new SalesManagementPage();
 
         public MoneyPaymentWindow()
         {
             InitializeComponent();
 
-            MoneyTxtBox.Text = SalesManagementPage.FinalTotal.ToString();
+            MoneyTxtBox.Text = CashRegisterManager._ProductLine.FinalTotalPrice.ToString();
             MoneyTxtBox.Focus();
         }
 
@@ -40,7 +42,7 @@ namespace GestionnaireDeStockApp
         private void ValidateButton_Click(object sender, RoutedEventArgs e)
         {
             SetAMoneyAmount();
-            SalesManagementPage.MakeAMoneyPayment();
+            SalesManagementPage.ShowAMoneyPayment();
             Close();
         }
 
@@ -54,7 +56,7 @@ namespace GestionnaireDeStockApp
             if (e.Key == Key.Enter)
             {
                 SetAMoneyAmount();
-                SalesManagementPage.MakeAMoneyPayment();
+                SalesManagementPage.ShowAMoneyPayment();
                 Close();
             }
         }
@@ -79,18 +81,19 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                ControlInputService.CheckDoubleTypeInput(MoneyTxtBox);
-                if (ControlInputService.CorrectPickedChara == false || MoneyTxtBox.Text == "")
+                CheckInputService.CheckDoubleTypeInput(MoneyTxtBox);
+                if (CheckInputService.CorrectPickedChara == false || MoneyTxtBox.Text == "")
                     return 0;
                 else
-                    return MoneyPayment = Convert.ToDouble(MoneyTxtBox.Text);
+                {
+                    return CashRegisterManager._methodPayment.Money = Convert.ToDouble(MoneyTxtBox.Text);
+                }
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message);
                 return 0;
             }
-
         }
     }
 }

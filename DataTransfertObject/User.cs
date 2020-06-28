@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DataLayer
+namespace DataTransfertObject
 {
     public class User
     {

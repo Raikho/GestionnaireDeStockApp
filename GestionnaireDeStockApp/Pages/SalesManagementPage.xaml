@@ -48,15 +48,16 @@
                         VerticalAlignment="Stretch">
 
                         <DataGrid x:Name="ArticleToSellDataGrid"
-                                  AlternatingRowBackground="LightGray"
-
                                   x:Uid="ArticleToSellDataGrid"
+                                  Height="720"
                                   AutoGenerateColumns="False"
-                                  Background="Transparent" 
+                                  Background="Transparent"
+                                  BorderBrush="Transparent"
+                                  AlternatingRowBackground="LightGray"
                                   AlternationCount="2" 
                                   SelectionMode="Single"
-                                  Height="720"
-                                  BorderBrush="Transparent">
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch">
 
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Référence"
@@ -74,10 +75,10 @@
                                 <DataGridTemplateColumn Width="57.9">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button x:Name="EditAnArticleButton"
-                                        Content="Ajouter"
-                                        Width="50"
-                                        Click="AddToSell_Click"/>
+                                            <Button x:Name="AddToSellButton"
+                                                    Content="Ajouter"
+                                                    Width="50"
+                                                    Click="AddToSellButton_Click"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -184,7 +185,7 @@
                                        Height="20"/>
                             <TextBlock Text="Prix(€)"
                                        FontSize="10" 
-                                       Margin="95,0,0,0" 
+                                       Margin="69,0,0,0" 
                                        Height="20"/>
                             <TextBlock Text="Quantité"
                                        FontSize="10" 
@@ -192,7 +193,7 @@
                                        Height="20"/>
                             <TextBlock Text="Sous-total" 
                                        FontSize="10" 
-                                       Margin="8,0,0,0" 
+                                       Margin="40,0,0,0" 
                                        Height="20"/>
                         </StackPanel>
                         <Border HorizontalAlignment="Left" 
@@ -226,17 +227,20 @@
 
                                     <DataGrid.Columns>
                                         <DataGridTextColumn 
-                                                                Width="138"
-                                                                Binding="{Binding Path=ProductToSellName}"/>
+                                                                Width="110"
+                                                                Binding="{Binding Path=Product.Name}"/>
                                         <DataGridTextColumn 
-                                                                Width="40"
-                                                                Binding="{Binding Path=ProductToSellPrice}"/>
+                                                                Width="42"
+                                                                Binding="{Binding Path=Product.Price}"/>
                                         <DataGridTextColumn 
-                                                                Width="46"
-                                                                Binding="{Binding Path=ProductToSellQuant}"/>
+                                                                Width="38"
+                                                                Binding="{Binding Path=Quantity}"/>
+                                        <DataGridTextColumn
+                                                                Width="50"
+                                                                Binding="{Binding Path=TotalDiscount}"/>
                                         <DataGridTextColumn 
-                                                                Width="55"
-                                                                Binding="{Binding Path=ProductToSellSubTotal}"/>
+                                                                Width="39"
+                                                                Binding="{Binding Path=Ticket.Recipe}"/>
                                         <DataGridTemplateColumn Width="66">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
@@ -271,30 +275,39 @@
                                 <TranslateTransform/>
                             </TransformGroup>
                         </StackPanel.RenderTransform>
-                        <Grid Height="71">
+                        <Grid Height="80">
                             <TextBlock  Text="TOTAL" 
-                                    Margin="20,0,170,45"
-                                    FontSize="17"/>
-                            <TextBlock  Text="Reste à payer" 
-                                    Margin="20,27,170,19" 
-                                    FontSize="13"/>
-
+                                        Margin="20,0,170,57"
+                                        FontSize="17"/>
                             <TextBlock  x:Name="TotalTxtBlock"
-                                    TextAlignment="Right"
-                                    Margin="140,0,19,44" FontSize="17"/>
-                            <TextBlock  x:Name="RestToPayTxtBlock"
-                                    Margin="142,27,19,19" 
-                                    TextAlignment="Right"
-                                    FontSize="13"/>
+                                        TextAlignment="Right"
+                                        Margin="140,0,19,57" FontSize="17"/>
 
-                            <TextBlock  x:Name="PaymentTxtBlock"
-                                    TextAlignment="Right"
-                                    Margin="140,50,19,-104"
-                                    FontSize="13"/>
+                            <TextBlock  Text="Reste à payer" 
+                                        Margin="20,27,170,38" 
+                                        FontSize="13"/>
+                            <TextBlock  x:Name="RestToPayTxtBlock"
+                                        Margin="142,27,19,38" 
+                                        TextAlignment="Right"
+                                        FontSize="13"/>
+
+                            <TextBlock  x:Name="DiscountTxtBlock"
+                                        TextAlignment="Left"
+                                        Margin="20,51,170,14" 
+                                        FontSize="13"/>
+                            <TextBlock  x:Name="TotalDiscountTxtBlock"
+                                        Margin="142,51,19,14" 
+                                        TextAlignment="Right"
+                                        FontSize="13"/>
+
                             <TextBlock  x:Name="PaymentMethodTxtBlock"
-                                    TextAlignment="Left"
-                                    Margin="20,50,150,-104"
-                                    FontSize="13"/>
+                                        TextAlignment="Left"
+                                        Margin="20,84,150,-104"
+                                        FontSize="13"/>
+                            <TextBlock  x:Name="PaymentTxtBlock"
+                                        TextAlignment="Right"
+                                        Margin="140,84,19,-104"
+                                        FontSize="13"/>
                         </Grid>
                     </StackPanel>
                 </Grid>

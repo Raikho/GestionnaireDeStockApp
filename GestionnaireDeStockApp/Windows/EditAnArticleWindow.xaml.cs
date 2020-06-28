@@ -1,6 +1,5 @@
-﻿using DataLayer;
+﻿using BusinessLogicLayer;
 using System;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -158,23 +157,12 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                using (var dbContext = new StockContext())
-                {
-                    var products = dbContext.Products;
-                    var selectedItem = ArticlesListManagementPage.CurrentItemSelected;
+                var selectedItem = ProductManager.SelectAProductByRow(ArticlesListManagementPage.CurrentItemSelected);
 
-                    foreach (var product in products)
-                    {
-                        Product articleToEdit = selectedItem;
-                        if (articleToEdit.ToString().ToLower() == product.ToString().ToLower())
-                        {
-                            EditRefTxtBox.Text = articleToEdit.Reference;
-                            EditNameTxtBox.Text = articleToEdit.Name;
-                            EditPriceTxtBox.Text = articleToEdit.Price.ToString(); ;
-                            EditQuantTxtBox.Text = articleToEdit.Quantity.ToString();
-                        }
-                    }
-                }
+                EditRefTxtBox.Text = selectedItem.Reference;
+                EditNameTxtBox.Text = selectedItem.Name;
+                EditPriceTxtBox.Text = selectedItem.Price.ToString();
+                EditQuantTxtBox.Text = selectedItem.Quantity.ToString();
             }
             catch (Exception exception)
             {
@@ -186,38 +174,28 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                using (var dbContext = new StockContext())
+                if (MessageBox.Show("Etes-vous sûr de vouloir modifié cet article?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    var products = dbContext.Products;
-                    var selectedItem = ArticlesListManagementPage.CurrentItemSelected;
-
-                    if (selectedItem != null)
+                    var checkedChar = CheckInputService.CheckAllCharacteristics(EditRefTxtBox, EditNameTxtBox, EditPriceTxtBox, EditQuantTxtBox, EditAnArticleTxtBlockInfo);
+                    if (checkedChar == false)
                     {
-                        if (MessageBox.Show("Etes-vous sûr de vouloir modifié cet article?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                        {
-                            var checkedChar = ControlInputService.CheckAllCharacteristics(EditRefTxtBox, EditNameTxtBox, EditPriceTxtBox, EditQuantTxtBox, EditAnArticleTxtBlockInfo);
-                            if (checkedChar == false)
-                            {
-                                MessageBox.Show("Une erreur de saisie est survenue.");
-                                SelectAnArticle();
-                            }
-                            else
-                            {
-                                selectedItem.Reference = EditRefTxtBox.Text;
-                                selectedItem.Name = EditNameTxtBox.Text;
-                                selectedItem.Price = Convert.ToDouble(EditPriceTxtBox.Text);
-                                selectedItem.Quantity = Convert.ToInt32(EditQuantTxtBox.Text);
+                        MessageBox.Show("Une erreur de saisie est survenue.");
+                        SelectAnArticle();
+                    }
+                    else
+                    {
+                        ProductManager.selectedItem.Reference = EditRefTxtBox.Text;
+                        ProductManager.selectedItem.Name = EditNameTxtBox.Text;
+                        ProductManager.selectedItem.Price = Convert.ToDouble(EditPriceTxtBox.Text);
+                        ProductManager.selectedItem.Quantity = Convert.ToInt32(EditQuantTxtBox.Text);
 
-                                EditAnArticleTxtBlockInfo.Foreground = new SolidColorBrush(Colors.GreenYellow);
-                                EditAnArticleTxtBlockInfo.Text = "Le produit a été modifié avec succès";
-                                
-                                dbContext.Update(selectedItem);
-                                dbContext.SaveChanges();
+                        EditAnArticleTxtBlockInfo.Foreground = new SolidColorBrush(Colors.GreenYellow);
+                        EditAnArticleTxtBlockInfo.Text = "Le produit a été modifié avec succès";
 
-                                Close();
-                                ArticlesListManagementPage.LoadDataBaseProducts();
-                            }
-                        }
+                        ProductManager.UpdateAProduct(ProductManager.selectedItem);
+
+                        Close();
+                        ArticlesListManagementPage.ReloadDataGrid();
                     }
                 }
             }

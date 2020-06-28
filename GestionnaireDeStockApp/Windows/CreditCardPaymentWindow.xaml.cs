@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessLogicLayer;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -10,13 +11,14 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class CreditCardPaymentWindow : Window
     {
-        public static double CreditCardPayment { get; private set; }
+        CashRegisterManager CashRegisterManager = new CashRegisterManager();
+        SalesManagementPage SalesManagementPage = new SalesManagementPage();
 
         public CreditCardPaymentWindow()
         {
             InitializeComponent();
 
-            CBTxtBox.Text = SalesManagementPage.FinalTotal.ToString();
+            CBTxtBox.Text = CashRegisterManager._ProductLine.FinalTotalPrice.ToString();
             CBTxtBox.Focus();
         }
 
@@ -40,7 +42,7 @@ namespace GestionnaireDeStockApp
         private void ValidateButton_Click(object sender, RoutedEventArgs e)
         {
             SetACbAmount();
-            SalesManagementPage.MakeACBPayment();
+            SalesManagementPage.ShowACBPayment();
             Close();
         }
 
@@ -54,7 +56,7 @@ namespace GestionnaireDeStockApp
             if (e.Key == Key.Enter)
             {
                 SetACbAmount();
-                SalesManagementPage.MakeACBPayment();
+                SalesManagementPage.ShowACBPayment();
                 Close();
             }
         }
@@ -79,11 +81,13 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                ControlInputService.CheckDoubleTypeInput(CBTxtBox);
-                if (ControlInputService.CorrectPickedChara == false || CBTxtBox.Text == "")
+                CheckInputService.CheckDoubleTypeInput(CBTxtBox);
+                if (CheckInputService.CorrectPickedChara == false || CBTxtBox.Text == "")
                     return 0;
                 else
-                    return CreditCardPayment = Convert.ToDouble(CBTxtBox.Text);
+                {
+                    return CashRegisterManager._methodPayment.CB =  Convert.ToDouble(CBTxtBox.Text);
+                }
             }
             catch (Exception exception)
             {

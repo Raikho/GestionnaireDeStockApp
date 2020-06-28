@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace DataLayer
+namespace DataTransfertObject
 {
     public class Invoice
     {

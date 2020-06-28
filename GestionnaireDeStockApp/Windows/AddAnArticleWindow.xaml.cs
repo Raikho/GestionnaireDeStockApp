@@ -1,4 +1,4 @@
-﻿using DataLayer;
+﻿using BusinessLogicLayer;
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -120,49 +120,24 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                using (var dbContext = new StockContext())
+                var checkedChar = CheckInputService.CheckAllCharacteristics(AddRefTxtBox, AddNameTxtBox, AddPriceTxtBox, AddQuantTxtBox, AddAnArticleTxtBlockInfo);
+                if (checkedChar == true)
                 {
-                    var products = dbContext.Products;
-                    bool duplicate = false;
-
-                    foreach (var product in products)
+                    var newProduct = ProductManager.AddANewProductByRefChecking(AddRefTxtBox.Text, AddNameTxtBox.Text, AddPriceTxtBox.Text, AddQuantTxtBox.Text);
+                    if (MessageBox.Show("Etes-vous sûr de vouloir ajouté cet article au stock?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
-                        if (product.Reference.ToLower() == AddRefTxtBox.Text.ToLower())
+                        if (newProduct == null)
                         {
-                            duplicate = true;
                             AddAnArticleTxtBlockInfo.FontSize = 12;
                             AddAnArticleTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Yellow);
                             AddAnArticleTxtBlockInfo.Text = "L'article existe déjà";
-                            break;
                         }
-                    }
-
-                    if (!duplicate)
-                    {
-                        if (MessageBox.Show("Etes-vous sûr de vouloir ajouté cet article au stock?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                        else
                         {
-                            var checkedChar = ControlInputService.CheckAllCharacteristics(AddRefTxtBox, AddNameTxtBox, AddPriceTxtBox, AddQuantTxtBox, AddAnArticleTxtBlockInfo);
-                            if (checkedChar == false)
-                            {
-                                
-                            }
-                            else
-                            {
-                                var product = new Product()
-                                {
-                                    Reference = AddRefTxtBox.Text,
-                                    Name = AddNameTxtBox.Text,
-                                    Price = Convert.ToDouble(AddPriceTxtBox.Text),
-                                    Quantity = Convert.ToInt32(AddQuantTxtBox.Text)
-                                };
-                                products.Add(product);
-                                dbContext.SaveChanges();
-
-                                AddAnArticleTxtBlockInfo.FontSize = 12;
-                                AddAnArticleTxtBlockInfo.Text = "Le nouveau produit a été intégré au stock";
-                                ArticlesListManagementPage.LoadDataBaseProducts();
-                            }
+                            AddAnArticleTxtBlockInfo.FontSize = 12;
+                            AddAnArticleTxtBlockInfo.Text = "Le nouveau produit a été intégré au stock";
                         }
+                        ArticlesListManagementPage.ReloadDataGrid();
                     }
                 }
             }

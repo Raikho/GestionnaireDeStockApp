@@ -131,12 +131,12 @@
                                   Height="780"
                                   AutoGenerateColumns="False" 
                                   Background="Transparent" 
+                                  BorderBrush="Transparent"
                                   AlternatingRowBackground="LightGray"
                                   AlternationCount="2" 
                                   SelectionMode="Single"
                                   HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch"
-                                  BorderBrush="Transparent">
+                                  VerticalAlignment="Stretch">
 
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Référence"
@@ -155,8 +155,8 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <Button x:Name="EditAnArticleButton" 
-                                                Content="Modifier" 
-                                                Click="EditAnArticleButton_Click"/>
+                                                    Content="Modifier" 
+                                                    Click="EditAnArticleButton_Click"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace GestionnaireDeStockApp
 {
-    public static class ControlInputService
+    public static class CheckInputService
     {
         public static bool CorrectPickedChara { get; set; }
 
@@ -20,6 +21,18 @@ namespace GestionnaireDeStockApp
                 || priceTypeChecked == false
                 || quantTypeChecked == false)
             {
+                return CorrectPickedChara = false;
+            }
+            else
+                return CorrectPickedChara = true;
+        }
+
+        public static bool CheckStringTypeInput(TextBox textBox)
+        {
+            string newInput = textBox.Text;
+            if (!Regex.IsMatch(newInput, @"^[a-zA-Z0-9, ]+$"))
+            {
+                MessageBox.Show("La saisie ne correspond pas à une saisie alphanumérique.");
                 return CorrectPickedChara = false;
             }
             else
@@ -50,7 +63,6 @@ namespace GestionnaireDeStockApp
                 return CorrectPickedChara = false;
             }
         }
-
 
         /// <summary>
         /// Ajoute une "prix" à un article en création.
@@ -119,6 +131,30 @@ namespace GestionnaireDeStockApp
             }
             catch (Exception)
             {
+                return CorrectPickedChara = false;
+            }
+        }
+
+        public static bool CheckDoubleIntervalNumber(TextBox textBoxMin, TextBox textBoxMax)
+        {
+            try
+            {
+                string newMinInput = textBoxMin.Text;
+                bool correctMinNum = double.TryParse(newMinInput, out double priceMin);
+                string newMaxInput = textBoxMax.Text;
+                bool correctMaxNum = double.TryParse(newMaxInput, out double priceMax);
+
+                if (correctMinNum == true && correctMaxNum == true)
+                    return true;
+                else
+                {
+                    MessageBox.Show("La saisie ne correspond pas à une saisie chiffrée.");
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+
                 return CorrectPickedChara = false;
             }
         }

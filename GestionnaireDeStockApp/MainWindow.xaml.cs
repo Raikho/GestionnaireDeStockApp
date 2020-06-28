@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using BusinessLogicLayer;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -12,13 +13,10 @@ namespace GestionnaireDeStockApp
     {
         bool MenuClosed = true;
 
-        public static LoginWindow loginWindow { get; set; }
+        LoginWindow loginWindow;
 
-        static MainWindow mainWindow;
         public MainWindow()
         {
-            mainWindow = this;
-
             InitializeComponent();
 
             LeftMenu.IsEnabled = false;
@@ -54,20 +52,20 @@ namespace GestionnaireDeStockApp
             loginWindow = new LoginWindow();
             loginWindow.ShowDialog();
 
-            LeftMenu.IsEnabled = LoginWindow.connectionState;
+            LeftMenu.IsEnabled = LoginManager.ConnectionState;
             if (LeftMenu.IsEnabled == true)
             {
                 ShowAllItems();
-                ShowCurrentUserName(LoginWindow.Username);
+                ShowCurrentUserName(LoginManager.Username);
                 MainFrame.Content = new ArticlesListManagementPage();
             }
         }
 
-        public static void ShowCurrentUserName(string name)
+        public void ShowCurrentUserName(string name)
         {
-            mainWindow.WelcomeTxtBlock.Text = $"{name}";
-            mainWindow.ConnectedCircle.Foreground = new SolidColorBrush(Colors.Green);
-            mainWindow.SuggestToConnect.Text = string.Empty;
+            WelcomeTxtBlock.Text = $"{name}";
+            ConnectedCircle.Foreground = new SolidColorBrush(Colors.Green);
+            SuggestToConnect.Text = string.Empty;
         }
 
         private void TopGridBar_MouseDown(object sender, MouseButtonEventArgs e)
@@ -119,7 +117,14 @@ namespace GestionnaireDeStockApp
 
         public void AccountButton_Click(object sender, RoutedEventArgs e)
         {
-            ConnectToSession();
+            ShowLoginWindow();
+        }
+
+        private void ShowLoginWindow()
+        {
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.ShowDialog();
+            ShowCurrentUserName(LoginManager.Username);
         }
 
         private void ShowArticleListManagement_Click(object sender, RoutedEventArgs e)
@@ -157,10 +162,10 @@ namespace GestionnaireDeStockApp
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (LoginWindow.connectionState == false)
+            if (LoginManager.ConnectionState == false)
             {
                 if (e.Key == Key.F6)
-                    ConnectToSession();
+                    ShowLoginWindow();
                 else if (e.Key == Key.Escape)
                 {
                     if (MessageBox.Show("Voulez-vous quitter l'application?", "Gestionnaire de stock", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
@@ -199,7 +204,7 @@ namespace GestionnaireDeStockApp
                 }
 
                 if (e.Key == Key.F6)
-                    ConnectToSession();
+                    ShowLoginWindow();
 
                 if (e.Key == Key.F7)
                 {

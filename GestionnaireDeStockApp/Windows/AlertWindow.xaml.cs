@@ -1,4 +1,5 @@
 ﻿using DataLayer;
+using DataTransfertObject;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;

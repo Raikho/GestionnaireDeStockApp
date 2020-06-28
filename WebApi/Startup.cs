@@ -1,4 +1,5 @@
 using DataLayer;
+using DataTransfertObject;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Builder;

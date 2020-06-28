@@ -1,5 +1,4 @@
-﻿using DataLayer;
-using System.Linq;
+﻿using BusinessLogicLayer;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -11,11 +10,6 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class LoginWindow : Window
     {
-        public static User CurrentUser { get; private set; }
-        public static string Username { get; private set; }
-
-        public static bool connectionState = false;
-
         bool UserNameTxtBoxClick, PasswordTxtBoxClick = false;
 
         public LoginWindow()
@@ -91,24 +85,13 @@ namespace GestionnaireDeStockApp
                     LoginTxtBlockInfo.Text = "Veuillez renseigner tous les champs";
                 else
                 {
-                    User newUserConnectionTry = null;
-
-                    using (var dbContext = new StockContext())
-                    {
-                        newUserConnectionTry = dbContext.Users.Where(c => c.Username == UserNameTxtBox.Text && c.Password == PasswordTxtBox.Password).FirstOrDefault();
-                    }
-                    if (newUserConnectionTry != null)
-                    {
-                        connectionState = true;
-                        LoginTxtBlockInfo.Text ="Connexion réussie";
-                        CurrentUser = newUserConnectionTry;
-                        Username = CurrentUser.Username;
-                        MainWindow.ShowCurrentUserName(Username);
-                        Close();
-                    }
+                    var userLogin = LoginManager.TryToConnect(UserNameTxtBox.Text, PasswordTxtBox.Password);
+                    if (userLogin == null)
+                        LoginTxtBlockInfo.Text = "Connexion échouée, veuillez réessayer";
                     else
                     {
-                        LoginTxtBlockInfo.Text = "Connexion échouée, veuillez réessayer";
+                        LoginTxtBlockInfo.Text = "Connexion réussie";
+                        Close();
                     }
                 }
             }

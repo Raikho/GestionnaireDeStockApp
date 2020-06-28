@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(StockContext))]
-    [Migration("20200616191001_KeyStringToInt")]
-    partial class KeyStringToInt
+    [Migration("20200628031000_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace DataLayer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DataLayer.Invoice", b =>
+            modelBuilder.Entity("DataTransfertObject.Invoice", b =>
                 {
                     b.Property<int>("InvoiceId")
                         .ValueGeneratedOnAdd()
@@ -48,10 +48,58 @@ namespace DataLayer.Migrations
 
                     b.HasKey("InvoiceId");
 
-                    b.ToTable("Invoice");
+                    b.ToTable("Invoices");
                 });
 
-            modelBuilder.Entity("DataLayer.Product", b =>
+            modelBuilder.Entity("DataTransfertObject.LoginSession", b =>
+                {
+                    b.Property<int>("LoginSessionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("ConnectionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("ConnectionState")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("LoginSessionId");
+
+                    b.ToTable("LoginSessions");
+                });
+
+            modelBuilder.Entity("DataTransfertObject.MethodPayment", b =>
+                {
+                    b.Property<int>("MethodPaymentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("CB")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Cheque")
+                        .HasColumnType("float");
+
+                    b.Property<double>("GiftCheque")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Money")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Other")
+                        .HasColumnType("float");
+
+                    b.HasKey("MethodPaymentId");
+
+                    b.ToTable("MethodPayments");
+                });
+
+            modelBuilder.Entity("DataTransfertObject.Product", b =>
                 {
                     b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
@@ -75,21 +123,33 @@ namespace DataLayer.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("DataLayer.ProductLine", b =>
+            modelBuilder.Entity("DataTransfertObject.ProductLine", b =>
                 {
                     b.Property<int>("ProductLineId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<double>("Discount")
+                        .HasColumnType("float");
+
+                    b.Property<double>("FinalTotalPrice")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PourcentDiscount")
+                        .HasColumnType("float");
+
                     b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<float>("Quantity")
-                        .HasColumnType("real");
+                    b.Property<double>("Quantity")
+                        .HasColumnType("float");
 
                     b.Property<int?>("TicketInvoiceId")
                         .HasColumnType("int");
+
+                    b.Property<double>("TotalDiscount")
+                        .HasColumnType("float");
 
                     b.HasKey("ProductLineId");
 
@@ -97,10 +157,10 @@ namespace DataLayer.Migrations
 
                     b.HasIndex("TicketInvoiceId");
 
-                    b.ToTable("ProductLine");
+                    b.ToTable("ProductLines");
                 });
 
-            modelBuilder.Entity("DataLayer.User", b =>
+            modelBuilder.Entity("DataTransfertObject.User", b =>
                 {
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(450)");
@@ -119,13 +179,13 @@ namespace DataLayer.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("DataLayer.ProductLine", b =>
+            modelBuilder.Entity("DataTransfertObject.ProductLine", b =>
                 {
-                    b.HasOne("DataLayer.Product", "Product")
+                    b.HasOne("DataTransfertObject.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId");
 
-                    b.HasOne("DataLayer.Invoice", "Ticket")
+                    b.HasOne("DataTransfertObject.Invoice", "Ticket")
                         .WithMany("ProductLines")
                         .HasForeignKey("TicketInvoiceId");
                 });

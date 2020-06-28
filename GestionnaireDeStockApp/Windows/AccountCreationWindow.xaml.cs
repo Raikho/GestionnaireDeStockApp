@@ -1,4 +1,5 @@
 ﻿using DataLayer;
+using DataTransfertObject;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -148,8 +149,8 @@ namespace GestionnaireDeStockApp
 
                         MessageBox.Show("Profil crée avec succés!");
                         Close();
-                        MainWindow.loginWindow = new LoginWindow();
-                        MainWindow.loginWindow.Show();
+                        LoginWindow loginWindow = new LoginWindow();
+                        loginWindow.Show();
                     }
                 }
             }

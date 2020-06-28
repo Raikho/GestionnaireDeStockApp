@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestionnaireDeStockApp", "GestionnaireDeStockApp\GestionnaireDeStockApp.csproj", "{8046BB1C-024A-44BC-9827-BFA5731CBAC5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{CAD2A772-9E56-47A2-B835-28F58D2A0755} = {CAD2A772-9E56-47A2-B835-28F58D2A0755}
+		{CDAE4783-1F6B-4FF2-92CB-6B88A93B769F} = {CDAE4783-1F6B-4FF2-92CB-6B88A93B769F}
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\DataLayer.csproj", "{0DC855B7-B673-4135-A837-BA69A491AEFC}"
@@ -16,6 +17,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Re
 	ProjectSection(ProjectDependencies) = postProject
 		{0DC855B7-B673-4135-A837-BA69A491AEFC} = {0DC855B7-B673-4135-A837-BA69A491AEFC}
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataTransfertObject", "DataTransfertObject\DataTransfertObject.csproj", "{CDAE4783-1F6B-4FF2-92CB-6B88A93B769F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogicLayer", "BusinessLogicLayer\BusinessLogicLayer.csproj", "{0C4038A5-BAF2-4E66-9ED0-916E5AC0C48F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphicLogicLayer", "GraphicLogicLayer\GraphicLogicLayer.csproj", "{80EAD1D1-05C4-47D7-B244-85E9E9DBF872}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ClassLibrary", "ClassLibrary", "{7D1E033F-7A3B-46DA-B165-20BDC59A65A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,9 +48,27 @@ Global
 		{CAD2A772-9E56-47A2-B835-28F58D2A0755}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAD2A772-9E56-47A2-B835-28F58D2A0755}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAD2A772-9E56-47A2-B835-28F58D2A0755}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDAE4783-1F6B-4FF2-92CB-6B88A93B769F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDAE4783-1F6B-4FF2-92CB-6B88A93B769F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDAE4783-1F6B-4FF2-92CB-6B88A93B769F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDAE4783-1F6B-4FF2-92CB-6B88A93B769F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C4038A5-BAF2-4E66-9ED0-916E5AC0C48F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C4038A5-BAF2-4E66-9ED0-916E5AC0C48F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C4038A5-BAF2-4E66-9ED0-916E5AC0C48F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C4038A5-BAF2-4E66-9ED0-916E5AC0C48F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80EAD1D1-05C4-47D7-B244-85E9E9DBF872}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80EAD1D1-05C4-47D7-B244-85E9E9DBF872}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80EAD1D1-05C4-47D7-B244-85E9E9DBF872}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80EAD1D1-05C4-47D7-B244-85E9E9DBF872}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0DC855B7-B673-4135-A837-BA69A491AEFC} = {7D1E033F-7A3B-46DA-B165-20BDC59A65A0}
+		{CDAE4783-1F6B-4FF2-92CB-6B88A93B769F} = {7D1E033F-7A3B-46DA-B165-20BDC59A65A0}
+		{0C4038A5-BAF2-4E66-9ED0-916E5AC0C48F} = {7D1E033F-7A3B-46DA-B165-20BDC59A65A0}
+		{80EAD1D1-05C4-47D7-B244-85E9E9DBF872} = {7D1E033F-7A3B-46DA-B165-20BDC59A65A0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {235ADFB3-3044-437F-BE3A-12DD7B6AB0DB}
