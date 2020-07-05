@@ -11,6 +11,8 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class AddAnArticleWindow : Window
     {
+        ArticlesListManagementPage ArticlesListManagementPage = new ArticlesListManagementPage();
+
         public AddAnArticleWindow()
         {
             InitializeComponent();
@@ -126,7 +128,7 @@ namespace GestionnaireDeStockApp
                     var newProduct = ProductManager.AddANewProductByRefChecking(AddRefTxtBox.Text, AddNameTxtBox.Text, AddPriceTxtBox.Text, AddQuantTxtBox.Text);
                     if (MessageBox.Show("Etes-vous sûr de vouloir ajouté cet article au stock?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
-                        if (newProduct == null)
+                        if (newProduct != null)
                         {
                             AddAnArticleTxtBlockInfo.FontSize = 12;
                             AddAnArticleTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Yellow);

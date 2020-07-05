@@ -1,47 +1,124 @@
 ﻿using DataLayer;
 using DataTransfertObject;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace BusinessLogicLayer
 {
     public class InvoiceManager
     {
-        public static List<Invoice> LoadInvoiceDataBase()
+        public ObservableCollection<PaymentMethod> paymentMethods = new ObservableCollection<PaymentMethod>();
+        public StockContext Invoices = new StockContext();
+        public Invoice Ticket = new Invoice();
+
+        public List<Invoice> LoadInvoiceDataBase()
         {
-            using (var dbContext = new StockContext())
+            List<Invoice> invoicesList = new List<Invoice>();
+            var dbContext = new StockContext();
+            var invoices = dbContext.Invoices;
+            foreach (var invoice in invoices)
             {
-                List<Invoice> invoicesList = new List<Invoice>();
+                invoicesList.Add(invoice);
+            }
+            return invoicesList;
+        }
 
-                var invoices = dbContext.Invoices;
+        public Invoice SaveInvoiceToDataBase()
+        {
+            var dbContext = Invoices;
+            var invoiceList = dbContext.Invoices;
+            invoiceList.Add(Ticket);
+            dbContext.SaveChanges();
+            return Ticket;
+        }
 
-                foreach (var item in invoices)
+        public Invoice MakeAInvoice(ProductView productView,
+                                    CashRegisterManager cashRegisterManager,
+                                    ProductLineManager productLineManager,
+                                    DiscountManager discountManager,
+                                    double quantity,
+                                    double pourcentDTxtBox,
+                                    double discountTxtBox)
+        {
+            ClearAllInvoiceSetup(cashRegisterManager);
+
+            var sum = cashRegisterManager.CalculateAPrice(productView, quantity);
+            var pourcentDiscountValue = cashRegisterManager.CalculateAPourcentDiscount(pourcentDTxtBox, sum);
+            var discountValue = cashRegisterManager.CalculateADiscount(discountTxtBox);
+            var totalDiscountValue = cashRegisterManager.CalculateTotalPourcentDAndDiscount(pourcentDiscountValue, discountValue);
+            var totalDiscountPriceValue = cashRegisterManager.CalculateADiscountPrice(sum, totalDiscountValue);
+
+            Ticket.InvoiceId = SetTheInvoiceId();
+            Ticket.NameSeller = LoginManager._loginSession.UserName;
+            Ticket.Recipe += totalDiscountPriceValue;
+            Ticket.TotalToPay += totalDiscountPriceValue;
+            Ticket.CreationDate = DateTime.Now;
+
+            Ticket.ProductLines.Add(new ProductLine()
+            {
+                ProductLineId = productLineManager.SetTheProductLineId(Ticket),
+                Product = new Product()
                 {
-                    invoicesList.Add(item);
+                    Name = productView.Name,
+                    Price = productView.Price,
+                },
+                Quantity = quantity,
+                FinalTotalPrice = totalDiscountPriceValue,
+                Discounts = new List<Discount>()
+                {
+                    new Discount()
+                    {
+                        DiscountId = discountManager.SetTheDiscountId(Ticket),
+                        Type = DiscountType.SubTotalDiscount,
+                        Value = totalDiscountValue,
+                        TotalDiscount = totalDiscountValue
+                    }
                 }
-                return invoicesList;
+            });
+            return Ticket;
+        }
+
+        public void MakeTheTicketPaymentsMethod()
+        {
+            foreach (var paymentMethod in paymentMethods)
+            {
+                Ticket.PaymentMethods.Add(paymentMethod);
             }
         }
 
-        public static Invoice SaveInvoiceToDataBase(string ticketRef, string nameSeller, double recipe, double discount, string paymentMethod, DateTime creationDate)
+        public int CalculateTicketNumber()
         {
-            using (var dbContext = new StockContext())
-            {
-                var tickets = dbContext.Invoices;
+            var invoicesList = LoadInvoiceDataBase();
+            var lastTicket = invoicesList.Last();
+            var refToSum = lastTicket.TicketRef.Substring(11);
+            int newTicketRef = Convert.ToInt32(refToSum) + 1;
+            Ticket.TicketRef = newTicketRef.ToString();
+            return newTicketRef;
+        }
 
-                var ticket = new Invoice()
-                {
-                    TicketRef = ticketRef,
-                    NameSeller = nameSeller,
-                    Recipe = recipe,
-                    Discount = discount,
-                    PaymentMethod = paymentMethod,
-                    CreationDate = creationDate,
-                };
-                tickets.Add(ticket);
-                dbContext.SaveChanges();
-                return ticket;
+        public void ClearAllInvoiceSetup(CashRegisterManager cashRegisterManager)
+        {
+            cashRegisterManager.invoiceViewsList.Clear();
+            cashRegisterManager.productLinesList.Clear();
+            cashRegisterManager.totalDiscountsList.Clear();
+            cashRegisterManager.paymentMethodsList.Clear();
+        }
+
+        public int SetTheInvoiceId()
+        {
+            int value;
+            if (Invoices.Invoices.Count() == 0)
+                value = 0;
+            else
+            {
+                var dbContext = Invoices;
+                var invoiceList = dbContext.Invoices;
+                value = invoiceList.ToList().Last().InvoiceId + 1;
             }
+            return value;
         }
     }
 }

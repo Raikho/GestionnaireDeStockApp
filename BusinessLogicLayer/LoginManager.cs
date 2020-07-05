@@ -7,30 +7,25 @@ namespace BusinessLogicLayer
 {
     public class LoginManager
     {
-        public static bool ConnectionState { get; private set; }
-        public static string Username { get; private set; }
+        public static LoginSession _loginSession = new LoginSession();
 
-        public static LoginSession TryToConnect(string username, string password)
+        public LoginSession TryToConnect(string username, string password)
         {
             User newUserIdentification = null;
-            LoginSession loginSession = null;
-
             var dbContext = new StockContext();
             newUserIdentification = dbContext.Users.Where(c => c.Username == username && c.Password == password).FirstOrDefault();
-
             if (newUserIdentification != null)
             {
                 var loginSessions = dbContext.LoginSessions;
-
-                loginSession = new LoginSession()
+                _loginSession = new LoginSession()
                 {
-                    UserName = Username = newUserIdentification.Username,
-                    ConnectionState = ConnectionState = true,
+                    UserName = newUserIdentification.Username,
+                    ConnectionState = true,
                     ConnectionDate = DateTime.Now
                 };
-                loginSessions.Add(loginSession);
+                loginSessions.Add(_loginSession);
                 dbContext.SaveChanges();
-                return loginSession;
+                return _loginSession;
             }
             else
                 return null;

@@ -1,6 +1,6 @@
 ﻿using DataLayer;
 using DataTransfertObject;
-using Microsoft.EntityFrameworkCore;
+using DataTransfertObject.DataGridView;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,127 +10,142 @@ namespace BusinessLogicLayer
 {
     public class CashRegisterManager
     {
+        public ObservableCollection<InvoiceView> invoiceViewsList = new ObservableCollection<InvoiceView>();
         public ObservableCollection<ProductLine> productLinesList = new ObservableCollection<ProductLine>();
-        public ProductLine _ProductLine = new ProductLine();
-        public MethodPayment _methodPayment = new MethodPayment();
-        public Invoice _invoice = new Invoice();
+        public ObservableCollection<Discount> totalDiscountsList = new ObservableCollection<Discount>();
+        public ObservableCollection<PaymentMethod> paymentMethodsList = new ObservableCollection<PaymentMethod>();
 
-
-        public void ExecuteAPriceCalculCycle(Product product, double quantity, double pourcentDTxtBox, double discountTxtBox)
+        public void MakeASalesCycle(ProductView productView,
+                                    CashRegisterManager cashRegisterManager,
+                                    InvoiceManager invoiceManager,
+                                    ProductLineManager productLineManager,
+                                    DiscountManager discountManager,
+                                    double quantity,
+                                    double pourcentDTxtBox,
+                                    double discountTxtBox)
         {
-            CalculateAPrice(product, quantity);
-            CalculateAPourcentDiscount(pourcentDTxtBox);
-            CalculateADiscount(discountTxtBox);
-            CalculateAGlobalDiscount();
-            CalculateADiscountPrice();
-
-            productLinesList.Add(_ProductLine);
+            invoiceManager.MakeAInvoice(productView, cashRegisterManager, productLineManager, discountManager, quantity, pourcentDTxtBox, discountTxtBox);
+            productLineManager.SetAProductLine(invoiceManager.Ticket, productLinesList);
+            discountManager.SetADiscount(invoiceManager.Ticket, totalDiscountsList);
+            JoinProductLineWithDiscount();
         }
 
-        private double CalculateAPrice(Product product, double quantity)
+        public void JoinProductLineWithDiscount()
         {
-            double sum = product.Price * quantity;
+            InvoiceViewManager invoiceViewManager = new InvoiceViewManager();
+            var Join = from d in totalDiscountsList
+                       join p in productLinesList
+                       on d.DiscountId equals p.ProductLineId
+                       select new InvoiceView()
+                       {
+                           InvoiceId = invoiceViewManager.SetTheInvoiceViewId(invoiceViewsList),
+                           Name = p.Product.Name,
+                           Price = Math.Round(p.Product.Price, 2),
+                           Quantity = Math.Round(p.Quantity, 2),
+                           TotalDiscount = Math.Round(-d.TotalDiscount, 2),
+                           FinalTotalPrice = Math.Round(p.FinalTotalPrice, 2)
+                       };
 
-            _ProductLine.Product = new Product() { Name = product.Name, Price = product.Price };
-            _ProductLine.Quantity = quantity;
-            _ProductLine.Ticket = new Invoice() { Recipe = sum };
 
+            invoiceViewManager.SetAProductLine(Join, invoiceViewsList);
+        }
+
+        public double CalculateAPrice(ProductView productView, double quantity)
+        {
+            double sum = productView.Price * quantity;
             return sum;
         }
 
-        private double CalculateAPourcentDiscount(double pourcentDTxtBox)
+        public double CalculateAPourcentDiscount(double pourcentDTxtBox, double sum)
         {
-            var totalSum = _ProductLine.Ticket.Recipe;
-            double pourcentDiscount = totalSum * (Convert.ToDouble(pourcentDTxtBox) / 100);
-
-            _ProductLine.PourcentDiscount = pourcentDiscount;
-
-
-            return pourcentDiscount;
+            double pourcentDiscountValue = sum * (Convert.ToDouble(pourcentDTxtBox) / 100);
+            return pourcentDiscountValue;
         }
 
-        private double CalculateADiscount(double discountTxtBox)
+        public double CalculateADiscount(double discountTxtBox)
         {
             double discount = Convert.ToDouble(discountTxtBox);
-            _ProductLine.Discount = discount;
-
             return discount;
         }
 
-        private double CalculateAGlobalDiscount()
+        public double CalculateTotalPourcentDAndDiscount(double pourcentDiscount, double discount)
         {
-            var pourcentDiscount = _ProductLine.PourcentDiscount;
-            var discount = _ProductLine.Discount;
-
-            double totalDiscount = pourcentDiscount + discount;
-
-            _ProductLine.TotalDiscount = totalDiscount;
-
-
-            return -totalDiscount;
+            var totalDiscount = pourcentDiscount + discount;
+            return totalDiscount;
         }
 
-        private double CalculateADiscountPrice()
+        public double CalculateADiscountPrice(double totalToPay, double globalDiscount)
         {
-            var totalPrice = _ProductLine.Ticket.Recipe;
-            var totalDiscount = _ProductLine.TotalDiscount;
-
-            double totalDiscountPrice = totalPrice - totalDiscount;
-            _ProductLine.FinalTotalPrice = totalDiscountPrice;
-
+            double totalDiscountPrice = totalToPay - globalDiscount;
             return totalDiscountPrice;
         }
 
-        public int CalculateTicketNumber()
+        public double CalculateTheTotalInvoiceDiscount(Invoice ticket)
         {
-            var invoicesList = InvoiceManager.LoadInvoiceDataBase();
-            var lastTicket = invoicesList.Last();
-            var refToSum = lastTicket.TicketRef.Substring(11);
-            int newTicketRef = Convert.ToInt32(refToSum) + 1;
-            _invoice.TicketRef = newTicketRef.ToString();
-            return newTicketRef;
-        }
+            double totalInvoiceDiscountSum = 0;
 
-        public void MakeACBPayment()
-        {
-            var totalToPay = _ProductLine.FinalTotalPrice;
-            var restToPay = totalToPay - _methodPayment.CB;
-            _ProductLine.FinalTotalPrice = restToPay;
-        }
-
-        public void MakeAMoneyPayment()
-        {
-            var totalToPay = _ProductLine.FinalTotalPrice;
-            var restToPay = totalToPay - _methodPayment.Money;
-            _ProductLine.FinalTotalPrice = restToPay;
-        }
-
-        public void MakeAChequePayment()
-        {
-            var totalToPay = _ProductLine.FinalTotalPrice;
-            var restToPay = totalToPay - _methodPayment.Cheque;
-            _ProductLine.FinalTotalPrice = restToPay;
-        }
-
-        public double CalculateTheTotalPayment()
-        {
-            return _ProductLine.FinalTotalPrice = _methodPayment.CB +_methodPayment.Money + _methodPayment.Cheque;
-        }
-
-        public string MakeAPaymentMethod()
-        {
-            return $"CB: {_methodPayment.CB}\nESP: {_methodPayment.Money}\nCHQ: {_methodPayment.Cheque}";
-        }
-
-        public void DeleteProductToSell()
-        { 
-            foreach (var productLineToDelete in productLinesList)
+            foreach (var productLineToAttribute in ticket.ProductLines)
             {
-                if (productLineToDelete.Product.Name.ToLower() == ProductManager.selectedProductToSell.Product.Name.ToLower())
+                foreach (var discount in productLineToAttribute.Discounts)
                 {
-                    _ProductLine.FinalTotalPrice -= productLineToDelete.FinalTotalPrice;
-                    _ProductLine.TotalDiscount -= productLineToDelete.TotalDiscount;
-                    productLinesList.Remove(productLineToDelete);
+                    totalInvoiceDiscountSum += discount.TotalDiscount;
+                }
+            }
+            return totalInvoiceDiscountSum;
+        }
+
+        public void DeleteProductToSell(InvoiceView invoiceView, Invoice ticket)
+        {
+            foreach (var productLineToDelete in invoiceViewsList)
+            {
+                if (productLineToDelete.InvoiceId == invoiceView.InvoiceId)
+                {
+                    ticket.Recipe -= productLineToDelete.FinalTotalPrice;
+                    ticket.TotalToPay -= productLineToDelete.FinalTotalPrice;
+                    RemoveInvoiceProductLine(invoiceView, ticket);
+                    RemoveProductLineFromProductLinesList(invoiceView);
+                    RemoveDiscountFromDiscountsList(invoiceView);
+                    invoiceViewsList.Remove(productLineToDelete);
+                    break;
+                }
+            }
+        }
+
+        private static void RemoveInvoiceProductLine(InvoiceView invoiceView, Invoice ticket)
+        {
+            //var invoiceProductLine = from p in ticket.ProductLines
+            //                         where p.Product.ProductId == invoiceView.InvoiceId
+            //                         select p;
+
+            foreach (var invoiceProductLine in ticket.ProductLines)
+            {
+                if (invoiceProductLine.ProductLineId == invoiceView.InvoiceId)
+                {
+                    ticket.ProductLines.Remove(invoiceProductLine);
+                    break;
+                }
+            }
+        }
+
+        private void RemoveProductLineFromProductLinesList(InvoiceView invoiceView)
+        {
+            foreach (var productLine in productLinesList)
+            {
+                if (productLine.ProductLineId == invoiceView.InvoiceId)
+                {
+                    productLinesList.Remove(productLine);
+                    break;
+                }
+            }
+        }
+
+        private void RemoveDiscountFromDiscountsList(InvoiceView invoiceView)
+        {
+            foreach (var discount in totalDiscountsList)
+            {
+                if (discount.DiscountId == invoiceView.InvoiceId)
+                {
+                    totalDiscountsList.Remove(discount);
                     break;
                 }
             }

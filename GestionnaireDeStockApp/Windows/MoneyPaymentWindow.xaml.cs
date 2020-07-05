@@ -11,14 +11,11 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class MoneyPaymentWindow : Window
     {
-        CashRegisterManager CashRegisterManager = new CashRegisterManager();
-        SalesManagementPage SalesManagementPage = new SalesManagementPage();
-
-        public MoneyPaymentWindow()
+        public MoneyPaymentWindow(InvoiceManager invoiceManager)
         {
             InitializeComponent();
 
-            MoneyTxtBox.Text = CashRegisterManager._ProductLine.FinalTotalPrice.ToString();
+            MoneyTxtBox.Text = Math.Round(invoiceManager.Ticket.TotalToPay, 2).ToString();
             MoneyTxtBox.Focus();
         }
 
@@ -42,7 +39,6 @@ namespace GestionnaireDeStockApp
         private void ValidateButton_Click(object sender, RoutedEventArgs e)
         {
             SetAMoneyAmount();
-            SalesManagementPage.ShowAMoneyPayment();
             Close();
         }
 
@@ -56,7 +52,6 @@ namespace GestionnaireDeStockApp
             if (e.Key == Key.Enter)
             {
                 SetAMoneyAmount();
-                SalesManagementPage.ShowAMoneyPayment();
                 Close();
             }
         }
@@ -86,7 +81,7 @@ namespace GestionnaireDeStockApp
                     return 0;
                 else
                 {
-                    return CashRegisterManager._methodPayment.Money = Convert.ToDouble(MoneyTxtBox.Text);
+                    return SalesManagementPage.Payment.MoneyPayment = Convert.ToDouble(MoneyTxtBox.Text);
                 }
             }
             catch (Exception exception)

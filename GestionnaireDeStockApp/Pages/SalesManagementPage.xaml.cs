@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer;
+using DataLayer;
 using DataTransfertObject;
 using System;
 using System.Windows;
@@ -13,15 +14,16 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class SalesManagementPage : Page
     {
+        public static Payment Payment = new Payment();
         CashRegisterManager CashRegisterManager = new CashRegisterManager();
+        InvoiceManager InvoiceManager = new InvoiceManager();
         MethodPaymentManager MethodPaymentManager = new MethodPaymentManager();
-        SalesParameter SalesParameter = new SalesParameter();
 
         public SalesManagementPage()
         {
             InitializeComponent();
             SearchAnArticleToSellTxtBox.Focus();
-            ArticleToSellDataGrid.ItemsSource = ProductManager.LoadProductsDataBase();
+            ArticleToSellDataGrid.ItemsSource = ProductViewManager.JoinProductAndProductStockTables();
             ShowSellerNameOnTicket();
             ShowDateOnTicket();
             ShowTicketNumber();
@@ -42,7 +44,7 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                SellerNameTxtBox.Text = $"Vendeur: {LoginManager.Username}";
+                SellerNameTxtBox.Text = $"Vendeur: {LoginManager._loginSession.UserName}";
             }
             catch (Exception exception)
             {
@@ -57,7 +59,7 @@ namespace GestionnaireDeStockApp
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
-            ArticleToSellDataGrid.ItemsSource = ProductManager.LoadProductsDataBase();
+            ArticleToSellDataGrid.ItemsSource = ProductViewManager.JoinProductAndProductStockTables();
         }
 
         private void SearchAnArticleToSellTxtBox_GotFocus(object sender, RoutedEventArgs e)
@@ -67,7 +69,7 @@ namespace GestionnaireDeStockApp
             SearchAnArticleToSellTxtBox.GotFocus += SearchAnArticleToSellTxtBox_GotFocus;
             if (SearchAnArticleToSellTxtBox.Text == string.Empty)
             {
-                ProductManager.LoadProductsDataBase();
+                ProductViewManager.JoinProductAndProductStockTables();
             }
         }
 
@@ -81,8 +83,8 @@ namespace GestionnaireDeStockApp
                 if (salesParametersWindow.rightParameters == true)
                 {
                     CalculateTheTicketPrice();
-                    ProductManager.LoadProductsDataBase();
-                }    
+                    ProductViewManager.JoinProductAndProductStockTables();
+                }
             }
             catch (Exception exception)
             {
@@ -94,8 +96,10 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                CreditCardPaymentWindow creditCardPaymentWindow = new CreditCardPaymentWindow();
+                CreditCardPaymentWindow creditCardPaymentWindow = new CreditCardPaymentWindow(InvoiceManager);
                 creditCardPaymentWindow.ShowDialog();
+                if (Convert.ToDouble(creditCardPaymentWindow.CBTxtBox.Text) > 0)
+                    ShowACBPayment();
             }
             catch (Exception exception)
             {
@@ -107,8 +111,10 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                MoneyPaymentWindow moneyPaymentWindow = new MoneyPaymentWindow();
+                MoneyPaymentWindow moneyPaymentWindow = new MoneyPaymentWindow(InvoiceManager);
                 moneyPaymentWindow.ShowDialog();
+                if (Convert.ToDouble(moneyPaymentWindow.MoneyTxtBox.Text) > 0)
+                    ShowAMoneyPayment();
             }
             catch (Exception exception)
             {
@@ -120,8 +126,10 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                ChequePaymentWindow chequePaymentWindow = new ChequePaymentWindow();
+                ChequePaymentWindow chequePaymentWindow = new ChequePaymentWindow(InvoiceManager);
                 chequePaymentWindow.ShowDialog();
+                if (Convert.ToDouble(chequePaymentWindow.ChqTxtBox.Text) > 0)
+                    ShowAChequePayment();
             }
             catch (Exception exception)
             {
@@ -169,8 +177,14 @@ namespace GestionnaireDeStockApp
             TotalDiscountTxtBlock.Text = string.Empty;
             TicketNumTxtBox.Text = ShowTicketNumber();
 
-            CashRegisterManager._ProductLine.FinalTotalPrice = 0;
+            InvoiceManager.Ticket.Recipe = 0;
+            InvoiceManager.Ticket.TotalToPay = 0;
+            InvoiceManager.Ticket.ProductLines.Clear();
+            InvoiceManager.Ticket.PaymentMethods.Clear();
+            CashRegisterManager.invoiceViewsList.Clear();
             CashRegisterManager.productLinesList.Clear();
+            CashRegisterManager.totalDiscountsList.Clear();
+            CashRegisterManager.paymentMethodsList.Clear();
         }
 
         private void PaymentButton_Click(object sender, RoutedEventArgs e)
@@ -179,14 +193,13 @@ namespace GestionnaireDeStockApp
             {
                 if (MessageBox.Show("Voulez-vous valider l'encaissement?", "Caisse", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    if (CashRegisterManager._ProductLine.FinalTotalPrice > 0)
+                    if (InvoiceManager.Ticket.TotalToPay > 0)
                         MessageBox.Show("L'encaissement est incomplet. Veuillez procéder au paiement.");
                     else
                     {
-                        InvoiceManager.SaveInvoiceToDataBase(CashRegisterManager._invoice.TicketRef, LoginManager.Username, CashRegisterManager.CalculateTheTotalPayment(), CashRegisterManager._ProductLine.TotalDiscount, CashRegisterManager.MakeAPaymentMethod(), DateTime.Now);
                         MessageBox.Show("Vente terminée! Le ticket a été validé.");
-                        ProductLineManager.SaveProductLine(CashRegisterManager.productLinesList);
-                        MethodPaymentManager.SavePaymentMethod();
+                        MethodPaymentManager.SetThePaymentMethod(InvoiceManager, Payment);
+                        InvoiceManager.SaveInvoiceToDataBase();
                         ResetTheTicket();
                     }
                 }
@@ -217,14 +230,24 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                CashRegisterManager.ExecuteAPriceCalculCycle(ProductManager.SelectAProductByRow(ArticleToSellDataGrid.CurrentCell.Item), SalesParametersWindow.SalesParameter.Quantity, SalesParametersWindow.SalesParameter.PourcentDiscount, SalesParametersWindow.SalesParameter.Discount);
-                InvoiceDataGrid.ItemsSource = CashRegisterManager.productLinesList;
-                TotalTxtBlock.Text = $"{Math.Round(CashRegisterManager._ProductLine.FinalTotalPrice, 2)}€ TTC";
-                RestToPayTxtBlock.Text = $"{Math.Round(CashRegisterManager._ProductLine.FinalTotalPrice, 2)}€";
-                if (CashRegisterManager._ProductLine.TotalDiscount > 0)
+                ProductViewManager productViewManager = new ProductViewManager();
+                ProductLineManager productLineManager = new ProductLineManager();
+                DiscountManager discountManager = new DiscountManager();
+                CashRegisterManager.MakeASalesCycle(productViewManager.SelectAProductByRow(ArticleToSellDataGrid.CurrentCell.Item),
+                                                    CashRegisterManager,
+                                                    InvoiceManager,
+                                                    productLineManager,
+                                                    discountManager,
+                                                    SalesParametersWindow.SalesParameter.Quantity,
+                                                    SalesParametersWindow.SalesParameter.PourcentDiscount,
+                                                    SalesParametersWindow.SalesParameter.Discount);
+                InvoiceDataGrid.ItemsSource = CashRegisterManager.invoiceViewsList;
+                TotalTxtBlock.Text = $"{Math.Round(InvoiceManager.Ticket.Recipe, 2)}€ TTC";
+                RestToPayTxtBlock.Text = $"{Math.Round(InvoiceManager.Ticket.TotalToPay, 2)}€";
+                if (CashRegisterManager.CalculateTheTotalInvoiceDiscount(InvoiceManager.Ticket) > 0)
                 {
                     DiscountTxtBlock.Text = "Remise";
-                    TotalDiscountTxtBlock.Text = $"-{Math.Round(CashRegisterManager._ProductLine.TotalDiscount, 2)}";
+                    TotalDiscountTxtBlock.Text = $"-{Math.Round(CashRegisterManager.CalculateTheTotalInvoiceDiscount(InvoiceManager.Ticket), 2)}";
                 }
             }
             catch (Exception exception)
@@ -235,21 +258,22 @@ namespace GestionnaireDeStockApp
 
         private string ShowTicketNumber()
         {
-            var ticketRef = CashRegisterManager.CalculateTicketNumber();
+            var ticketRef = InvoiceManager.CalculateTicketNumber();
 
             string numFormat = "0000.##";
-            return CashRegisterManager._invoice.TicketRef = TicketNumTxtBox.Text = $"{DateTime.Now.ToShortDateString()}/{ticketRef.ToString(numFormat)}";
+            return InvoiceManager.Ticket.TicketRef = TicketNumTxtBox.Text = $"{DateTime.Now.ToShortDateString()}/{ticketRef.ToString(numFormat)}";
         }
+
 
         public void ShowACBPayment()
         {
             try
             {
-                CashRegisterManager.MakeACBPayment();
+                MethodPaymentManager.CalculACBPayment(InvoiceManager, Payment);
                 PaymentMethodTxtBlock.Text += "Paiement CB:\n";
-                PaymentTxtBlock.Text += $"{Math.Round(CashRegisterManager._methodPayment.CB, 2)}€\n";
+                PaymentTxtBlock.Text += $"{Math.Round(Payment.CBPayment, 2)}€\n";
 
-                RestToPayTxtBlock.Text = $"{Math.Round(CashRegisterManager._ProductLine.FinalTotalPrice, 2)}€";
+                RestToPayTxtBlock.Text = $"{Math.Round(InvoiceManager.Ticket.TotalToPay, 2)}€";
             }
             catch (Exception exception)
             {
@@ -261,11 +285,11 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                CashRegisterManager.MakeAMoneyPayment();
+                MethodPaymentManager.CalculAMoneyPayment(InvoiceManager, Payment);
                 PaymentMethodTxtBlock.Text += "Paiement espèces:\n";
-                PaymentTxtBlock.Text += $"{Math.Round(CashRegisterManager._methodPayment.Money, 2)}€\n";
+                PaymentTxtBlock.Text += $"{Math.Round(Payment.MoneyPayment, 2)}€\n";
 
-                RestToPayTxtBlock.Text = $"{Math.Round(CashRegisterManager._ProductLine.FinalTotalPrice, 2)}€";
+                RestToPayTxtBlock.Text = $"{Math.Round(InvoiceManager.Ticket.TotalToPay, 2)}€";
             }
             catch (Exception exception)
             {
@@ -277,11 +301,11 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                CashRegisterManager.MakeAChequePayment();
+                MethodPaymentManager.CalculAChequePayment(InvoiceManager, Payment);
                 PaymentMethodTxtBlock.Text += "Paiement chèque:\n";
-                PaymentTxtBlock.Text += $"{Math.Round(CashRegisterManager._methodPayment.Cheque, 2)}€\n";
+                PaymentTxtBlock.Text += $"{Math.Round(Payment.ChequePayment, 2)}€\n";
 
-                RestToPayTxtBlock.Text = $"{Math.Round(CashRegisterManager._ProductLine.FinalTotalPrice, 2)}€";
+                RestToPayTxtBlock.Text = $"{Math.Round(InvoiceManager.Ticket.TotalToPay, 2)}€";
             }
             catch (Exception exception)
             {
@@ -293,16 +317,16 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                var selectedRow = ProductManager.SelectAProductToSellByRow(InvoiceDataGrid.CurrentCell.Item);
+                var selectedRow = ProductManager.SelectAselectedProductLine(InvoiceDataGrid.CurrentCell.Item);
                 if (selectedRow != null)
                 {
                     if (MessageBox.Show("Etes-vous sûr de vouloir supprimer cet article?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
-                        CashRegisterManager.DeleteProductToSell();
-                        TotalTxtBlock.Text = $"{Math.Round(CashRegisterManager._ProductLine.FinalTotalPrice, 2)}€ TTC";
-                        RestToPayTxtBlock.Text = $"{Math.Round(CashRegisterManager._ProductLine.FinalTotalPrice, 2)}€";
-                        TotalDiscountTxtBlock.Text = $"-{Math.Round(CashRegisterManager._ProductLine.TotalDiscount, 2)}";
-                        InvoiceDataGrid.ItemsSource = CashRegisterManager.productLinesList;
+                        CashRegisterManager.DeleteProductToSell(selectedRow, InvoiceManager.Ticket);
+                        TotalTxtBlock.Text = $"{Math.Round(InvoiceManager.Ticket.Recipe, 2)}€ TTC";
+                        RestToPayTxtBlock.Text = $"{Math.Round(InvoiceManager.Ticket.TotalToPay, 2)}€";
+                        TotalDiscountTxtBlock.Text = $"-{Math.Round(CashRegisterManager.CalculateTheTotalInvoiceDiscount(InvoiceManager.Ticket), 2)}";
+                        InvoiceDataGrid.ItemsSource = CashRegisterManager.invoiceViewsList;
                     }
                 }
             }

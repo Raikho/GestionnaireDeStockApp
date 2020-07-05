@@ -13,22 +13,17 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class ArticlesListManagementPage : Page
     {
-        public static Product CurrentItemSelected { get; private set; }
-
-        static ArticlesListManagementPage articlesListManagementPage;
-
         public ArticlesListManagementPage()
         {
-            articlesListManagementPage = this;
             InitializeComponent();
             SearchTextBox.Focus();
-            ProductsDataGrid.ItemsSource = ProductManager.LoadProductsDataBase();
+            ProductsDataGrid.ItemsSource = ProductViewManager.JoinProductAndProductStockTables();
         }
 
         private void AddANewArticleButton_Click(object sender, RoutedEventArgs e)
         {
             AddAnArticleWindow addAnArticleWindow = new AddAnArticleWindow();
-            addAnArticleWindow.Show();
+            addAnArticleWindow.ShowDialog();
         }
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
@@ -40,7 +35,8 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                CurrentItemSelected = (Product)ProductsDataGrid.CurrentCell.Item;
+                ProductViewManager productViewManager = new ProductViewManager();
+                productViewManager.SelectAProductByRow((ProductView)ProductsDataGrid.CurrentCell.Item);
                 EditAnArticleWindow editAnArticleWindow = new EditAnArticleWindow();
                 editAnArticleWindow.Show();
                 ReloadDataGrid();
@@ -114,9 +110,9 @@ namespace GestionnaireDeStockApp
             SearchAnArticle();
         }
 
-        public static void ReloadDataGrid()
+        public void ReloadDataGrid()
         {
-            articlesListManagementPage.ProductsDataGrid.ItemsSource = ProductManager.LoadProductsDataBase();
+            ProductsDataGrid.ItemsSource = ProductViewManager.JoinProductAndProductStockTables();
         }
 
         private void SearchAnArticle()
@@ -157,7 +153,8 @@ namespace GestionnaireDeStockApp
             {
                 if (MessageBox.Show("Etes-vous sûr de vouloir supprimer cet article?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    ProductManager.RemoveAProductToDataBase(ProductManager.SelectAProductByRow(ProductsDataGrid.CurrentCell.Item));
+                    ProductViewManager productViewManager = new ProductViewManager();
+                    ProductManager.RemoveAProductToDataBase(productViewManager.SelectAProductByRow(ProductsDataGrid.CurrentCell.Item));
                 }
                 ReloadDataGrid();
             }

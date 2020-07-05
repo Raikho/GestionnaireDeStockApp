@@ -1,6 +1,4 @@
-﻿using DataLayer;
-using DataTransfertObject;
-using System.Collections.Generic;
+﻿using BusinessLogicLayer;
 using System.Windows;
 using System.Windows.Input;
 
@@ -11,10 +9,12 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class AlertWindow : Window
     {
+        AlertWindowManager AlertWindowManager = new AlertWindowManager();
+
         public AlertWindow()
         {
             InitializeComponent();
-            AddProductsInRows();
+            productsDataGrid.ItemsSource = AlertWindowManager.AddProductsInRows();
         }
 
         private void MainGrid_MouseDown(object sender, MouseButtonEventArgs e)
@@ -32,32 +32,6 @@ namespace GestionnaireDeStockApp
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Close();
-        }
-
-        public void AddProductsInRows()
-        {
-            using (var dbContext = new StockContext())
-            {
-                var products = dbContext.Products;
-
-                List<Product> productAdded = new List<Product>();
-
-                foreach (var product in products)
-                {
-                    if (product.Quantity <= 10)
-                    {
-                        productAdded.Add(new Product()
-                        {
-                            ProductId = product.ProductId,
-                            Reference = product.Reference,
-                            Name = product.Name,
-                            Price = product.Price,
-                            Quantity = product.Quantity
-                        });
-                    }
-                }
-                productsDataGrid.ItemsSource = productAdded;
-            }
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)

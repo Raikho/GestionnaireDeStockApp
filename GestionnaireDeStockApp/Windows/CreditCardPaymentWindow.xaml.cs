@@ -11,14 +11,11 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class CreditCardPaymentWindow : Window
     {
-        CashRegisterManager CashRegisterManager = new CashRegisterManager();
-        SalesManagementPage SalesManagementPage = new SalesManagementPage();
-
-        public CreditCardPaymentWindow()
+        public CreditCardPaymentWindow(InvoiceManager invoiceManager)
         {
             InitializeComponent();
 
-            CBTxtBox.Text = CashRegisterManager._ProductLine.FinalTotalPrice.ToString();
+            CBTxtBox.Text = Math.Round(invoiceManager.Ticket.TotalToPay, 2).ToString();
             CBTxtBox.Focus();
         }
 
@@ -42,7 +39,6 @@ namespace GestionnaireDeStockApp
         private void ValidateButton_Click(object sender, RoutedEventArgs e)
         {
             SetACbAmount();
-            SalesManagementPage.ShowACBPayment();
             Close();
         }
 
@@ -56,7 +52,6 @@ namespace GestionnaireDeStockApp
             if (e.Key == Key.Enter)
             {
                 SetACbAmount();
-                SalesManagementPage.ShowACBPayment();
                 Close();
             }
         }
@@ -86,7 +81,7 @@ namespace GestionnaireDeStockApp
                     return 0;
                 else
                 {
-                    return CashRegisterManager._methodPayment.CB =  Convert.ToDouble(CBTxtBox.Text);
+                    return SalesManagementPage.Payment.CBPayment = Convert.ToDouble(CBTxtBox.Text);
                 }
             }
             catch (Exception exception)

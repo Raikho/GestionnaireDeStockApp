@@ -1,4 +1,5 @@
-﻿using DataLayer;
+﻿using BusinessLogicLayer;
+using DataLayer;
 using DataTransfertObject;
 using System;
 using System.Windows;
@@ -24,7 +25,38 @@ namespace GestionnaireDeStockApp
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            if (LoginManager._loginSession.ConnectionState == true)
+            {
+                Close();
+            }
+            else
+            {
+                if (MessageBox.Show("Voulez-vous quitter la création de profil?", "Gestionnaire de stock", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    Close();
+                    MainWindow mainWindow = new MainWindow();
+                }
+            }
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (LoginManager._loginSession.ConnectionState == true)
+            {
+                Close();
+            }
+            else
+            {
+                if (e.Key == Key.Escape || e.Key == Key.F6)
+                {
+                    if (MessageBox.Show("Voulez-vous quitter la création de profil?", "Gestionnaire de stock", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
+                        Close();
+                        MainWindow mainWindow = new MainWindow();
+                    }
+                }
+            }
+
         }
 
         private void MainGrid_MouseDown(object sender, MouseButtonEventArgs e)
@@ -103,12 +135,6 @@ namespace GestionnaireDeStockApp
             DesignPasswordBox(ConfirmPWTxtBox, ConfirmPWTxtBox_GotFocus);
         }
 
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Escape || e.Key == Key.F7)
-                Close();
-        }
-
         private void CreationButton_Click(object sender, RoutedEventArgs e)
         {
             CreateAnAccount();
@@ -149,8 +175,7 @@ namespace GestionnaireDeStockApp
 
                         MessageBox.Show("Profil crée avec succés!");
                         Close();
-                        LoginWindow loginWindow = new LoginWindow();
-                        loginWindow.Show();
+                        MainWindow mainWindow = new MainWindow();
                     }
                 }
             }

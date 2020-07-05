@@ -30,7 +30,6 @@
   <ItemGroup>
     <ProjectReference Include="..\BusinessLogicLayer\BusinessLogicLayer.csproj" />
     <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
-    <ProjectReference Include="..\GraphicLogicLayer\GraphicLogicLayer.csproj" />
   </ItemGroup>
 
   <ItemGroup>

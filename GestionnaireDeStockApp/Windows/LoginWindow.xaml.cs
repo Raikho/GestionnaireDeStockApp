@@ -19,13 +19,31 @@ namespace GestionnaireDeStockApp
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            if (LoginManager._loginSession.ConnectionState == true)
+            {
+                Close();
+            }
+            else
+            {
+                if (MessageBox.Show("Voulez-vous quitter l'application?", "Gestionnaire de stock", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    Application.Current.Shutdown();
+            }
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape || e.Key == Key.F6)
-                Close();
+            {
+                if (LoginManager._loginSession.ConnectionState == true)
+                {
+                    Close();
+                }
+                else
+                {
+                    if (MessageBox.Show("Voulez-vous quitter l'application?", "Gestionnaire de stock", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                        Application.Current.Shutdown();
+                }
+            }
         }
 
         private void MainGrid_MouseDown(object sender, MouseButtonEventArgs e)
@@ -85,8 +103,8 @@ namespace GestionnaireDeStockApp
                     LoginTxtBlockInfo.Text = "Veuillez renseigner tous les champs";
                 else
                 {
-                    var userLogin = LoginManager.TryToConnect(UserNameTxtBox.Text, PasswordTxtBox.Password);
-                    if (userLogin == null)
+                    LoginManager loginManager = new LoginManager();
+                    if (loginManager.TryToConnect(UserNameTxtBox.Text, PasswordTxtBox.Password) == null)
                         LoginTxtBlockInfo.Text = "Connexion échouée, veuillez réessayer";
                     else
                     {

@@ -47,16 +47,16 @@ namespace GestionnaireDeStockApp
             MenuClosed = !MenuClosed;
         }
 
-        private void ConnectToSession()
+        public void ConnectToSession()
         {
             loginWindow = new LoginWindow();
             loginWindow.ShowDialog();
 
-            LeftMenu.IsEnabled = LoginManager.ConnectionState;
+            LeftMenu.IsEnabled = LoginManager._loginSession.ConnectionState;
             if (LeftMenu.IsEnabled == true)
             {
                 ShowAllItems();
-                ShowCurrentUserName(LoginManager.Username);
+                ShowCurrentUserName(LoginManager._loginSession.UserName);
                 MainFrame.Content = new ArticlesListManagementPage();
             }
         }
@@ -124,7 +124,7 @@ namespace GestionnaireDeStockApp
         {
             LoginWindow loginWindow = new LoginWindow();
             loginWindow.ShowDialog();
-            ShowCurrentUserName(LoginManager.Username);
+            ShowCurrentUserName(LoginManager._loginSession.UserName);
         }
 
         private void ShowArticleListManagement_Click(object sender, RoutedEventArgs e)
@@ -162,7 +162,7 @@ namespace GestionnaireDeStockApp
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (LoginManager.ConnectionState == false)
+            if (LoginManager._loginSession.ConnectionState == false)
             {
                 if (e.Key == Key.F6)
                     ShowLoginWindow();

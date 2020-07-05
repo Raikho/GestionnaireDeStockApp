@@ -206,32 +206,32 @@
 
                         <StackPanel Orientation="Horizontal" Height="Auto" Width="386" Margin="9,0,0,0">
                             <ScrollViewer x:Name="InvoiceScroll"  
-                                              Width="362"
-                                              Height="280"
-                                              Margin="0,8,12,12"
-                                              HorizontalScrollBarVisibility="Disabled"
-                                              VerticalScrollBarVisibility="Auto">
+                                            Width="362"
+                                            Height="280"
+                                            Margin="0,8,12,12"
+                                            HorizontalScrollBarVisibility="Disabled"
+                                            VerticalScrollBarVisibility="Auto">
                                 <DataGrid x:Name="InvoiceDataGrid"
-                                              Foreground="Black"
-                                              Margin="0,0,0,0"
-                                              Width="348"
-                                              Height="Auto"
-                                              HorizontalAlignment="Left"
-                                              HeadersVisibility="None"
-                                              GridLinesVisibility="None"
-                                              AutoGenerateColumns="False"
-                                              CanUserAddRows="False"
-                                              Background="Transparent"
-                                              BorderBrush="Transparent"
-                                              HorizontalScrollBarVisibility="Disabled">
+                                            Foreground="Black"
+                                            Margin="0,0,0,0"
+                                            Width="348"
+                                            Height="Auto"
+                                            HorizontalAlignment="Left"
+                                            HeadersVisibility="None"
+                                            GridLinesVisibility="None"
+                                            AutoGenerateColumns="False"
+                                            CanUserAddRows="False"
+                                            Background="Transparent"
+                                            BorderBrush="Transparent"
+                                            HorizontalScrollBarVisibility="Disabled">
 
                                     <DataGrid.Columns>
                                         <DataGridTextColumn 
                                                                 Width="110"
-                                                                Binding="{Binding Path=Product.Name}"/>
+                                                                Binding="{Binding Path=Name}"/>
                                         <DataGridTextColumn 
                                                                 Width="42"
-                                                                Binding="{Binding Path=Product.Price}"/>
+                                                                Binding="{Binding Path=Price}"/>
                                         <DataGridTextColumn 
                                                                 Width="38"
                                                                 Binding="{Binding Path=Quantity}"/>
@@ -240,7 +240,7 @@
                                                                 Binding="{Binding Path=TotalDiscount}"/>
                                         <DataGridTextColumn 
                                                                 Width="39"
-                                                                Binding="{Binding Path=Ticket.Recipe}"/>
+                                                                Binding="{Binding Path=FinalTotalPrice}"/>
                                         <DataGridTemplateColumn Width="66">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>

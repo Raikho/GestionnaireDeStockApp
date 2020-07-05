@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DataTransfertObject
 {
@@ -6,15 +7,11 @@ namespace DataTransfertObject
     {
         [Key]
         public int ProductId { get; set; }
-
         public string Reference { get; set; }
-
         public string Name { get; set; }
-
         public double Price { get; set; }
-
-        public int Quantity { get; set; }
-
-        public override string ToString() => $"{Reference} {Name} {Price} {Quantity}";
+        public ICollection<ProductStock> ProductStocks { get; set; }
+        private readonly HashSet<Provider> _providers = new HashSet<Provider>();
+        public ICollection<Provider> Providers { get => _providers; }
     }
 }

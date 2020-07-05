@@ -11,14 +11,11 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class ChequePaymentWindow : Window
     {
-        CashRegisterManager CashRegisterManager = new CashRegisterManager();
-        SalesManagementPage SalesManagementPage = new SalesManagementPage();
-
-        public ChequePaymentWindow()
+        public ChequePaymentWindow(InvoiceManager invoiceManager)
         {
             InitializeComponent();
 
-            ChqTxtBox.Text = CashRegisterManager._ProductLine.FinalTotalPrice.ToString();
+            ChqTxtBox.Text = Math.Round(invoiceManager.Ticket.TotalToPay, 2).ToString();
             ChqTxtBox.Focus();
         }
 
@@ -42,7 +39,6 @@ namespace GestionnaireDeStockApp
         private void ValidateButton_Click(object sender, RoutedEventArgs e)
         {
             SetAChequeAmount();
-            SalesManagementPage.ShowAChequePayment();
             Close();
         }
 
@@ -56,7 +52,6 @@ namespace GestionnaireDeStockApp
             if (e.Key == Key.Enter)
             {
                 SetAChequeAmount();
-                SalesManagementPage.ShowAChequePayment();
                 Close();
             }
         }
@@ -86,7 +81,7 @@ namespace GestionnaireDeStockApp
                     return 0;
                 else
                 {
-                    return CashRegisterManager._methodPayment.Cheque = Convert.ToDouble(ChqTxtBox.Text);
+                    return SalesManagementPage.Payment.ChequePayment = Convert.ToDouble(ChqTxtBox.Text);
                 }
             }
             catch (Exception exception)

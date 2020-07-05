@@ -1,5 +1,4 @@
-﻿using BusinessLogicLayer;
-using DataTransfertObject;
+﻿using DataTransfertObject;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -136,7 +135,7 @@ namespace GestionnaireDeStockApp
             else
             {
                 if (MessageBox.Show("Etes-vous sûr de vouloir ajouter cet article?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                paramater = true;
+                    paramater = true;
             }
             return paramater;
         }

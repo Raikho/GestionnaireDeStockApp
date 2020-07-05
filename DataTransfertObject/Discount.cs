@@ -2,25 +2,15 @@
 
 namespace DataTransfertObject
 {
-    //public class Discount
-    //{
-    //    [Key]
-    //    public string ProductToSellName { get; set; }
-
-    //    public double ProductToSellPrice { get; set; }
-
-    //    public double ProductToSellQuant { get; set; }
-
-    //    public double ProductToSellSubTotal { get; set; }
-    //}
-
-    public enum DiscountType { Amount, Percent }
+    public enum DiscountType { Amount, Percent, SubTotalDiscount }
 
     public class Discount
     {
         [Key]
+        public int DiscountId { get; set; }
         public ProductLine ProductLine { get; set; }
         public double Value { get; set; }
+        public double TotalDiscount { get; set; }
         public DiscountType Type { get; set; }
     }
 }

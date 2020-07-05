@@ -157,7 +157,7 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                var selectedItem = ProductManager.SelectAProductByRow(ArticlesListManagementPage.CurrentItemSelected);
+                var selectedItem = ProductViewManager.CurrentItemSelected;
 
                 EditRefTxtBox.Text = selectedItem.Reference;
                 EditNameTxtBox.Text = selectedItem.Name;
@@ -184,18 +184,16 @@ namespace GestionnaireDeStockApp
                     }
                     else
                     {
-                        ProductManager.selectedItem.Reference = EditRefTxtBox.Text;
-                        ProductManager.selectedItem.Name = EditNameTxtBox.Text;
-                        ProductManager.selectedItem.Price = Convert.ToDouble(EditPriceTxtBox.Text);
-                        ProductManager.selectedItem.Quantity = Convert.ToInt32(EditQuantTxtBox.Text);
+                        ProductViewManager.CurrentItemSelected.Reference = EditRefTxtBox.Text;
+                        ProductViewManager.CurrentItemSelected.Name = EditNameTxtBox.Text;
+                        ProductViewManager.CurrentItemSelected.Price = Convert.ToDouble(EditPriceTxtBox.Text);
+                        ProductViewManager.CurrentItemSelected.Quantity = Convert.ToDouble(EditQuantTxtBox.Text);
 
                         EditAnArticleTxtBlockInfo.Foreground = new SolidColorBrush(Colors.GreenYellow);
                         EditAnArticleTxtBlockInfo.Text = "Le produit a été modifié avec succès";
 
-                        ProductManager.UpdateAProduct(ProductManager.selectedItem);
-
+                        ProductManager.UpdateAProduct(ProductViewManager.CurrentItemSelected);
                         Close();
-                        ArticlesListManagementPage.ReloadDataGrid();
                     }
                 }
             }
