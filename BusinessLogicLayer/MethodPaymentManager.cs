@@ -44,7 +44,7 @@ namespace BusinessLogicLayer
         {
             invoiceManager.Ticket.PaymentMethods.Add(new PaymentMethod()
             {
-                PaymentMethodtId = SetTheProductLineId(invoiceManager.Ticket),
+                PaymentMethodJoinId = SetTheProductLineJoinId(invoiceManager.Ticket),
                 Type = PaymentMethodType.CB,
                 Value = payment.CBPayment,
                 CreationDate = DateTime.Now
@@ -55,7 +55,7 @@ namespace BusinessLogicLayer
         {
             invoiceManager.Ticket.PaymentMethods.Add(new PaymentMethod()
             {
-                PaymentMethodtId = SetTheProductLineId(invoiceManager.Ticket),
+                PaymentMethodJoinId = SetTheProductLineJoinId(invoiceManager.Ticket),
                 Type = PaymentMethodType.Money,
                 Value = payment.MoneyPayment,
                 CreationDate = DateTime.Now
@@ -66,21 +66,21 @@ namespace BusinessLogicLayer
         {
             invoiceManager.Ticket.PaymentMethods.Add(new PaymentMethod()
             {
-                PaymentMethodtId = SetTheProductLineId(invoiceManager.Ticket),
+                PaymentMethodJoinId = SetTheProductLineJoinId(invoiceManager.Ticket),
                 Type = PaymentMethodType.Cheque,
                 Value = payment.ChequePayment,
                 CreationDate = DateTime.Now
             });
         }
 
-        public int SetTheProductLineId(Invoice ticket)
+        public int SetTheProductLineJoinId(Invoice ticket)
         {
             int value;
             if (ticket.PaymentMethods.Count == 0)
                 value = 0;
             else
             {
-                value = ticket.PaymentMethods.Last().PaymentMethodtId + 1;
+                value = ticket.PaymentMethods.Last().PaymentMethodJoinId + 1;
             }
             return value;
         }

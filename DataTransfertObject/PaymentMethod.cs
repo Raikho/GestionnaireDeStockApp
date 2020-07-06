@@ -8,7 +8,8 @@ namespace DataTransfertObject
     public class PaymentMethod
     {
         [Key]
-        public int PaymentMethodtId { get; set; }
+        public int PaymentMethodId { get; set; }
+        public int PaymentMethodJoinId { get; set; }
         public Invoice Ticket { get; set; }
         public double Value { get; set; }
         public PaymentMethodType Type { get; set; }

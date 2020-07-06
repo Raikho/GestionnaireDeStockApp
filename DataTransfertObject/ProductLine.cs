@@ -7,6 +7,7 @@ namespace DataTransfertObject
     {
         [Key]
         public int ProductLineId { get; set; }
+        public int ProductLineJoinId { get; set; }
         public Invoice Ticket { get; set; }
         public Product Product { get; set; }
         public double Quantity { get; set; }

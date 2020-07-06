@@ -15,7 +15,7 @@ namespace BusinessLogicLayer
                     value = 0;
                 else
                 {
-                    value = producLine.Discounts.Last().DiscountId + 1;
+                    value = producLine.Discounts.Last().DiscountJoinId + 1;
                 }
             }
             return value;

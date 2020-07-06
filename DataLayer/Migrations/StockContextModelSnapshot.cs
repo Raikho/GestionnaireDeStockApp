@@ -26,6 +26,9 @@ namespace DataLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("DiscountJoinId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("ProductLineId")
                         .HasColumnType("int");
 
@@ -95,13 +98,16 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataTransfertObject.PaymentMethod", b =>
                 {
-                    b.Property<int>("PaymentMethodtId")
+                    b.Property<int>("PaymentMethodId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("PaymentMethodJoinId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("TicketInvoiceId")
                         .HasColumnType("int");
@@ -112,7 +118,7 @@ namespace DataLayer.Migrations
                     b.Property<double>("Value")
                         .HasColumnType("float");
 
-                    b.HasKey("PaymentMethodtId");
+                    b.HasKey("PaymentMethodId");
 
                     b.HasIndex("TicketInvoiceId");
 
@@ -151,6 +157,9 @@ namespace DataLayer.Migrations
                         .HasColumnType("float");
 
                     b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductLineJoinId")
                         .HasColumnType("int");
 
                     b.Property<double>("Quantity")

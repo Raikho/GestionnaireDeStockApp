@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 namespace DataLayer.Migrations
 {
@@ -74,8 +74,9 @@ namespace DataLayer.Migrations
                 name: "PaymentMethods",
                 columns: table => new
                 {
-                    PaymentMethodtId = table.Column<int>(nullable: false)
+                    PaymentMethodId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    PaymentMethodJoinId = table.Column<int>(nullable: false),
                     TicketInvoiceId = table.Column<int>(nullable: true),
                     Value = table.Column<double>(nullable: false),
                     Type = table.Column<int>(nullable: false),
@@ -83,7 +84,7 @@ namespace DataLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PaymentMethods", x => x.PaymentMethodtId);
+                    table.PrimaryKey("PK_PaymentMethods", x => x.PaymentMethodId);
                     table.ForeignKey(
                         name: "FK_PaymentMethods_Invoices_TicketInvoiceId",
                         column: x => x.TicketInvoiceId,
@@ -98,6 +99,7 @@ namespace DataLayer.Migrations
                 {
                     ProductLineId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductLineJoinId = table.Column<int>(nullable: false),
                     TicketInvoiceId = table.Column<int>(nullable: true),
                     ProductId = table.Column<int>(nullable: true),
                     Quantity = table.Column<double>(nullable: false),
@@ -171,6 +173,7 @@ namespace DataLayer.Migrations
                 {
                     DiscountId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    DiscountJoinId = table.Column<int>(nullable: false),
                     ProductLineId = table.Column<int>(nullable: true),
                     Value = table.Column<double>(nullable: false),
                     TotalDiscount = table.Column<double>(nullable: false),

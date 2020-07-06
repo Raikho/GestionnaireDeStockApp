@@ -13,7 +13,7 @@ namespace BusinessLogicLayer
                 value = 0;
             else
             {
-                value = ticket.ProductLines.Last().ProductLineId + 1;
+                value = ticket.ProductLines.Last().ProductLineJoinId + 1;
             }
             return value;
         }

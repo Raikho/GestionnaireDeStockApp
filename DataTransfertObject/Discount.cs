@@ -8,6 +8,7 @@ namespace DataTransfertObject
     {
         [Key]
         public int DiscountId { get; set; }
+        public int DiscountJoinId { get; set; }
         public ProductLine ProductLine { get; set; }
         public double Value { get; set; }
         public double TotalDiscount { get; set; }

@@ -1,5 +1,4 @@
-﻿using DataLayer;
-using DataTransfertObject;
+﻿using DataTransfertObject;
 using DataTransfertObject.DataGridView;
 using System;
 using System.Collections.Generic;
@@ -35,18 +34,15 @@ namespace BusinessLogicLayer
             InvoiceViewManager invoiceViewManager = new InvoiceViewManager();
             var Join = from d in totalDiscountsList
                        join p in productLinesList
-                       on d.DiscountId equals p.ProductLineId
+                       on d.DiscountJoinId equals p.ProductLineJoinId
                        select new InvoiceView()
                        {
-                           InvoiceId = invoiceViewManager.SetTheInvoiceViewId(invoiceViewsList),
                            Name = p.Product.Name,
                            Price = Math.Round(p.Product.Price, 2),
                            Quantity = Math.Round(p.Quantity, 2),
                            TotalDiscount = Math.Round(-d.TotalDiscount, 2),
                            FinalTotalPrice = Math.Round(p.FinalTotalPrice, 2)
                        };
-
-
             invoiceViewManager.SetAProductLine(Join, invoiceViewsList);
         }
 

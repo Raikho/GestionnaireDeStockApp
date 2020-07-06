@@ -1,5 +1,4 @@
 ﻿using BusinessLogicLayer;
-using DataLayer;
 using DataTransfertObject;
 using System;
 using System.Windows;

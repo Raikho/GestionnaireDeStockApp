@@ -1,6 +1,5 @@
 ﻿using DataLayer;
 using DataTransfertObject;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,7 +16,7 @@ namespace BusinessLogicLayer
         public List<Invoice> LoadInvoiceDataBase()
         {
             List<Invoice> invoicesList = new List<Invoice>();
-            var dbContext = new StockContext();
+            var dbContext = Invoices;
             var invoices = dbContext.Invoices;
             foreach (var invoice in invoices)
             {
@@ -51,7 +50,6 @@ namespace BusinessLogicLayer
             var totalDiscountValue = cashRegisterManager.CalculateTotalPourcentDAndDiscount(pourcentDiscountValue, discountValue);
             var totalDiscountPriceValue = cashRegisterManager.CalculateADiscountPrice(sum, totalDiscountValue);
 
-            Ticket.InvoiceId = SetTheInvoiceId();
             Ticket.NameSeller = LoginManager._loginSession.UserName;
             Ticket.Recipe += totalDiscountPriceValue;
             Ticket.TotalToPay += totalDiscountPriceValue;
@@ -59,7 +57,7 @@ namespace BusinessLogicLayer
 
             Ticket.ProductLines.Add(new ProductLine()
             {
-                ProductLineId = productLineManager.SetTheProductLineId(Ticket),
+                ProductLineJoinId = productLineManager.SetTheProductLineId(Ticket),
                 Product = new Product()
                 {
                     Name = productView.Name,
@@ -71,7 +69,7 @@ namespace BusinessLogicLayer
                 {
                     new Discount()
                     {
-                        DiscountId = discountManager.SetTheDiscountId(Ticket),
+                        DiscountJoinId = discountManager.SetTheDiscountId(Ticket),
                         Type = DiscountType.SubTotalDiscount,
                         Value = totalDiscountValue,
                         TotalDiscount = totalDiscountValue
@@ -105,20 +103,6 @@ namespace BusinessLogicLayer
             cashRegisterManager.productLinesList.Clear();
             cashRegisterManager.totalDiscountsList.Clear();
             cashRegisterManager.paymentMethodsList.Clear();
-        }
-
-        public int SetTheInvoiceId()
-        {
-            int value;
-            if (Invoices.Invoices.Count() == 0)
-                value = 0;
-            else
-            {
-                var dbContext = Invoices;
-                var invoiceList = dbContext.Invoices;
-                value = invoiceList.ToList().Last().InvoiceId + 1;
-            }
-            return value;
         }
     }
 }
