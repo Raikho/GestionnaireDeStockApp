@@ -1,4 +1,4 @@
-﻿using BusinessLogicLayer;
+﻿using DataTransfertObject;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,18 +11,22 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class CreditCardPaymentWindow : Window
     {
-        public CreditCardPaymentWindow(InvoiceManager invoiceManager)
+        public bool CloseWithPayment { get; set; }
+
+        public CreditCardPaymentWindow(Payment payment)
         {
             InitializeComponent();
 
-            CBTxtBox.Text = Math.Round(invoiceManager.Ticket.TotalToPay, 2).ToString();
+            CBTxtBox.Text = Math.Round(payment.TotalToPay, 2).ToString();
             CBTxtBox.Focus();
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
+            {
                 Close();
+            }
         }
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
@@ -38,6 +42,7 @@ namespace GestionnaireDeStockApp
 
         private void ValidateButton_Click(object sender, RoutedEventArgs e)
         {
+            CloseWithPayment = true;
             SetACbAmount();
             Close();
         }
@@ -51,6 +56,7 @@ namespace GestionnaireDeStockApp
         {
             if (e.Key == Key.Enter)
             {
+                CloseWithPayment = true;
                 SetACbAmount();
                 Close();
             }

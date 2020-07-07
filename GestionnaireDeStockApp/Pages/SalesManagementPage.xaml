@@ -302,7 +302,7 @@
 
                             <TextBlock  x:Name="PaymentMethodTxtBlock"
                                         TextAlignment="Left"
-                                        Margin="20,84,150,-104"
+                                        Margin="20,84,130,-104"
                                         FontSize="13"/>
                             <TextBlock  x:Name="PaymentTxtBlock"
                                         TextAlignment="Right"
@@ -366,7 +366,7 @@
                         </Button.Effect>
                     </Button>
 
-                    <Button x:Name="PresentChqButton"
+                    <Button x:Name="GiftChqButton"
                         Margin="10,0,0,0" 
                         Content="{materialDesign:PackIcon Kind=Present, Size=35}"
                         ToolTip="Paiement chèque cadeau"
@@ -378,7 +378,7 @@
                         Height="40" 
                         FontWeight="Bold" 
                         FontFamily="Leelawadee UI Semilight"
-                        Click="PresentChqButton_Click">
+                        Click="GiftChqButton_Click">
                         <Button.Effect>
                             <DropShadowEffect BlurRadius="10" ShadowDepth="5" Color="Gray"/>
                         </Button.Effect>

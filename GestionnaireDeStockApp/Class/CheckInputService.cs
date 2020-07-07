@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessLogicLayer;
+using System;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -123,6 +124,25 @@ namespace GestionnaireDeStockApp
                 string newInput = textBox.Text;
                 bool correctNum = double.TryParse(newInput, out double variable);
                 if (correctNum == true || textBox.Text == "")
+                {
+                    return CorrectPickedChara = true;
+                }
+                else
+                    return CorrectPickedChara = false;
+            }
+            catch (Exception)
+            {
+                return CorrectPickedChara = false;
+            }
+        }
+
+        public static bool CheckDoublePaymentInput(TextBox textBox, InvoiceManager invoiceManager)
+        {
+            try
+            {
+                string newInput = textBox.Text;
+                bool correctNum = double.TryParse(newInput, out double variable);
+                if (correctNum == true || textBox.Text == "" || Convert.ToDouble(textBox.Text) > invoiceManager.Ticket.TotalToPay)
                 {
                     return CorrectPickedChara = true;
                 }

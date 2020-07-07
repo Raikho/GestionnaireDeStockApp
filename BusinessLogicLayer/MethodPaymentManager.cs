@@ -6,69 +6,52 @@ namespace BusinessLogicLayer
 {
     public class MethodPaymentManager
     {
-        public double CalculACBPayment(InvoiceManager invoiceManager, Payment payment)
+        public double CalculateAPayment(Payment payment, double currentPayment)
         {
-            var totalToPay = invoiceManager.Ticket.TotalToPay;
-            var restToPay = totalToPay - payment.CBPayment;
-            return invoiceManager.Ticket.TotalToPay = restToPay;
+            return payment.TotalToPay -= currentPayment;
         }
 
-        public double CalculAMoneyPayment(InvoiceManager invoiceManager, Payment payment)
-        {
-            var totalToPay = invoiceManager.Ticket.TotalToPay;
-            var restToPay = totalToPay - payment.MoneyPayment;
-            return invoiceManager.Ticket.TotalToPay = restToPay;
-        }
-
-        public double CalculAChequePayment(InvoiceManager invoiceManager, Payment payment)
-        {
-            var totalToPay = invoiceManager.Ticket.TotalToPay;
-            var restToPay = totalToPay - payment.ChequePayment;
-            return invoiceManager.Ticket.TotalToPay = restToPay;
-        }
-
-        public double SetThePaymentMethod(InvoiceManager invoiceManager, Payment payment)
+        public double SetThePaymentMethod(InvoiceManager invoiceManager, PaymentMethod paymentType, Payment payment)
         {
             invoiceManager.Ticket.PaymentMethods = invoiceManager.paymentMethods;
 
-            MakeACBPayment(invoiceManager, payment);
-            MakeAMoneyPayment(invoiceManager, payment);
-            MakeAChequePayment(invoiceManager, payment);
+            MakeACBPayment(invoiceManager, paymentType, payment);
+            MakeAMoneyPayment(invoiceManager, paymentType, payment);
+            MakeAChequePayment(invoiceManager, paymentType, payment);
+            MakeAGiftChequePayment(invoiceManager, paymentType, payment);
 
             payment.TotalPayment = payment.CBPayment + payment.MoneyPayment + payment.ChequePayment;
 
             return payment.TotalPayment;
         }
 
-        private void MakeACBPayment(InvoiceManager invoiceManager, Payment payment)
+        private void MakeACBPayment(InvoiceManager invoiceManager, PaymentMethod paymentType, Payment payment)
         {
-            invoiceManager.Ticket.PaymentMethods.Add(new PaymentMethod()
-            {
-                PaymentMethodJoinId = SetTheProductLineJoinId(invoiceManager.Ticket),
-                Type = PaymentMethodType.CB,
-                Value = payment.CBPayment,
-                CreationDate = DateTime.Now
-            });
+            MakeAPayment(invoiceManager, paymentType.Type = PaymentMethodType.CB, payment.CBPayment);
         }
 
-        private void MakeAMoneyPayment(InvoiceManager invoiceManager, Payment payment)
+        private void MakeAMoneyPayment(InvoiceManager invoiceManager, PaymentMethod paymentType, Payment payment)
         {
-            invoiceManager.Ticket.PaymentMethods.Add(new PaymentMethod()
-            {
-                PaymentMethodJoinId = SetTheProductLineJoinId(invoiceManager.Ticket),
-                Type = PaymentMethodType.Money,
-                Value = payment.MoneyPayment,
-                CreationDate = DateTime.Now
-            });
+            MakeAPayment(invoiceManager, paymentType.Type = PaymentMethodType.Money, payment.MoneyPayment);
         }
 
-        private void MakeAChequePayment(InvoiceManager invoiceManager, Payment payment)
+        private void MakeAChequePayment(InvoiceManager invoiceManager, PaymentMethod paymentType, Payment payment)
+        {
+            MakeAPayment(invoiceManager, paymentType.Type = PaymentMethodType.Cheque, payment.ChequePayment);
+        }
+
+        private void MakeAGiftChequePayment(InvoiceManager invoiceManager, PaymentMethod paymentType, Payment payment)
+        {
+            MakeAPayment(invoiceManager, paymentType.Type = PaymentMethodType.GiftCheque, payment.GiftChequePayment);
+        }
+
+        private void MakeAPayment(InvoiceManager invoiceManager, PaymentMethodType type, double payment)
         {
             invoiceManager.Ticket.PaymentMethods.Add(new PaymentMethod()
             {
                 PaymentMethodJoinId = SetTheProductLineJoinId(invoiceManager.Ticket),
-                Type = PaymentMethodType.Cheque,
-                Value = payment.ChequePayment,
+                Type = type,
+                Value = payment,
                 CreationDate = DateTime.Now
             });
         }

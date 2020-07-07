@@ -4,21 +4,21 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace GestionnaireDeStockApp
+namespace GestionnaireDeStockApp.Windows
 {
     /// <summary>
-    /// Logique d'interaction pour CreditCardPaymentWindow.xaml
+    /// Logique d'interaction pour GiftChequeWindow.xaml
     /// </summary>
-    public partial class MoneyPaymentWindow : Window
+    public partial class GiftChequeWindow : Window
     {
         public bool CloseWithPayment { get; set; }
 
-        public MoneyPaymentWindow(Payment payment)
+        public GiftChequeWindow(Payment payment)
         {
             InitializeComponent();
 
-            MoneyTxtBox.Text = Math.Round(payment.TotalToPay, 2).ToString();
-            MoneyTxtBox.Focus();
+            AmountGiftChqTxtBox.Text = Math.Round(payment.TotalToPay, 2).ToString();
+            AmountGiftChqTxtBox.Focus();
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -41,33 +41,33 @@ namespace GestionnaireDeStockApp
         private void ValidateButton_Click(object sender, RoutedEventArgs e)
         {
             CloseWithPayment = true;
-            SetAMoneyAmount();
+            SetAGiftChqAmount();
             Close();
         }
 
-        private void MoneyTxtBox_GotFocus(object sender, RoutedEventArgs e)
+        private void GiftChqTxtBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            SelectContentOnFocus(AmountGiftChqTxtBox);
+        }
+
+        private void GiftChqTxtBox_GotMouseCapture(object sender, MouseEventArgs e)
+        {
+            SelectContentOnFocus(AmountGiftChqTxtBox);
+        }
+
+        private void GiftChqTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void MoneyTxtBox_KeyDown(object sender, KeyEventArgs e)
+        private void GiftChqTxtBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 CloseWithPayment = true;
-                SetAMoneyAmount();
+                SetAGiftChqAmount();
                 Close();
             }
-        }
-
-        private void MoneyTxtBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            SelectContentOnFocus(MoneyTxtBox);
-        }
-
-        private void MoneyTxtBox_GotMouseCapture(object sender, MouseEventArgs e)
-        {
-            SelectContentOnFocus(MoneyTxtBox);
         }
 
         private void SelectContentOnFocus(TextBox textBox)
@@ -76,16 +76,16 @@ namespace GestionnaireDeStockApp
                 textBox.SelectAll();
         }
 
-        private double SetAMoneyAmount()
+        private double SetAGiftChqAmount()
         {
             try
             {
-                CheckInputService.CheckDoubleTypeInput(MoneyTxtBox);
-                if (CheckInputService.CorrectPickedChara == false || MoneyTxtBox.Text == "")
+                CheckInputService.CheckDoubleTypeInput(AmountGiftChqTxtBox);
+                if (CheckInputService.CorrectPickedChara == false || AmountGiftChqTxtBox.Text == "")
                     return 0;
                 else
                 {
-                    return SalesManagementPage.Payment.MoneyPayment = Convert.ToDouble(MoneyTxtBox.Text);
+                    return SalesManagementPage.Payment.GiftChequePayment = Convert.ToDouble(AmountGiftChqTxtBox.Text);
                 }
             }
             catch (Exception exception)

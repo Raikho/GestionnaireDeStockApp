@@ -1,4 +1,4 @@
-﻿using BusinessLogicLayer;
+﻿using DataTransfertObject;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,11 +11,13 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class ChequePaymentWindow : Window
     {
-        public ChequePaymentWindow(InvoiceManager invoiceManager)
+        public bool CloseWithPayment { get; set; }
+
+        public ChequePaymentWindow(Payment payment)
         {
             InitializeComponent();
 
-            ChqTxtBox.Text = Math.Round(invoiceManager.Ticket.TotalToPay, 2).ToString();
+            ChqTxtBox.Text = Math.Round(payment.TotalToPay, 2).ToString();
             ChqTxtBox.Focus();
         }
 
@@ -38,6 +40,7 @@ namespace GestionnaireDeStockApp
 
         private void ValidateButton_Click(object sender, RoutedEventArgs e)
         {
+            CloseWithPayment = true;
             SetAChequeAmount();
             Close();
         }
@@ -51,6 +54,7 @@ namespace GestionnaireDeStockApp
         {
             if (e.Key == Key.Enter)
             {
+                CloseWithPayment = true;
                 SetAChequeAmount();
                 Close();
             }

@@ -1,5 +1,6 @@
 ﻿using BusinessLogicLayer;
 using DataTransfertObject;
+using GestionnaireDeStockApp.Windows;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,6 +17,7 @@ namespace GestionnaireDeStockApp
         public static Payment Payment = new Payment();
         CashRegisterManager CashRegisterManager = new CashRegisterManager();
         InvoiceManager InvoiceManager = new InvoiceManager();
+        PaymentMethod PaymentMethod = new PaymentMethod();
         MethodPaymentManager MethodPaymentManager = new MethodPaymentManager();
 
         public SalesManagementPage()
@@ -95,9 +97,10 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                CreditCardPaymentWindow creditCardPaymentWindow = new CreditCardPaymentWindow(InvoiceManager);
+                CreditCardPaymentWindow creditCardPaymentWindow = new CreditCardPaymentWindow(Payment);
                 creditCardPaymentWindow.ShowDialog();
-                if (Convert.ToDouble(creditCardPaymentWindow.CBTxtBox.Text) > 0)
+
+                if (creditCardPaymentWindow.CloseWithPayment == true && Convert.ToDouble(creditCardPaymentWindow.CBTxtBox.Text) > 0)
                     ShowACBPayment();
             }
             catch (Exception exception)
@@ -110,9 +113,9 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                MoneyPaymentWindow moneyPaymentWindow = new MoneyPaymentWindow(InvoiceManager);
+                MoneyPaymentWindow moneyPaymentWindow = new MoneyPaymentWindow(Payment);
                 moneyPaymentWindow.ShowDialog();
-                if (Convert.ToDouble(moneyPaymentWindow.MoneyTxtBox.Text) > 0)
+                if (moneyPaymentWindow.CloseWithPayment == true && Convert.ToDouble(moneyPaymentWindow.MoneyTxtBox.Text) > 0)
                     ShowAMoneyPayment();
             }
             catch (Exception exception)
@@ -125,9 +128,9 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                ChequePaymentWindow chequePaymentWindow = new ChequePaymentWindow(InvoiceManager);
+                ChequePaymentWindow chequePaymentWindow = new ChequePaymentWindow(Payment);
                 chequePaymentWindow.ShowDialog();
-                if (Convert.ToDouble(chequePaymentWindow.ChqTxtBox.Text) > 0)
+                if (chequePaymentWindow.CloseWithPayment == true && Convert.ToDouble(chequePaymentWindow.ChqTxtBox.Text) > 0)
                     ShowAChequePayment();
             }
             catch (Exception exception)
@@ -136,11 +139,14 @@ namespace GestionnaireDeStockApp
             }
         }
 
-        private void PresentChqButton_Click(object sender, RoutedEventArgs e)
+        private void GiftChqButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-
+                GiftChequeWindow giftChequeWindow = new GiftChequeWindow(Payment);
+                giftChequeWindow.ShowDialog();
+                if (giftChequeWindow.CloseWithPayment == true && Convert.ToDouble(giftChequeWindow.AmountGiftChqTxtBox.Text) > 0)
+                    ShowAGiftChqPayment();
             }
             catch (Exception exception)
             {
@@ -179,11 +185,21 @@ namespace GestionnaireDeStockApp
             InvoiceManager.Ticket.Recipe = 0;
             InvoiceManager.Ticket.TotalToPay = 0;
             InvoiceManager.Ticket.ProductLines.Clear();
-            InvoiceManager.Ticket.PaymentMethods.Clear();
-            CashRegisterManager.invoiceViewsList.Clear();
-            CashRegisterManager.productLinesList.Clear();
-            CashRegisterManager.totalDiscountsList.Clear();
-            CashRegisterManager.paymentMethodsList.Clear();
+
+            if (InvoiceManager.Ticket.PaymentMethods != null)
+                InvoiceManager.Ticket.PaymentMethods.Clear();
+
+            if (CashRegisterManager.invoiceViewsList != null)
+                CashRegisterManager.invoiceViewsList.Clear();
+
+            if (CashRegisterManager.productLinesList != null)
+                CashRegisterManager.productLinesList.Clear();
+
+            if (CashRegisterManager.totalDiscountsList != null)
+                CashRegisterManager.totalDiscountsList.Clear();
+
+            if (CashRegisterManager.paymentMethodsList != null)
+                CashRegisterManager.paymentMethodsList.Clear();
         }
 
         private void PaymentButton_Click(object sender, RoutedEventArgs e)
@@ -192,12 +208,12 @@ namespace GestionnaireDeStockApp
             {
                 if (MessageBox.Show("Voulez-vous valider l'encaissement?", "Caisse", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    if (InvoiceManager.Ticket.TotalToPay > 0)
+                    if (Payment.TotalToPay > 0)
                         MessageBox.Show("L'encaissement est incomplet. Veuillez procéder au paiement.");
                     else
                     {
                         MessageBox.Show("Vente terminée! Le ticket a été validé.");
-                        MethodPaymentManager.SetThePaymentMethod(InvoiceManager, Payment);
+                        MethodPaymentManager.SetThePaymentMethod(InvoiceManager, PaymentMethod, Payment);
                         InvoiceManager.SaveInvoiceToDataBase();
                         ResetTheTicket();
                     }
@@ -241,8 +257,9 @@ namespace GestionnaireDeStockApp
                                                     SalesParametersWindow.SalesParameter.PourcentDiscount,
                                                     SalesParametersWindow.SalesParameter.Discount);
                 InvoiceDataGrid.ItemsSource = CashRegisterManager.invoiceViewsList;
+                Payment.TotalToPay = InvoiceManager.Ticket.TotalToPay;
                 TotalTxtBlock.Text = $"{Math.Round(InvoiceManager.Ticket.Recipe, 2)}€ TTC";
-                RestToPayTxtBlock.Text = $"{Math.Round(InvoiceManager.Ticket.TotalToPay, 2)}€";
+                RestToPayTxtBlock.Text = $"{Math.Round(Payment.TotalToPay, 2)}€";
                 if (CashRegisterManager.CalculateTheTotalInvoiceDiscount(InvoiceManager.Ticket) > 0)
                 {
                     DiscountTxtBlock.Text = "Remise";
@@ -263,16 +280,12 @@ namespace GestionnaireDeStockApp
             return InvoiceManager.Ticket.TicketRef = TicketNumTxtBox.Text = $"{DateTime.Now.ToShortDateString()}/{ticketRef.ToString(numFormat)}";
         }
 
-
         public void ShowACBPayment()
         {
             try
             {
-                MethodPaymentManager.CalculACBPayment(InvoiceManager, Payment);
-                PaymentMethodTxtBlock.Text += "Paiement CB:\n";
-                PaymentTxtBlock.Text += $"{Math.Round(Payment.CBPayment, 2)}€\n";
-
-                RestToPayTxtBlock.Text = $"{Math.Round(InvoiceManager.Ticket.TotalToPay, 2)}€";
+                string CBPaymentType = "Paiement CB:";
+                SetAShowPayment(Payment.CBPayment, CBPaymentType);
             }
             catch (Exception exception)
             {
@@ -284,11 +297,8 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                MethodPaymentManager.CalculAMoneyPayment(InvoiceManager, Payment);
-                PaymentMethodTxtBlock.Text += "Paiement espèces:\n";
-                PaymentTxtBlock.Text += $"{Math.Round(Payment.MoneyPayment, 2)}€\n";
-
-                RestToPayTxtBlock.Text = $"{Math.Round(InvoiceManager.Ticket.TotalToPay, 2)}€";
+                string MoneyPaymentType = "Paiement espèces:";
+                SetAShowPayment(Payment.MoneyPayment, MoneyPaymentType);
             }
             catch (Exception exception)
             {
@@ -300,16 +310,43 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                MethodPaymentManager.CalculAChequePayment(InvoiceManager, Payment);
-                PaymentMethodTxtBlock.Text += "Paiement chèque:\n";
-                PaymentTxtBlock.Text += $"{Math.Round(Payment.ChequePayment, 2)}€\n";
-
-                RestToPayTxtBlock.Text = $"{Math.Round(InvoiceManager.Ticket.TotalToPay, 2)}€";
+                string ChequePaymentType = "Paiement chèque:";
+                SetAShowPayment(Payment.ChequePayment, ChequePaymentType);
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message);
             }
+        }
+
+        public void ShowAGiftChqPayment()
+        {
+            try
+            {
+                string giftChqPaymentType = "Paiement chèque cadeau:";
+                SetAShowPayment(Payment.GiftChequePayment, giftChqPaymentType);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
+        }
+
+        public double SetAShowPayment(double payment, string paymentType)
+        {
+            if (payment > Payment.TotalToPay || payment < 0)
+                MessageBox.Show("Le montant est incorrect");
+            else
+            {
+                if (payment > 0)
+                {
+                    MethodPaymentManager.CalculateAPayment(Payment, payment);
+                    PaymentMethodTxtBlock.Text += $"{paymentType}\n";
+                    PaymentTxtBlock.Text += $"{Math.Round(payment, 2)}€\n";
+                    RestToPayTxtBlock.Text = $"{Math.Round(Payment.TotalToPay, 2)}€";
+                }
+            }
+            return payment;
         }
 
         private void DeleteProductToSell_Click(object sender, RoutedEventArgs e)
