@@ -43,11 +43,14 @@ namespace GestionnaireDeStockApp
         {
             if (LoginManager._loginSession.ConnectionState == true)
             {
-                Close();
+                if (e.Key == Key.Escape || e.Key == Key.F7)
+                {
+                    Close();
+                }
             }
             else
             {
-                if (e.Key == Key.Escape || e.Key == Key.F6)
+                if (e.Key == Key.Escape || e.Key == Key.F7)
                 {
                     if (MessageBox.Show("Voulez-vous quitter la création de profil?", "Gestionnaire de stock", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {

@@ -94,7 +94,7 @@ namespace BusinessLogicLayer
             ProductStock productStockToDelete = null;
 
             var dbContext = new StockContext();
-            productToDelete = dbContext.Products.Where(c => c.Reference == selectedItem.Reference).FirstOrDefault();
+            productToDelete = dbContext.Products.Where(c => c.ProductId == selectedItem.ProductId).FirstOrDefault();
             productStockToDelete = dbContext.ProductStocks.Where(c => c.ProductStockId == selectedItem.ProductId).FirstOrDefault();
             if (productToDelete != null && productStockToDelete != null)
             {

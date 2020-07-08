@@ -124,11 +124,11 @@ namespace GestionnaireDeStockApp
             {
                 var checkedChar = CheckInputService.CheckAllCharacteristics(AddRefTxtBox, AddNameTxtBox, AddPriceTxtBox, AddQuantTxtBox, AddAnArticleTxtBlockInfo);
                 if (checkedChar == true)
-                {
-                    var newProduct = ProductManager.AddANewProductByRefChecking(AddRefTxtBox.Text, AddNameTxtBox.Text, AddPriceTxtBox.Text, AddQuantTxtBox.Text);
+                {  
                     if (MessageBox.Show("Etes-vous sûr de vouloir ajouté cet article au stock?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
-                        if (newProduct != null)
+                        var newProduct = ProductManager.AddANewProductByRefChecking(AddRefTxtBox.Text, AddNameTxtBox.Text, AddPriceTxtBox.Text, AddQuantTxtBox.Text);
+                        if (newProduct == null)
                         {
                             AddAnArticleTxtBlockInfo.FontSize = 12;
                             AddAnArticleTxtBlockInfo.Foreground = new SolidColorBrush(Colors.Yellow);

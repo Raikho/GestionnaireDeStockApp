@@ -24,6 +24,7 @@ namespace GestionnaireDeStockApp
         {
             AddAnArticleWindow addAnArticleWindow = new AddAnArticleWindow();
             addAnArticleWindow.ShowDialog();
+            ReloadDataGrid();
         }
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
@@ -38,7 +39,7 @@ namespace GestionnaireDeStockApp
                 ProductViewManager productViewManager = new ProductViewManager();
                 productViewManager.SelectAProductByRow((ProductView)ProductsDataGrid.CurrentCell.Item);
                 EditAnArticleWindow editAnArticleWindow = new EditAnArticleWindow();
-                editAnArticleWindow.Show();
+                editAnArticleWindow.ShowDialog();
                 ReloadDataGrid();
             }
             catch (Exception exception)
