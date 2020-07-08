@@ -182,6 +182,7 @@ namespace GestionnaireDeStockApp
             TotalDiscountTxtBlock.Text = string.Empty;
             TicketNumTxtBox.Text = ShowTicketNumber();
 
+            Payment.TotalToPay = 0;
             InvoiceManager.Ticket.Recipe = 0;
             InvoiceManager.Ticket.TotalToPay = 0;
             InvoiceManager.Ticket.ProductLines.Clear();
@@ -213,9 +214,12 @@ namespace GestionnaireDeStockApp
                     else
                     {
                         MessageBox.Show("Vente terminée! Le ticket a été validé.");
+                        ProductStockManager ProductStockManager = new ProductStockManager();
+                        ProductStockManager.EditProductQuantity(InvoiceManager);
                         MethodPaymentManager.SetThePaymentMethod(InvoiceManager, PaymentMethod, Payment);
                         InvoiceManager.SaveInvoiceToDataBase();
                         ResetTheTicket();
+                        ArticleToSellDataGrid.ItemsSource = ProductViewManager.JoinProductAndProductStockTables();
                     }
                 }
             }
@@ -257,7 +261,7 @@ namespace GestionnaireDeStockApp
                                                     SalesParametersWindow.SalesParameter.PourcentDiscount,
                                                     SalesParametersWindow.SalesParameter.Discount);
                 InvoiceDataGrid.ItemsSource = CashRegisterManager.invoiceViewsList;
-                Payment.TotalToPay = InvoiceManager.Ticket.TotalToPay;
+                Payment.TotalToPay = Math.Round(InvoiceManager.Ticket.TotalToPay, 2);
                 TotalTxtBlock.Text = $"{Math.Round(InvoiceManager.Ticket.Recipe, 2)}€ TTC";
                 RestToPayTxtBlock.Text = $"{Math.Round(Payment.TotalToPay, 2)}€";
                 if (CashRegisterManager.CalculateTheTotalInvoiceDiscount(InvoiceManager.Ticket) > 0)

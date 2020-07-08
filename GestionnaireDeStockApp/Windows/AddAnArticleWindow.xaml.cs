@@ -124,7 +124,7 @@ namespace GestionnaireDeStockApp
             {
                 var checkedChar = CheckInputService.CheckAllCharacteristics(AddRefTxtBox, AddNameTxtBox, AddPriceTxtBox, AddQuantTxtBox, AddAnArticleTxtBlockInfo);
                 if (checkedChar == true)
-                {  
+                {
                     if (MessageBox.Show("Etes-vous sûr de vouloir ajouté cet article au stock?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
                         var newProduct = ProductManager.AddANewProductByRefChecking(AddRefTxtBox.Text, AddNameTxtBox.Text, AddPriceTxtBox.Text, AddQuantTxtBox.Text);
