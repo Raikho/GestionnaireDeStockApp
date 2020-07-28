@@ -11,7 +11,11 @@ namespace BusinessLogicLayer
     {
         public static InvoiceView selectedProductLine { get; private set; }
 
-        public static Product AddANewProductByRefChecking(string newProductRef, string newProductName, string newProductPrice, string newProductQuantity)
+        public static Product AddANewProductByRefChecking(string newProductRef,
+                                                          string newProductName,
+                                                          string newProductExclTaxPrice,
+                                                          string newProductPrice,
+                                                          string newProductQuantity)
         {
             Product newProduct = null;
             var dbContext = new StockContext();
@@ -22,6 +26,7 @@ namespace BusinessLogicLayer
                 {
                     Reference = newProductRef,
                     Name = newProductName,
+                    ExclTaxPrice = Convert.ToDouble(newProductExclTaxPrice),
                     Price = Convert.ToDouble(newProductPrice),
                     ProductStocks = new List<ProductStock>()
                     {
@@ -51,6 +56,7 @@ namespace BusinessLogicLayer
                     {
                         Reference = product.Reference,
                         Name = product.Name,
+                        ExclTaxPrice = product.ExclTaxPrice,
                         Price = product.Price,
                         Quantity = product.Quantity
                     });
@@ -75,6 +81,7 @@ namespace BusinessLogicLayer
                     {
                         Reference = product.Reference,
                         Name = product.Name,
+                        ExclTaxPrice = product.ExclTaxPrice,
                         Price = product.Price,
                         Quantity = product.Quantity
                     });
@@ -117,6 +124,7 @@ namespace BusinessLogicLayer
             {
                 productToEdit.Reference = selectedItem.Reference;
                 productToEdit.Name = selectedItem.Name;
+                productToEdit.ExclTaxPrice = selectedItem.ExclTaxPrice;
                 productToEdit.Price = selectedItem.Price;
                 productStockToEdit.Quantity = selectedItem.Quantity;
                 dbContext.Update(productStockToEdit);

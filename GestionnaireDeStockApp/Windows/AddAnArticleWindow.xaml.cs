@@ -60,6 +60,15 @@ namespace GestionnaireDeStockApp
             }
         }
 
+        private void AddExclPriceTxtBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ClearTheBLock();
+                CreateNewArticle();
+            }
+        }
+
         private void AddPriceTxtBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -92,6 +101,14 @@ namespace GestionnaireDeStockApp
             ClearTheBLock();
             AddNameTxtBox.GotFocus += AddNameTxtBox_GotFocus;
             AddNameTxtBox.Foreground = new SolidColorBrush(Colors.Black);
+        }
+
+        private void AddExclPriceTxtBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            AddExclPriceTxtBox.Text = string.Empty;
+            ClearTheBLock();
+            AddExclPriceTxtBox.GotFocus += AddExclPriceTxtBox_GotFocus;
+            AddExclPriceTxtBox.Foreground = new SolidColorBrush(Colors.Black);
         }
 
         private void AddPriceTxtBox_GotFocus(object sender, RoutedEventArgs e)
@@ -127,7 +144,7 @@ namespace GestionnaireDeStockApp
                 {
                     if (MessageBox.Show("Etes-vous sûr de vouloir ajouté cet article au stock?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
-                        var newProduct = ProductManager.AddANewProductByRefChecking(AddRefTxtBox.Text, AddNameTxtBox.Text, AddPriceTxtBox.Text, AddQuantTxtBox.Text);
+                        var newProduct = ProductManager.AddANewProductByRefChecking(AddRefTxtBox.Text, AddNameTxtBox.Text, AddExclPriceTxtBox.Text, AddPriceTxtBox.Text, AddQuantTxtBox.Text);
                         if (newProduct == null)
                         {
                             AddAnArticleTxtBlockInfo.FontSize = 12;

@@ -59,7 +59,6 @@ namespace GestionnaireDeStockApp
                     }
                 }
             }
-
         }
 
         private void MainGrid_MouseDown(object sender, MouseButtonEventArgs e)

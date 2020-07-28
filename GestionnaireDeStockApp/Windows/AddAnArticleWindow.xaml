@@ -43,8 +43,18 @@
 
         <TextBlock HorizontalAlignment="Left" 
                    TextAlignment="Right"
-                   Margin="30,80,0,0" 
+                   Margin="30,70,0,0" 
                    Text="Nom :" 
+                   Foreground="White" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Width="65"/>
+
+
+        <TextBlock HorizontalAlignment="Left" 
+                   TextAlignment="Right"
+                   Margin="30,100,0,0" 
+                   Text="Prix HT :" 
                    Foreground="White" 
                    TextWrapping="Wrap" 
                    VerticalAlignment="Top" 
@@ -52,8 +62,8 @@
 
         <TextBlock HorizontalAlignment="Left"
                    TextAlignment="Right"
-                   Margin="30,120,0,0" 
-                   Text="Prix :" 
+                   Margin="30,130,0,0" 
+                   Text="Prix TTC :" 
                    Foreground="White" 
                    TextWrapping="Wrap" 
                    VerticalAlignment="Top" 
@@ -81,7 +91,7 @@
 
         <TextBox x:Name="AddNameTxtBox" 
                  HorizontalAlignment="Left" 
-                 Margin="120,76,0,0" 
+                 Margin="120,66,0,0" 
                  Text="zone de saisie..." 
                  Foreground="Gray" 
                  TextWrapping="Wrap" 
@@ -90,9 +100,20 @@
                  GotFocus="AddNameTxtBox_GotFocus"
                  KeyDown="AddNameTxtBox_KeyDown"/>
 
+        <TextBox x:Name="AddExclPriceTxtBox" 
+                 HorizontalAlignment="Left" 
+                 Margin="120,96,0,0" 
+                 Text="zone de saisie..." 
+                 Foreground="Gray" 
+                 TextWrapping="Wrap" 
+                 VerticalAlignment="Top" 
+                 Width="120" 
+                 GotFocus="AddExclPriceTxtBox_GotFocus"
+                 KeyDown="AddExclPriceTxtBox_KeyDown"/>
+
         <TextBox x:Name="AddPriceTxtBox" 
                  HorizontalAlignment="Left" 
-                 Margin="120,116,0,0" 
+                 Margin="120,126,0,0" 
                  Text="zone de saisie..." 
                  Foreground="Gray" 
                  TextWrapping="Wrap" 

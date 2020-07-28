@@ -42,8 +42,16 @@
                    VerticalAlignment="Top" Width="65"/>
 
         <TextBlock HorizontalAlignment="Left" 
-                   Margin="30,80,0,0" 
-                   Text="Nom :" 
+                   Margin="30,70,0,0" 
+                   Text="Name :"
+                   TextAlignment="Right"
+                   Foreground="White" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" Width="65"/>
+
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="30,100,0,0" 
+                   Text="Prix HT :" 
                    TextAlignment="Right"
                    Foreground="White" 
                    TextWrapping="Wrap" 
@@ -51,8 +59,8 @@
                    Width="65"/>
 
         <TextBlock HorizontalAlignment="Left" 
-                   Margin="30,120,0,0" 
-                   Text="Prix :" 
+                   Margin="30,130,0,0" 
+                   Text="Prix TTC :" 
                    TextAlignment="Right"
                    Foreground="White" 
                    TextWrapping="Wrap" 
@@ -82,7 +90,7 @@
 
         <TextBox x:Name="EditNameTxtBox" 
                  HorizontalAlignment="Left" 
-                 Margin="120,76,0,0" 
+                 Margin="120,66,0,0" 
                  Foreground="Red" 
                  TextWrapping="Wrap" 
                  VerticalAlignment="Top" 
@@ -92,9 +100,21 @@
                  GotKeyboardFocus="EditNameTxtBox_GotKeyboardFocus"
                  GotMouseCapture="EditNameTxtBox_GotMouseCapture"/>
 
+        <TextBox x:Name="EditExclTaxPriceTxtBox" 
+                 HorizontalAlignment="Left" 
+                 Margin="120,96,0,0" 
+                 Foreground="Red" 
+                 TextWrapping="Wrap" 
+                 VerticalAlignment="Top" 
+                 Width="120" 
+                 GotFocus="EditExclTaxPriceTxtBox_GotFocus"
+                 KeyDown="EditExclTaxPriceTxtBox_KeyDown"
+                 GotKeyboardFocus="EditExclTaxPriceTxtBox_GotKeyboardFocus"
+                 GotMouseCapture="EditExclTaxPriceTxtBox_GotMouseCapture"/>
+
         <TextBox x:Name="EditPriceTxtBox" 
                  HorizontalAlignment="Left" 
-                 Margin="120,116,0,0" 
+                 Margin="120,126,0,0" 
                  Foreground="Red" 
                  TextWrapping="Wrap" 
                  VerticalAlignment="Top" 

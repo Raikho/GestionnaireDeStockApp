@@ -20,6 +20,7 @@ namespace BusinessLogicLayer
                             ProductId = p.ProductId,
                             Reference = p.Reference,
                             Name = p.Name,
+                            ExclTaxPrice = p.ExclTaxPrice,
                             Price = p.Price,
                             Quantity = s.Quantity
                         }).ToList();

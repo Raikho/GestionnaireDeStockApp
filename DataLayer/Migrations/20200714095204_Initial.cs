@@ -8,6 +8,21 @@ namespace DataLayer.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "GiftCheques",
+                columns: table => new
+                {
+                    GiftChequeID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true),
+                    Reference = table.Column<string>(nullable: true),
+                    Value = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GiftCheques", x => x.GiftChequeID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Invoices",
                 columns: table => new
                 {
@@ -47,6 +62,7 @@ namespace DataLayer.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Reference = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
+                    ExclTaxPrice = table.Column<double>(nullable: false),
                     Price = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
@@ -225,6 +241,9 @@ namespace DataLayer.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Discounts");
+
+            migrationBuilder.DropTable(
+                name: "GiftCheques");
 
             migrationBuilder.DropTable(
                 name: "LoginSessions");
