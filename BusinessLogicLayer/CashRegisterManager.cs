@@ -9,10 +9,30 @@ namespace BusinessLogicLayer
 {
     public class CashRegisterManager
     {
-        public ObservableCollection<InvoiceView> invoiceViewsList = new ObservableCollection<InvoiceView>();
-        public ObservableCollection<ProductLine> productLinesList = new ObservableCollection<ProductLine>();
-        public ObservableCollection<Discount> totalDiscountsList = new ObservableCollection<Discount>();
-        public ObservableCollection<PaymentMethod> paymentMethodsList = new ObservableCollection<PaymentMethod>();
+        private ObservableCollection<InvoiceView> invoiceViewsList;
+        private ObservableCollection<ProductLine> productLinesList;
+        private ObservableCollection<Discount> totalDiscountsList;
+        private ObservableCollection<PaymentMethod> paymentMethodsList;
+
+        public ObservableCollection<InvoiceView> InvoiceViewsList()
+        {
+            return invoiceViewsList = new ObservableCollection<InvoiceView>();
+        }
+
+        public ObservableCollection<ProductLine> ProductLinesList()
+        {
+            return productLinesList = new ObservableCollection<ProductLine>();
+        }
+
+        public ObservableCollection<Discount> TotalDiscountsList()
+        {
+            return totalDiscountsList = new ObservableCollection<Discount>();
+        }
+
+        public ObservableCollection<PaymentMethod> PaymentMethodsList()
+        {
+            return paymentMethodsList = new ObservableCollection<PaymentMethod>();
+        }
 
         public void MakeASalesCycle(ProductView productView,
                                     CashRegisterManager cashRegisterManager,
@@ -24,16 +44,16 @@ namespace BusinessLogicLayer
                                     double discountTxtBox)
         {
             invoiceManager.MakeAInvoice(productView, cashRegisterManager, productLineManager, discountManager, quantity, pourcentDTxtBox, discountTxtBox);
-            productLineManager.SetAProductLine(invoiceManager.Ticket, productLinesList);
-            discountManager.SetADiscount(invoiceManager.Ticket, totalDiscountsList);
+            productLineManager.SetAProductLine(invoiceManager.Ticket, ProductLinesList());
+            discountManager.SetADiscount(invoiceManager.Ticket, TotalDiscountsList());
             JoinProductLineWithDiscount();
         }
 
         public void JoinProductLineWithDiscount()
         {
             InvoiceViewManager invoiceViewManager = new InvoiceViewManager();
-            var Join = from d in totalDiscountsList
-                       join p in productLinesList
+            var Join = from d in TotalDiscountsList()
+                       join p in ProductLinesList()
                        on d.DiscountJoinId equals p.ProductLineJoinId
                        select new InvoiceView
                        {
@@ -43,7 +63,7 @@ namespace BusinessLogicLayer
                            TotalDiscount = Math.Round(-d.TotalDiscount, 2),
                            FinalTotalPrice = Math.Round(p.FinalTotalPrice, 2)
                        };
-            invoiceViewManager.SetAProductLine(Join, invoiceViewsList);
+            invoiceViewManager.SetAProductLine(Join, InvoiceViewsList());
         }
 
         public double CalculateAPrice(ProductView productView, double quantity)
@@ -92,7 +112,7 @@ namespace BusinessLogicLayer
 
         public void DeleteProductToSell(InvoiceView invoiceView, Invoice ticket)
         {
-            foreach (var productLineToDelete in invoiceViewsList)
+            foreach (var productLineToDelete in InvoiceViewsList())
             {
                 if (productLineToDelete.InvoiceId == invoiceView.InvoiceId)
                 {
@@ -101,7 +121,7 @@ namespace BusinessLogicLayer
                     RemoveInvoiceProductLine(invoiceView, ticket);
                     RemoveProductLineFromProductLinesList(invoiceView);
                     RemoveDiscountFromDiscountsList(invoiceView);
-                    invoiceViewsList.Remove(productLineToDelete);
+                    InvoiceViewsList().Remove(productLineToDelete);
                     break;
                 }
             }
@@ -109,10 +129,6 @@ namespace BusinessLogicLayer
 
         private static void RemoveInvoiceProductLine(InvoiceView invoiceView, Invoice ticket)
         {
-            //var invoiceProductLine = from p in ticket.ProductLines
-            //                         where p.Product.ProductId == invoiceView.InvoiceId
-            //                         select p;
-
             foreach (var invoiceProductLine in ticket.ProductLines)
             {
                 if (invoiceProductLine.ProductLineId == invoiceView.InvoiceId)
@@ -125,11 +141,11 @@ namespace BusinessLogicLayer
 
         private void RemoveProductLineFromProductLinesList(InvoiceView invoiceView)
         {
-            foreach (var productLine in productLinesList)
+            foreach (var productLine in ProductLinesList())
             {
                 if (productLine.ProductLineId == invoiceView.InvoiceId)
                 {
-                    productLinesList.Remove(productLine);
+                    ProductLinesList().Remove(productLine);
                     break;
                 }
             }
@@ -137,11 +153,11 @@ namespace BusinessLogicLayer
 
         private void RemoveDiscountFromDiscountsList(InvoiceView invoiceView)
         {
-            foreach (var discount in totalDiscountsList)
+            foreach (var discount in TotalDiscountsList())
             {
                 if (discount.DiscountId == invoiceView.InvoiceId)
                 {
-                    totalDiscountsList.Remove(discount);
+                    TotalDiscountsList().Remove(discount);
                     break;
                 }
             }

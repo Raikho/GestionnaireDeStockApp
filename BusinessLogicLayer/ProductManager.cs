@@ -22,7 +22,7 @@ namespace BusinessLogicLayer
             newProduct = dbContext.Products.Where(c => c.Reference == newProductRef).FirstOrDefault();
             if (newProduct == null)
             {
-                var product = new Product()
+                var product = new Product
                 {
                     Reference = newProductRef,
                     Name = newProductName,
@@ -30,7 +30,7 @@ namespace BusinessLogicLayer
                     Price = Convert.ToDouble(newProductPrice),
                     ProductStocks = new List<ProductStock>()
                     {
-                        new ProductStock()
+                        new ProductStock
                         {
                             Quantity = Convert.ToDouble(newProductQuantity)
                         }
