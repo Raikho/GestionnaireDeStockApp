@@ -10,7 +10,7 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class LoginWindow : Window
     {
-        bool UserNameTxtBoxClick, PasswordTxtBoxClick = false;
+        bool UserNameTxtBoxClick, PasswordTxtBoxClick;
 
         public LoginWindow()
         {
@@ -103,8 +103,7 @@ namespace GestionnaireDeStockApp
                     LoginTxtBlockInfo.Text = "Veuillez renseigner tous les champs";
                 else
                 {
-                    LoginManager loginManager = new LoginManager();
-                    if (loginManager.TryToConnect(UserNameTxtBox.Text, PasswordTxtBox.Password) == null)
+                    if (LoginManager.TryToConnect(UserNameTxtBox.Text, PasswordTxtBox.Password) == null)
                         LoginTxtBlockInfo.Text = "Connexion échouée, veuillez réessayer";
                     else
                     {

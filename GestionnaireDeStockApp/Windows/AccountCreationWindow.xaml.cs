@@ -14,7 +14,7 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class AccountCreationWindow : Window
     {
-        bool NameTxtBoxClick, SurNameTxtBoxClick, CreateIDTxtBoxClick, CreatePWTxtBoxClick, ConfirmPWTxtBoxClick = false;
+        bool NameTxtBoxClick, SurNameTxtBoxClick, CreateIDTxtBoxClick, CreatePWTxtBoxClick, ConfirmPWTxtBoxClick;
 
         public AccountCreationWindow()
         {

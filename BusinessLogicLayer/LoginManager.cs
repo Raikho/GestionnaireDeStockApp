@@ -9,7 +9,7 @@ namespace BusinessLogicLayer
     {
         public static LoginSession _loginSession = new LoginSession();
 
-        public LoginSession TryToConnect(string username, string password)
+        public static LoginSession TryToConnect(string username, string password)
         {
             User newUserIdentification = null;
             var dbContext = new StockContext();
