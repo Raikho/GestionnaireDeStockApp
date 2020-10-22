@@ -47,7 +47,7 @@ namespace BusinessLogicLayer
 
         private void MakeAPayment(InvoiceManager invoiceManager, PaymentMethodType type, double payment)
         {
-            invoiceManager.Ticket.PaymentMethods.Add(new PaymentMethod()
+            invoiceManager.Ticket.PaymentMethods.Add(new PaymentMethod
             {
                 PaymentMethodJoinId = SetTheProductLineJoinId(invoiceManager.Ticket),
                 Type = type,
