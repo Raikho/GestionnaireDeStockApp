@@ -164,7 +164,9 @@ namespace GestionnaireDeStockApp
         private void SelectContentOnFocus(TextBox textBox)
         {
             if (textBox.Text != null)
+            {
                 textBox.SelectAll();
+            }
         }
 
         private void ClearTheBLock()

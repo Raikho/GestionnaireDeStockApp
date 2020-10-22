@@ -100,11 +100,15 @@ namespace GestionnaireDeStockApp
                     || PasswordTxtBox.Password == ""
                     || UserNameTxtBoxClick == false
                     || PasswordTxtBoxClick == false)
+                {
                     LoginTxtBlockInfo.Text = "Veuillez renseigner tous les champs";
+                }
                 else
                 {
                     if (LoginManager.TryToConnect(UserNameTxtBox.Text, PasswordTxtBox.Password) == null)
+                    {
                         LoginTxtBlockInfo.Text = "Connexion échouée, veuillez réessayer";
+                    }
                     else
                     {
                         LoginTxtBlockInfo.Text = "Connexion réussie";

@@ -24,13 +24,17 @@ namespace GestionnaireDeStockApp.Windows
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
+            {
                 Close();
+            }
         }
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
+            {
                 DragMove();
+            }
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)

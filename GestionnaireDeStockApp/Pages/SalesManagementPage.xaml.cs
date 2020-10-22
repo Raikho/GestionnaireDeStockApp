@@ -20,7 +20,7 @@ namespace GestionnaireDeStockApp
 
         InvoiceManager InvoiceManager = new InvoiceManager();
         PaymentMethod PaymentMethod = new PaymentMethod();
-        MethodPaymentManager MethodPaymentManager = new MethodPaymentManager();
+        readonly MethodPaymentManager MethodPaymentManager = new MethodPaymentManager();
 
         public SalesManagementPage()
         {
@@ -41,7 +41,9 @@ namespace GestionnaireDeStockApp
         private void SearchAnArticle_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
+            {
                 SearchAnArticleToSell();
+            }
         }
 
         private void ShowSellerNameOnTicket()
@@ -157,11 +159,16 @@ namespace GestionnaireDeStockApp
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OtherPaymentButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-
+                
             }
             catch (Exception exception)
             {

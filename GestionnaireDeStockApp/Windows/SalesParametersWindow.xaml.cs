@@ -24,13 +24,17 @@ namespace GestionnaireDeStockApp
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
+            {
                 DragMove();
+            }
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
+            {
                 Close();
+            }
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
@@ -145,27 +149,39 @@ namespace GestionnaireDeStockApp
         {
             CheckInputService.CheckDoubleTypeInput(QuantParamTxtBox);
             if (CheckInputService.CorrectPickedChara == false || QuantParamTxtBox.Text == "")
+            {
                 return 0;
+            }
             else
+            {
                 return SalesParameter.Quantity = Convert.ToInt32(QuantParamTxtBox.Text);
+            }
         }
 
         private double SetPourcentDiscountParamater()
         {
             CheckInputService.CheckDoubleTypeInput(PourcentDiscountTxtBox);
             if (CheckInputService.CorrectPickedChara == false || PourcentDiscountTxtBox.Text == "")
+            {
                 return 0;
+            }
             else
+            {
                 return SalesParameter.PourcentDiscount = Convert.ToInt32(PourcentDiscountTxtBox.Text);
+            }
         }
 
         private double SetDiscountParameter()
         {
             CheckInputService.CheckDoubleTypeInput(DiscountTxtBox);
             if (CheckInputService.CorrectPickedChara == false || DiscountTxtBox.Text == "")
+            {
                 return 0;
+            }
             else
+            {
                 return SalesParameter.Discount = Convert.ToInt32(DiscountTxtBox.Text);
+            }
         }
     }
 }

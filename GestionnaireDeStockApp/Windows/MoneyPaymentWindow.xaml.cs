@@ -82,7 +82,9 @@ namespace GestionnaireDeStockApp
             {
                 CheckInputService.CheckDoubleTypeInput(MoneyTxtBox);
                 if (CheckInputService.CorrectPickedChara == false || MoneyTxtBox.Text == "")
+                {
                     return 0;
+                }
                 else
                 {
                     return SalesManagementPage.Payment.MoneyPayment = Convert.ToDouble(MoneyTxtBox.Text);
@@ -91,7 +93,9 @@ namespace GestionnaireDeStockApp
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message);
-                return 0;
+                {
+                    return 0;
+                }
             }
         }
     }
