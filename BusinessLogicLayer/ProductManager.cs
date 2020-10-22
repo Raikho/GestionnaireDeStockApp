@@ -77,7 +77,7 @@ namespace BusinessLogicLayer
                     || product.Price.ToString().ToLower().Contains(input.ToString().ToLower())
                     || product.Quantity.ToString().ToLower().Contains(input.ToString().ToLower()))
                 {
-                    productViewsList.Add(new ProductView()
+                    productViewsList.Add(new ProductView
                     {
                         Reference = product.Reference,
                         Name = product.Name,

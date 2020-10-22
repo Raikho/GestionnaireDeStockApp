@@ -8,8 +8,12 @@ namespace BusinessLogicLayer
     public class LoginManager
     {
         private static LoginSession loginSession = new LoginSession();
-
         public static LoginSession LoginSession { get => loginSession; set => loginSession = value; }
+
+        private LoginManager()
+        {
+            
+        }
 
         public static LoginSession TryToConnect(string username, string password)
         {
