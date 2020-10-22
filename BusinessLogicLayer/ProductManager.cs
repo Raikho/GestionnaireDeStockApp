@@ -28,7 +28,7 @@ namespace BusinessLogicLayer
                     Name = newProductName,
                     ExclTaxPrice = Convert.ToDouble(newProductExclTaxPrice),
                     Price = Convert.ToDouble(newProductPrice),
-                    ProductStocks = new List<ProductStock>()
+                    ProductStocks = new List<ProductStock>
                     {
                         new ProductStock
                         {
@@ -52,7 +52,7 @@ namespace BusinessLogicLayer
             {
                 if (product.Price >= Convert.ToDouble(textBoxMin) && product.Price <= Convert.ToDouble(textBoxMax))
                 {
-                    productViewsList.Add(new ProductView()
+                    productViewsList.Add(new ProductView
                     {
                         Reference = product.Reference,
                         Name = product.Name,

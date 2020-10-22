@@ -191,19 +191,29 @@ namespace GestionnaireDeStockApp
             InvoiceManager.Ticket.ProductLines.Clear();
 
             if (InvoiceManager.Ticket.PaymentMethods != null)
+            {
                 InvoiceManager.Ticket.PaymentMethods.Clear();
+            }
 
             if (CashRegisterManager.InvoiceViewsList != null)
+            {
                 CashRegisterManager.InvoiceViewsList.Clear();
+            }
 
             if (CashRegisterManager.ProductLinesList != null)
+            {
                 CashRegisterManager.ProductLinesList.Clear();
-
+            }
+                
             if (CashRegisterManager.TotalDiscountsList != null)
+            {
                 CashRegisterManager.TotalDiscountsList.Clear();
-
+            }
+                
             if (CashRegisterManager.PaymentMethodsList != null)
+            {
                 CashRegisterManager.PaymentMethodsList.Clear();
+            }    
         }
 
         private void PaymentButton_Click(object sender, RoutedEventArgs e)

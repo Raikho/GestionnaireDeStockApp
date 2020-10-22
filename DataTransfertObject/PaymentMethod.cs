@@ -14,6 +14,5 @@ namespace DataTransfertObject
         public double Value { get; set; }
         public PaymentMethodType Type { get; set; }
         public DateTime CreationDate { get; set; }
-        //public ICollection GiftChequeList { get; set; }
     }
 }
