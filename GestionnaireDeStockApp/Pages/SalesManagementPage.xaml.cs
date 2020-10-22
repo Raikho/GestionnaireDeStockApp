@@ -15,13 +15,14 @@ namespace GestionnaireDeStockApp
     public partial class SalesManagementPage : Page
     {
         public static Payment Payment = new Payment();
-        CashRegisterManager CashRegisterManager = new CashRegisterManager();
+        CashRegisterManager CashRegisterManager { get; } 
         InvoiceManager InvoiceManager = new InvoiceManager();
         PaymentMethod PaymentMethod = new PaymentMethod();
         MethodPaymentManager MethodPaymentManager = new MethodPaymentManager();
 
         public SalesManagementPage()
         {
+            CashRegisterManager = new CashRegisterManager();
             InitializeComponent();
             SearchAnArticleToSellTxtBox.Focus();
             ArticleToSellDataGrid.ItemsSource = ProductViewManager.JoinProductAndProductStockTables();
@@ -209,7 +210,7 @@ namespace GestionnaireDeStockApp
             {
                 if (MessageBox.Show("Voulez-vous valider l'encaissement?", "Caisse", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    if (Payment.TotalToPay > 0)
+                    if (Math.Round(Payment.TotalToPay, 2) > 0)
                         MessageBox.Show("L'encaissement est incomplet. Veuillez procéder au paiement.");
                     else
                     {

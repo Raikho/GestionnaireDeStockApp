@@ -89,6 +89,30 @@ namespace GestionnaireDeStockApp
             SelectContentOnFocus(EditNameTxtBox);
         }
 
+        private void EditExclTaxPriceTxtBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            EditExclTaxPriceTxtBox.GotFocus += EditExclTaxPriceTxtBox_GotFocus;
+        }
+
+        private void EditExclTaxPriceTxtBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            EditExclTaxPriceTxtBox.Foreground = new SolidColorBrush(Colors.DarkGreen);
+            if (e.Key == Key.Enter)
+            {
+                EditAnArticle();
+            }
+        }
+
+        private void EditExclTaxPriceTxtBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+
+        }
+
+        private void EditExclTaxPriceTxtBox_GotMouseCapture(object sender, MouseEventArgs e)
+        {
+            SelectContentOnFocus(EditExclTaxPriceTxtBox);
+        }
+
         private void EditPriceTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
             EditPriceTxtBox.GotFocus += EditPriceTxtBox_GotFocus;
@@ -161,6 +185,7 @@ namespace GestionnaireDeStockApp
 
                 EditRefTxtBox.Text = selectedItem.Reference;
                 EditNameTxtBox.Text = selectedItem.Name;
+                EditExclTaxPriceTxtBox.Text = selectedItem.ExclTaxPrice.ToString();
                 EditPriceTxtBox.Text = selectedItem.Price.ToString();
                 EditQuantTxtBox.Text = selectedItem.Quantity.ToString();
             }
@@ -186,6 +211,7 @@ namespace GestionnaireDeStockApp
                     {
                         ProductViewManager.CurrentItemSelected.Reference = EditRefTxtBox.Text;
                         ProductViewManager.CurrentItemSelected.Name = EditNameTxtBox.Text;
+                        ProductViewManager.CurrentItemSelected.ExclTaxPrice = Convert.ToDouble(EditExclTaxPriceTxtBox.Text);
                         ProductViewManager.CurrentItemSelected.Price = Convert.ToDouble(EditPriceTxtBox.Text);
                         ProductViewManager.CurrentItemSelected.Quantity = Convert.ToDouble(EditQuantTxtBox.Text);
 

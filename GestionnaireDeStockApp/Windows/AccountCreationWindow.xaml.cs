@@ -14,7 +14,7 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class AccountCreationWindow : Window
     {
-        bool NameTxtBoxClick, SurNameTxtBoxClick, CreateIDTxtBoxClick, CreatePWTxtBoxClick, ConfirmPWTxtBoxClick = false;
+        bool NameTxtBoxClick, SurNameTxtBoxClick, CreateIDTxtBoxClick, CreatePWTxtBoxClick, ConfirmPWTxtBoxClick;
 
         public AccountCreationWindow()
         {
@@ -59,7 +59,6 @@ namespace GestionnaireDeStockApp
                     }
                 }
             }
-
         }
 
         private void MainGrid_MouseDown(object sender, MouseButtonEventArgs e)

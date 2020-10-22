@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer;
+using GestionnaireDeStockApp.Pages;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -139,7 +140,7 @@ namespace GestionnaireDeStockApp
 
         private void InventoryButton_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new EditAnArticlePage();
+            MainFrame.Content = new InventoryManagementPage();
         }
 
         private void HideAllItems()
@@ -195,7 +196,7 @@ namespace GestionnaireDeStockApp
                 }
 
                 if (e.Key == Key.F3)
-                    MainFrame.Content = new EditAnArticlePage();
+                    MainFrame.Content = new InventoryManagementPage();
 
                 if (e.Key == Key.F5)
                 {

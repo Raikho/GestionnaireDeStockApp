@@ -11,9 +11,9 @@
 
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <Grid Height="900" Width="900" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-            <StackPanel Margin="0,0,480,0">
+            <StackPanel Margin="0,0,400,0">
                 <StackPanel>
-                    <StackPanel Orientation="Vertical" Height="20" Width="420">
+                    <StackPanel Orientation="Vertical" Height="20" Width="498">
                         <StackPanel Orientation="Horizontal">
                             <TextBox x:Name="SearchAnArticleToSellTxtBox"
                              Text="Recherche..."
@@ -43,7 +43,7 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <StackPanel Width="420" Height="880"
+                    <StackPanel Width="500" Height="880"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch">
 
@@ -66,7 +66,10 @@
                                 <DataGridTextColumn Header="Nom"
                                             Width="110"
                                             Binding="{Binding Path=Name}"/>
-                                <DataGridTextColumn Header="Prix"
+                                <DataGridTextColumn Header="Prix HT" 
+                                                Width="70"
+                                                Binding="{Binding Path=ExclTaxPrice}"/>
+                                <DataGridTextColumn Header="Prix TTC"
                                             Width="57"
                                             Binding="{Binding Path=Price}"/>
                                 <DataGridTextColumn Header="Quantité"
@@ -89,7 +92,7 @@
 
             </StackPanel>
 
-            <StackPanel Margin="425,0,465,0" VerticalAlignment="Center" Height="850" RenderTransformOrigin="0.5,0.5">
+            <StackPanel Margin="505,0,385,0" VerticalAlignment="Center" Height="850" RenderTransformOrigin="0.5,0.5">
                 <StackPanel.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="1"/>
@@ -101,7 +104,7 @@
                 <Border Height="800" Background="LightCyan" CornerRadius="50" Width="3"/>
             </StackPanel>
 
-            <StackPanel Margin="425,0,150,875">
+            <StackPanel Margin="505,0,70,875">
                 <TextBlock Text="Ticket" 
                        Width="100" 
                        Foreground="White" 
@@ -111,7 +114,7 @@
                        FontFamily="Leelawadee UI Semilight" Height="20"/>
             </StackPanel>
 
-            <StackPanel Margin="425,0,150,60">
+            <StackPanel Margin="505,0,70,60">
                 <Grid Height="720" Margin="0,10,0,0">
                     <Grid Margin="0,0,0,10">
                         <Rectangle Grid.RowSpan="3" 

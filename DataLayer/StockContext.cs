@@ -1,5 +1,6 @@
 ﻿
 using DataTransfertObject;
+using DataTransfertObject.DataGridView;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer
@@ -15,6 +16,7 @@ namespace DataLayer
         public DbSet<Discount> Discounts { get; set; }
         public DbSet<ProductLine> ProductLines { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
+        public DbSet<GiftCheque> GiftCheques { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

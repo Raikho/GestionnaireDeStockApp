@@ -35,7 +35,7 @@ namespace BusinessLogicLayer
             var Join = from d in totalDiscountsList
                        join p in productLinesList
                        on d.DiscountJoinId equals p.ProductLineJoinId
-                       select new InvoiceView()
+                       select new InvoiceView
                        {
                            Name = p.Product.Name,
                            Price = Math.Round(p.Product.Price, 2),

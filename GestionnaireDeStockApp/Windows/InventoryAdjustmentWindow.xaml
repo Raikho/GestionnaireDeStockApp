@@ -1,0 +1,89 @@
+﻿<Window x:Class="GestionnaireDeStockApp.Windows.InventoryAdjustmentWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:GestionnaireDeStockApp.Windows"
+        mc:Ignorable="d"
+        Title="InventoryAdjustmentWindow" 
+        Height="140" Width="160"
+        AllowsTransparency="True" Background="Transparent" 
+        ResizeMode="NoResize" WindowStyle="None"
+        WindowStartupLocation="CenterScreen" KeyDown="Window_KeyDown">
+
+    <Grid MouseDown="Grid_MouseDown">
+        <Border Grid.RowSpan="2" CornerRadius="10">
+            <Border.Background>
+                <LinearGradientBrush>
+                    <GradientStop Color="#FF2D8893" Offset="0.0"/>
+                    <GradientStop Color="#FF8522BD" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+
+        <StackPanel Height="18" Width="20" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,5,5,0">
+            <Button x:Name="ExitButton"
+                    Content="{materialDesign:PackIcon Kind=PowerBox, Size=10}"
+                    Background="{x:Null}" 
+                    BorderBrush="{x:Null}"
+                    Foreground="White" 
+                    HorizontalAlignment="Center" 
+                    Height="16" 
+                    Width="20" 
+                    Click="ExitButton_Click"/>
+        </StackPanel>
+
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="20,40,0,0" 
+                   Text="Quantité :" 
+                   Foreground="White" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" Width="60"/>
+
+        <TextBox x:Name="QuantityTxtBox" 
+                 TextAlignment="Center"
+                 HorizontalAlignment="Left" 
+                 Margin="95,36,0,0" 
+                 Foreground="Black" 
+                 TextWrapping="Wrap" 
+                 VerticalAlignment="Top" 
+                 Width="50" 
+                 GotKeyboardFocus="QuantityTxtBox_GotKeyboardFocus"
+                 GotMouseCapture="QuantityTxtBox_GotMouseCapture"
+                 GotFocus="QuantityTxtBox_GotFocus"
+                 KeyDown="QuantityTxtBox_KeyDown"/>
+
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="20,65,0,0" 
+                   Text="Défectueux :" 
+                   Foreground="White" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" Width="70" Height="30"/>
+
+        <TextBox x:Name="DefectiveTxtBox" 
+                 TextAlignment="Center"
+                 HorizontalAlignment="Left" 
+                 Margin="95,61,0,0" 
+                 Foreground="Black" 
+                 TextWrapping="Wrap" 
+                 VerticalAlignment="Top" 
+                 Width="50" 
+                 GotKeyboardFocus="DefectiveTxtBox_GotKeyboardFocus"
+                 GotMouseCapture="DefectiveTxtBox_GotMouseCapture"
+                 GotFocus="DefectiveTxtBox_GotFocus"
+                 KeyDown="DefectiveTxtBox_KeyDown"/>
+
+        <Button x:Name="ValidateButton" 
+                Content="Valider le paiement" 
+                Style="{StaticResource PaymentCustomButton}" 
+                Foreground="White" 
+                Background="Transparent" 
+                Margin="15,100,15,0" 
+                VerticalAlignment="Top" 
+                FontWeight="Bold" 
+                Height="25"
+                FontSize="10"
+                Click="ValidateButton_Click" />
+    </Grid>
+</Window>

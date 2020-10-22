@@ -145,7 +145,10 @@
                                 <DataGridTextColumn Header="Nom"
                                                 Width="200"
                                                 Binding="{Binding Path=Name}"/>
-                                <DataGridTextColumn Header="Prix" 
+                                <DataGridTextColumn Header="Prix HT" 
+                                                Width="70"
+                                                Binding="{Binding Path=ExclTaxPrice}"/>
+                                <DataGridTextColumn Header="Prix TTC" 
                                                 Width="70"
                                                 Binding="{Binding Path=Price}"/>
                                 <DataGridTextColumn Header="Quantité"
