@@ -17,7 +17,7 @@ namespace BusinessLogicLayer
             if (newUserIdentification != null)
             {
                 var loginSessions = dbContext.LoginSessions;
-                _loginSession = new LoginSession()
+                _loginSession = new LoginSession
                 {
                     UserName = newUserIdentification.Username,
                     ConnectionState = true,

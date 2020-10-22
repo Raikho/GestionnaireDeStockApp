@@ -55,19 +55,19 @@ namespace BusinessLogicLayer
             Ticket.TotalToPay += totalDiscountPriceValue;
             Ticket.CreationDate = DateTime.Now;
 
-            Ticket.ProductLines.Add(new ProductLine()
+            Ticket.ProductLines.Add(new ProductLine
             {
                 ProductLineJoinId = productLineManager.SetTheProductLineId(Ticket),
-                Product = new Product()
+                Product = new Product
                 {
                     Name = productView.Name,
                     Price = productView.Price,
                 },
                 Quantity = quantity,
                 FinalTotalPrice = totalDiscountPriceValue,
-                Discounts = new List<Discount>()
+                Discounts = new List<Discount>
                 {
-                    new Discount()
+                    new Discount
                     {
                         DiscountJoinId = discountManager.SetTheDiscountId(Ticket),
                         Type = DiscountType.SubTotalDiscount,
