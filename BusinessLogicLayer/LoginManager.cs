@@ -7,7 +7,9 @@ namespace BusinessLogicLayer
 {
     public class LoginManager
     {
-        public static LoginSession _loginSession = new LoginSession();
+        private static LoginSession loginSession = new LoginSession();
+
+        public static LoginSession LoginSession { get => loginSession; set => loginSession = value; }
 
         public static LoginSession TryToConnect(string username, string password)
         {
@@ -17,15 +19,15 @@ namespace BusinessLogicLayer
             if (newUserIdentification != null)
             {
                 var loginSessions = dbContext.LoginSessions;
-                _loginSession = new LoginSession
+                LoginSession = new LoginSession
                 {
                     UserName = newUserIdentification.Username,
                     ConnectionState = true,
                     ConnectionDate = DateTime.Now
                 };
-                loginSessions.Add(_loginSession);
+                loginSessions.Add(LoginSession);
                 dbContext.SaveChanges();
-                return _loginSession;
+                return LoginSession;
             }
             else
                 return null;

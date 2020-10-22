@@ -14,8 +14,10 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class SalesManagementPage : Page
     {
-        public static Payment Payment = new Payment();
-        CashRegisterManager CashRegisterManager { get; } 
+        private static Payment payment = new Payment();
+        public static Payment Payment { get => payment; set => payment = value; }
+        CashRegisterManager CashRegisterManager { get; }
+
         InvoiceManager InvoiceManager = new InvoiceManager();
         PaymentMethod PaymentMethod = new PaymentMethod();
         MethodPaymentManager MethodPaymentManager = new MethodPaymentManager();
@@ -46,7 +48,7 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                SellerNameTxtBox.Text = $"Vendeur: {LoginManager._loginSession.UserName}";
+                SellerNameTxtBox.Text = $"Vendeur: {LoginManager.LoginSession.UserName}";
             }
             catch (Exception exception)
             {
@@ -191,17 +193,17 @@ namespace GestionnaireDeStockApp
             if (InvoiceManager.Ticket.PaymentMethods != null)
                 InvoiceManager.Ticket.PaymentMethods.Clear();
 
-            if (CashRegisterManager.invoiceViewsList != null)
-                CashRegisterManager.invoiceViewsList.Clear();
+            if (CashRegisterManager.InvoiceViewsList != null)
+                CashRegisterManager.InvoiceViewsList.Clear();
 
-            if (CashRegisterManager.productLinesList != null)
-                CashRegisterManager.productLinesList.Clear();
+            if (CashRegisterManager.ProductLinesList != null)
+                CashRegisterManager.ProductLinesList.Clear();
 
-            if (CashRegisterManager.totalDiscountsList != null)
-                CashRegisterManager.totalDiscountsList.Clear();
+            if (CashRegisterManager.TotalDiscountsList != null)
+                CashRegisterManager.TotalDiscountsList.Clear();
 
-            if (CashRegisterManager.paymentMethodsList != null)
-                CashRegisterManager.paymentMethodsList.Clear();
+            if (CashRegisterManager.PaymentMethodsList != null)
+                CashRegisterManager.PaymentMethodsList.Clear();
         }
 
         private void PaymentButton_Click(object sender, RoutedEventArgs e)
@@ -261,7 +263,7 @@ namespace GestionnaireDeStockApp
                                                     SalesParametersWindow.SalesParameter.Quantity,
                                                     SalesParametersWindow.SalesParameter.PourcentDiscount,
                                                     SalesParametersWindow.SalesParameter.Discount);
-                InvoiceDataGrid.ItemsSource = CashRegisterManager.invoiceViewsList;
+                InvoiceDataGrid.ItemsSource = CashRegisterManager.InvoiceViewsList;
                 Payment.TotalToPay = Math.Round(InvoiceManager.Ticket.TotalToPay, 2);
                 TotalTxtBlock.Text = $"{Math.Round(InvoiceManager.Ticket.Recipe, 2)}€ TTC";
                 RestToPayTxtBlock.Text = $"{Math.Round(Payment.TotalToPay, 2)}€";
@@ -367,7 +369,7 @@ namespace GestionnaireDeStockApp
                         TotalTxtBlock.Text = $"{Math.Round(InvoiceManager.Ticket.Recipe, 2)}€ TTC";
                         RestToPayTxtBlock.Text = $"{Math.Round(InvoiceManager.Ticket.TotalToPay, 2)}€";
                         TotalDiscountTxtBlock.Text = $"-{Math.Round(CashRegisterManager.CalculateTheTotalInvoiceDiscount(InvoiceManager.Ticket), 2)}";
-                        InvoiceDataGrid.ItemsSource = CashRegisterManager.invoiceViewsList;
+                        InvoiceDataGrid.ItemsSource = CashRegisterManager.InvoiceViewsList;
                     }
                 }
             }

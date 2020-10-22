@@ -9,9 +9,13 @@ namespace BusinessLogicLayer
 {
     public class InvoiceManager
     {
-        public ObservableCollection<PaymentMethod> paymentMethods = new ObservableCollection<PaymentMethod>();
-        public StockContext Invoices = new StockContext();
-        public Invoice Ticket = new Invoice();
+        private ObservableCollection<PaymentMethod> paymentMethods = new ObservableCollection<PaymentMethod>();
+        private StockContext invoices = new StockContext();
+        private Invoice ticket = new Invoice();
+
+        public ObservableCollection<PaymentMethod> PaymentMethods { get => paymentMethods; set => paymentMethods = value; }
+        public StockContext Invoices { get => invoices; set => invoices = value; }
+        public Invoice Ticket { get => ticket; set => ticket = value; }
 
         public List<Invoice> LoadInvoiceDataBase()
         {
@@ -99,10 +103,10 @@ namespace BusinessLogicLayer
 
         public void ClearAllInvoiceSetup(CashRegisterManager cashRegisterManager)
         {
-            cashRegisterManager.invoiceViewsList.Clear();
-            cashRegisterManager.productLinesList.Clear();
-            cashRegisterManager.totalDiscountsList.Clear();
-            cashRegisterManager.paymentMethodsList.Clear();
+            cashRegisterManager.InvoiceViewsList.Clear();
+            cashRegisterManager.ProductLinesList.Clear();
+            cashRegisterManager.TotalDiscountsList.Clear();
+            cashRegisterManager.PaymentMethodsList.Clear();
         }
     }
 }

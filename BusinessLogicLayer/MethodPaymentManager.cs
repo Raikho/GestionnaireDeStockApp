@@ -27,22 +27,26 @@ namespace BusinessLogicLayer
 
         private void MakeACBPayment(InvoiceManager invoiceManager, PaymentMethod paymentType, Payment payment)
         {
-            MakeAPayment(invoiceManager, paymentType.Type = PaymentMethodType.CB, payment.CBPayment);
+            paymentType.Type = PaymentMethodType.CB;
+            MakeAPayment(invoiceManager, paymentType.Type, payment.CBPayment);
         }
 
         private void MakeAMoneyPayment(InvoiceManager invoiceManager, PaymentMethod paymentType, Payment payment)
         {
-            MakeAPayment(invoiceManager, paymentType.Type = PaymentMethodType.Money, payment.MoneyPayment);
+            paymentType.Type = PaymentMethodType.Money;
+            MakeAPayment(invoiceManager, paymentType.Type, payment.MoneyPayment);
         }
 
         private void MakeAChequePayment(InvoiceManager invoiceManager, PaymentMethod paymentType, Payment payment)
         {
-            MakeAPayment(invoiceManager, paymentType.Type = PaymentMethodType.Cheque, payment.ChequePayment);
+            paymentType.Type = PaymentMethodType.Cheque;
+            MakeAPayment(invoiceManager, paymentType.Type, payment.ChequePayment);
         }
 
         private void MakeAGiftChequePayment(InvoiceManager invoiceManager, PaymentMethod paymentType, Payment payment)
         {
-            MakeAPayment(invoiceManager, paymentType.Type = PaymentMethodType.GiftCheque, payment.GiftChequePayment);
+            paymentType.Type = PaymentMethodType.GiftCheque;
+            MakeAPayment(invoiceManager, paymentType.Type, payment.GiftChequePayment);
         }
 
         private void MakeAPayment(InvoiceManager invoiceManager, PaymentMethodType type, double payment)

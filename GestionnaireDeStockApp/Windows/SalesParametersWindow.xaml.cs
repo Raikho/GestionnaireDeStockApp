@@ -12,7 +12,8 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class SalesParametersWindow : Window
     {
-        public static SalesParameter SalesParameter = new SalesParameter();
+        private static SalesParameter salesParameter = new SalesParameter();
+        public static SalesParameter SalesParameter { get => salesParameter; set => salesParameter = value; }
         public bool rightParameters { get; set; }
 
         public SalesParametersWindow()
