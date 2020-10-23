@@ -128,8 +128,8 @@ namespace GestionnaireDeStockApp
 
         private void ShowLoginWindow()
         {
-            LoginWindow loginWindow = new LoginWindow();
-            loginWindow.ShowDialog();
+            LoginWindow logWindow = new LoginWindow();
+            logWindow.ShowDialog();
             ShowCurrentUserName(LoginManager.LoginSession.UserName);
         }
 

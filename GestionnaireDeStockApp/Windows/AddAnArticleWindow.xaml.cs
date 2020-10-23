@@ -11,7 +11,7 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class AddAnArticleWindow : Window
     {
-        ArticlesListManagementPage ArticlesListManagementPage = new ArticlesListManagementPage();
+        readonly ArticlesListManagementPage ArticlesListManagementPage = new ArticlesListManagementPage();
 
         public AddAnArticleWindow()
         {

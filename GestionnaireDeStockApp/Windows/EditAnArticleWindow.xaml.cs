@@ -109,7 +109,7 @@ namespace GestionnaireDeStockApp
 
         private void EditExclTaxPriceTxtBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-
+            //Not yet implemented
         }
 
         private void EditExclTaxPriceTxtBox_GotMouseCapture(object sender, MouseEventArgs e)

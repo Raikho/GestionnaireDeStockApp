@@ -11,7 +11,10 @@ namespace GestionnaireDeStockApp.Windows
     /// </summary>
     public partial class GiftChequeWindow : Window
     {
+        private double giftChqAmount;
+
         public bool CloseWithPayment { get; set; }
+        public double GiftChqAmount { get => giftChqAmount; set => giftChqAmount = value; }
 
         public GiftChequeWindow(Payment payment)
         {
@@ -61,7 +64,7 @@ namespace GestionnaireDeStockApp.Windows
 
         private void GiftChqTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            //Not yet implemented
         }
 
         private void GiftChqTxtBox_KeyDown(object sender, KeyEventArgs e)
@@ -82,24 +85,24 @@ namespace GestionnaireDeStockApp.Windows
             }
         }
 
-        private double SetAGiftChqAmount()
+        private void SetAGiftChqAmount()
         {
             try
             {
                 CheckInputService.CheckDoubleTypeInput(AmountGiftChqTxtBox);
                 if (CheckInputService.CorrectPickedChara == false || AmountGiftChqTxtBox.Text == "")
                 {
-                    return 0;
+                    GiftChqAmount =  0;
                 }
                 else
                 {
-                    return SalesManagementPage.Payment.GiftChequePayment = Convert.ToDouble(AmountGiftChqTxtBox.Text);
+                    SalesManagementPage.Payment.GiftChequePayment = Convert.ToDouble(AmountGiftChqTxtBox.Text);
+                    GiftChqAmount = Convert.ToDouble(AmountGiftChqTxtBox.Text);
                 }
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message);
-                return 0;
             }
         }
     }

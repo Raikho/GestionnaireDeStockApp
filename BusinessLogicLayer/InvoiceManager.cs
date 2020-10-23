@@ -21,8 +21,8 @@ namespace BusinessLogicLayer
         {
             List<Invoice> invoicesList = new List<Invoice>();
             var dbContext = Invoices;
-            var invoices = dbContext.Invoices;
-            foreach (var invoice in invoices)
+            var storedInvoices = dbContext.Invoices;
+            foreach (var invoice in storedInvoices)
             {
                 invoicesList.Add(invoice);
             }
