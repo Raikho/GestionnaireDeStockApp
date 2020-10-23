@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace BusinessLogicLayer
 {
-    public class ProductManager
+    public static class ProductManager
     {
         public static InvoiceView selectedProductLine { get; private set; }
 
