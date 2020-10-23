@@ -25,7 +25,9 @@ namespace GestionnaireDeStockApp
                 return CorrectPickedChara = false;
             }
             else
+            {
                 return CorrectPickedChara = true;
+            }
         }
 
         public static bool CheckStringTypeInput(TextBox textBox)
@@ -37,7 +39,9 @@ namespace GestionnaireDeStockApp
                 return CorrectPickedChara = false;
             }
             else
+            {
                 return CorrectPickedChara = true;
+            }
         }
 
         /// <summary>
@@ -56,7 +60,9 @@ namespace GestionnaireDeStockApp
                     return CorrectPickedChara = false;
                 }
                 else
+                {
                     return CorrectPickedChara = true;
+                }
             }
             catch (Exception except)
             {
@@ -82,7 +88,9 @@ namespace GestionnaireDeStockApp
                     return CorrectPickedChara = false;
                 }
                 else
+                {
                     return CorrectPickedChara = true;
+                }
             }
             catch (Exception except)
             {
@@ -108,7 +116,9 @@ namespace GestionnaireDeStockApp
                     return CorrectPickedChara = false;
                 }
                 else
+                {
                     return CorrectPickedChara = true;
+                }
             }
             catch (Exception except)
             {
@@ -128,7 +138,9 @@ namespace GestionnaireDeStockApp
                     return CorrectPickedChara = true;
                 }
                 else
+                {
                     return CorrectPickedChara = false;
+                }
             }
             catch (Exception)
             {
@@ -147,7 +159,9 @@ namespace GestionnaireDeStockApp
                     return CorrectPickedChara = true;
                 }
                 else
+                {
                     return CorrectPickedChara = false;
+                }
             }
             catch (Exception)
             {
@@ -165,7 +179,9 @@ namespace GestionnaireDeStockApp
                 bool correctMaxNum = double.TryParse(newMaxInput, out double priceMax);
 
                 if (correctMinNum == true && correctMaxNum == true)
+                {
                     return true;
+                }
                 else
                 {
                     MessageBox.Show("La saisie ne correspond pas à une saisie chiffrée.");
@@ -174,7 +190,6 @@ namespace GestionnaireDeStockApp
             }
             catch (Exception)
             {
-
                 return CorrectPickedChara = false;
             }
         }

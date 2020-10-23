@@ -77,7 +77,9 @@ namespace GestionnaireDeStockApp.Windows
         private void SelectContentOnFocus(TextBox textBox)
         {
             if (textBox.Text != null)
+            {
                 textBox.SelectAll();
+            }
         }
 
         private double SetAGiftChqAmount()
@@ -86,7 +88,9 @@ namespace GestionnaireDeStockApp.Windows
             {
                 CheckInputService.CheckDoubleTypeInput(AmountGiftChqTxtBox);
                 if (CheckInputService.CorrectPickedChara == false || AmountGiftChqTxtBox.Text == "")
+                {
                     return 0;
+                }
                 else
                 {
                     return SalesManagementPage.Payment.GiftChequePayment = Convert.ToDouble(AmountGiftChqTxtBox.Text);

@@ -13,7 +13,7 @@ namespace BusinessLogicLayer
 
         public double SetThePaymentMethod(InvoiceManager invoiceManager, PaymentMethod paymentType, Payment payment)
         {
-            invoiceManager.Ticket.PaymentMethods = invoiceManager.paymentMethods;
+            invoiceManager.Ticket.PaymentMethods = invoiceManager.PaymentMethods;
 
             MakeACBPayment(invoiceManager, paymentType, payment);
             MakeAMoneyPayment(invoiceManager, paymentType, payment);
@@ -64,7 +64,9 @@ namespace BusinessLogicLayer
         {
             int value;
             if (ticket.PaymentMethods.Count == 0)
+            {
                 value = 0;
+            }
             else
             {
                 value = ticket.PaymentMethods.Last().PaymentMethodJoinId + 1;

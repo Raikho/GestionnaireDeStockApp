@@ -10,7 +10,9 @@ namespace BusinessLogicLayer
         {
             int value;
             if (ticket.ProductLines.Count == 0)
+            {
                 value = 0;
+            }
             else
             {
                 value = ticket.ProductLines.Last().ProductLineJoinId + 1;

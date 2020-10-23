@@ -18,9 +18,9 @@ namespace GestionnaireDeStockApp
         public static Payment Payment { get => payment; set => payment = value; }
         CashRegisterManager CashRegisterManager { get; }
 
-        InvoiceManager InvoiceManager = new InvoiceManager();
-        PaymentMethod PaymentMethod = new PaymentMethod();
+        readonly InvoiceManager InvoiceManager = new InvoiceManager();
         readonly MethodPaymentManager MethodPaymentManager = new MethodPaymentManager();
+        readonly PaymentMethod PaymentMethod = new PaymentMethod();
 
         public SalesManagementPage()
         {
@@ -106,7 +106,9 @@ namespace GestionnaireDeStockApp
                 creditCardPaymentWindow.ShowDialog();
 
                 if (creditCardPaymentWindow.CloseWithPayment == true && Convert.ToDouble(creditCardPaymentWindow.CBTxtBox.Text) > 0)
+                {
                     ShowACBPayment();
+                }
             }
             catch (Exception exception)
             {
@@ -121,7 +123,9 @@ namespace GestionnaireDeStockApp
                 MoneyPaymentWindow moneyPaymentWindow = new MoneyPaymentWindow(Payment);
                 moneyPaymentWindow.ShowDialog();
                 if (moneyPaymentWindow.CloseWithPayment == true && Convert.ToDouble(moneyPaymentWindow.MoneyTxtBox.Text) > 0)
+                {
                     ShowAMoneyPayment();
+                }
             }
             catch (Exception exception)
             {
@@ -136,7 +140,9 @@ namespace GestionnaireDeStockApp
                 ChequePaymentWindow chequePaymentWindow = new ChequePaymentWindow(Payment);
                 chequePaymentWindow.ShowDialog();
                 if (chequePaymentWindow.CloseWithPayment == true && Convert.ToDouble(chequePaymentWindow.ChqTxtBox.Text) > 0)
+                {
                     ShowAChequePayment();
+                }
             }
             catch (Exception exception)
             {
@@ -151,7 +157,9 @@ namespace GestionnaireDeStockApp
                 GiftChequeWindow giftChequeWindow = new GiftChequeWindow(Payment);
                 giftChequeWindow.ShowDialog();
                 if (giftChequeWindow.CloseWithPayment == true && Convert.ToDouble(giftChequeWindow.AmountGiftChqTxtBox.Text) > 0)
+                {
                     ShowAGiftChqPayment();
+                }
             }
             catch (Exception exception)
             {
@@ -179,7 +187,9 @@ namespace GestionnaireDeStockApp
         private void CancelPaymentButton_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Etes-vous sûr de vouloir annuler le ticket?", "Ticket", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
                 ResetTheTicket();
+            }
         }
 
         private void ResetTheTicket()
@@ -230,7 +240,9 @@ namespace GestionnaireDeStockApp
                 if (MessageBox.Show("Voulez-vous valider l'encaissement?", "Caisse", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     if (Math.Round(Payment.TotalToPay, 2) > 0)
+                    {
                         MessageBox.Show("L'encaissement est incomplet. Veuillez procéder au paiement.");
+                    }
                     else
                     {
                         MessageBox.Show("Vente terminée! Le ticket a été validé.");
@@ -359,7 +371,9 @@ namespace GestionnaireDeStockApp
         public double SetAShowPayment(double payment, string paymentType)
         {
             if (payment > Payment.TotalToPay || payment < 0)
+            {
                 MessageBox.Show("Le montant est incorrect");
+            }
             else
             {
                 if (payment > 0)

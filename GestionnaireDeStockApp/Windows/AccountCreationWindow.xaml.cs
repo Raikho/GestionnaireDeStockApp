@@ -25,7 +25,7 @@ namespace GestionnaireDeStockApp
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (LoginManager._loginSession.ConnectionState == true)
+            if (LoginManager.LoginSession.ConnectionState == true)
             {
                 Close();
             }
@@ -34,14 +34,14 @@ namespace GestionnaireDeStockApp
                 if (MessageBox.Show("Voulez-vous quitter la création de profil?", "Gestionnaire de stock", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     Close();
-                    MainWindow mainWindow = new MainWindow();
+                    new MainWindow();
                 }
             }
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (LoginManager._loginSession.ConnectionState == true)
+            if (LoginManager.LoginSession.ConnectionState == true)
             {
                 if (e.Key == Key.Escape || e.Key == Key.F7)
                 {
@@ -55,7 +55,7 @@ namespace GestionnaireDeStockApp
                     if (MessageBox.Show("Voulez-vous quitter la création de profil?", "Gestionnaire de stock", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
                         Close();
-                        MainWindow mainWindow = new MainWindow();
+                        new MainWindow();
                     }
                 }
             }
@@ -64,7 +64,9 @@ namespace GestionnaireDeStockApp
         private void MainGrid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
+            {
                 DragMove();
+            }
         }
 
         private void NameTxtBox_GotFocus(object sender, RoutedEventArgs e)
@@ -156,9 +158,13 @@ namespace GestionnaireDeStockApp
                     || CreateIDTxtBoxClick == false
                     || CreatePWTxtBoxClick == false
                     || ConfirmPWTxtBoxClick == false)
+                {
                     MessageBox.Show("Merci de remplir tous les champs.");
+                }
                 else if (CreatePWTxtBox.Password != ConfirmPWTxtBox.Password)
+                {
                     MessageBox.Show("Le mot de passe n'est pas identique.");
+                }
                 else
                 {
                     using (var dbContext = new StockContext())

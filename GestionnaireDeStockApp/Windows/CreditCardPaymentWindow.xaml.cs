@@ -32,7 +32,9 @@ namespace GestionnaireDeStockApp
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
+            {
                 DragMove();
+            }
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
@@ -75,7 +77,9 @@ namespace GestionnaireDeStockApp
         private void SelectContentOnFocus(TextBox textBox)
         {
             if (textBox.Text != null)
+            {
                 textBox.SelectAll();
+            }
         }
 
         private double SetACbAmount()
@@ -84,7 +88,9 @@ namespace GestionnaireDeStockApp
             {
                 CheckInputService.CheckDoubleTypeInput(CBTxtBox);
                 if (CheckInputService.CorrectPickedChara == false || CBTxtBox.Text == "")
+                {
                     return 0;
+                }
                 else
                 {
                     return SalesManagementPage.Payment.CBPayment = Convert.ToDouble(CBTxtBox.Text);
@@ -93,7 +99,9 @@ namespace GestionnaireDeStockApp
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message);
-                return 0;
+                {
+                    return 0;
+                }
             }
 
         }

@@ -12,7 +12,9 @@ namespace BusinessLogicLayer
             foreach (var producLine in ticket.ProductLines)
             {
                 if (producLine.Discounts.Count == 0)
+                {
                     value = 0;
+                }
                 else
                 {
                     value = producLine.Discounts.Last().DiscountJoinId + 1;

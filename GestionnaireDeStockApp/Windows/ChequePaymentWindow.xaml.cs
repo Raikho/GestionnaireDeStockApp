@@ -24,13 +24,17 @@ namespace GestionnaireDeStockApp
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
+            {
                 Close();
+            }
         }
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
+            {
                 DragMove();
+            }
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
@@ -73,7 +77,9 @@ namespace GestionnaireDeStockApp
         private void SelectContentOnFocus(TextBox textBox)
         {
             if (textBox.Text != null)
+            {
                 textBox.SelectAll();
+            }
         }
 
         private double SetAChequeAmount()
@@ -82,7 +88,9 @@ namespace GestionnaireDeStockApp
             {
                 CheckInputService.CheckDoubleTypeInput(ChqTxtBox);
                 if (CheckInputService.CorrectPickedChara == false || ChqTxtBox.Text == "")
+                {
                     return 0;
+                }
                 else
                 {
                     return SalesManagementPage.Payment.ChequePayment = Convert.ToDouble(ChqTxtBox.Text);
@@ -91,7 +99,9 @@ namespace GestionnaireDeStockApp
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message);
-                return 0;
+                {
+                    return 0;
+                }
             }
         }
     }

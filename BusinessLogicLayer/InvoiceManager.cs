@@ -54,7 +54,7 @@ namespace BusinessLogicLayer
             var totalDiscountValue = cashRegisterManager.CalculateTotalPourcentDAndDiscount(pourcentDiscountValue, discountValue);
             var totalDiscountPriceValue = cashRegisterManager.CalculateADiscountPrice(sum, totalDiscountValue);
 
-            Ticket.NameSeller = LoginManager._loginSession.UserName;
+            Ticket.NameSeller = LoginManager.LoginSession.UserName;
             Ticket.Recipe += totalDiscountPriceValue;
             Ticket.TotalToPay += totalDiscountPriceValue;
             Ticket.CreationDate = DateTime.Now;

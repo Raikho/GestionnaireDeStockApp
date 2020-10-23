@@ -10,6 +10,9 @@ namespace BusinessLogicLayer
         private static LoginSession loginSession = new LoginSession();
         public static LoginSession LoginSession { get => loginSession; set => loginSession = value; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private LoginManager()
         {
             

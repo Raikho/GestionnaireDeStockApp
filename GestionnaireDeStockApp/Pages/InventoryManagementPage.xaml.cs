@@ -51,7 +51,9 @@ namespace GestionnaireDeStockApp.Pages
             SearchMinPriceTxtBox.Foreground = new SolidColorBrush(Colors.White);
             SearchMinPriceTxtBox.GotFocus += SearchMinPriceTxtBox_GotFocus;
             if (SearchMinPriceTxtBox.Text == string.Empty)
+            {
                 ReloadDataGrid();
+            }
         }
 
         private void SearchMaxPriceTxtBox_GotFocus(object sender, RoutedEventArgs e)
@@ -60,7 +62,9 @@ namespace GestionnaireDeStockApp.Pages
             SearchMaxPriceTxtBox.Foreground = new SolidColorBrush(Colors.White);
             SearchMaxPriceTxtBox.GotFocus += SearchMaxPriceTxtBox_GotFocus;
             if (SearchMaxPriceTxtBox.Text == string.Empty)
+            {
                 ReloadDataGrid();
+            }
         }
 
         private void PriceSearchButton_Click(object sender, RoutedEventArgs e)

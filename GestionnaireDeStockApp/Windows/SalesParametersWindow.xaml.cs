@@ -106,7 +106,9 @@ namespace GestionnaireDeStockApp
         private void SelectContentOnFocus(TextBox textBox)
         {
             if (textBox.Text != null)
+            {
                 textBox.SelectAll();
+            }
         }
 
         public bool SetAParamPack()
@@ -126,7 +128,9 @@ namespace GestionnaireDeStockApp
                 return rightParameters = true;
             }
             else
+            {
                 return rightParameters = false;
+            }
         }
 
         private bool SetSaleParameter()
@@ -140,7 +144,9 @@ namespace GestionnaireDeStockApp
             else
             {
                 if (MessageBox.Show("Etes-vous sûr de vouloir ajouter cet article?", "DataGridView", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
                     paramater = true;
+                }
             }
             return paramater;
         }

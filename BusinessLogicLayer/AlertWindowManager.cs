@@ -7,6 +7,10 @@ namespace BusinessLogicLayer
 {
     public class AlertWindowManager
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<ProductView> AddProductsInRows()
         {
             var dbContext = new StockContext();

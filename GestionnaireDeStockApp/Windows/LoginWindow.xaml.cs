@@ -19,14 +19,16 @@ namespace GestionnaireDeStockApp
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (LoginManager._loginSession.ConnectionState == true)
+            if (LoginManager.LoginSession.ConnectionState == true)
             {
                 Close();
             }
             else
             {
                 if (MessageBox.Show("Voulez-vous quitter l'application?", "Gestionnaire de stock", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
                     Application.Current.Shutdown();
+                }
             }
         }
 
@@ -34,14 +36,16 @@ namespace GestionnaireDeStockApp
         {
             if (e.Key == Key.Escape || e.Key == Key.F6)
             {
-                if (LoginManager._loginSession.ConnectionState == true)
+                if (LoginManager.LoginSession.ConnectionState == true)
                 {
                     Close();
                 }
                 else
                 {
                     if (MessageBox.Show("Voulez-vous quitter l'application?", "Gestionnaire de stock", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
                         Application.Current.Shutdown();
+                    }
                 }
             }
         }
@@ -49,7 +53,9 @@ namespace GestionnaireDeStockApp
         private void MainGrid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
+            {
                 DragMove();
+            }
         }
 
         private void UserNameTxtBox_GotFocus(object sender, RoutedEventArgs e)
