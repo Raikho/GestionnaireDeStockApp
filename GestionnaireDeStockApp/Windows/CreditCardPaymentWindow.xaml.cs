@@ -100,5 +100,10 @@ namespace GestionnaireDeStockApp
             }
 
         }
+
+        private void CBTxtBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

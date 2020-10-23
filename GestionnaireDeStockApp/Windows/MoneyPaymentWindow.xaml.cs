@@ -99,5 +99,10 @@ namespace GestionnaireDeStockApp
                 }
             }
         }
+
+        private void MoneyTxtBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

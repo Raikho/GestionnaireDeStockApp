@@ -176,7 +176,7 @@ namespace GestionnaireDeStockApp
         {
             try
             {
-                
+
             }
             catch (Exception exception)
             {
@@ -221,16 +221,16 @@ namespace GestionnaireDeStockApp
             {
                 CashRegisterManager.ProductLinesList.Clear();
             }
-                
+
             if (CashRegisterManager.TotalDiscountsList != null)
             {
                 CashRegisterManager.TotalDiscountsList.Clear();
             }
-                
+
             if (CashRegisterManager.PaymentMethodsList != null)
             {
                 CashRegisterManager.PaymentMethodsList.Clear();
-            }    
+            }
         }
 
         private void PaymentButton_Click(object sender, RoutedEventArgs e)

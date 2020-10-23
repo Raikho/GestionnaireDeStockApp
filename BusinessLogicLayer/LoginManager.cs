@@ -15,7 +15,7 @@ namespace BusinessLogicLayer
         /// </summary>
         private LoginManager()
         {
-            
+
         }
 
         public static LoginSession TryToConnect(string username, string password)

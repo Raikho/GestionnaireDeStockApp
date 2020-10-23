@@ -86,5 +86,15 @@ namespace GestionnaireDeStockApp.Windows
                 textBox.SelectAll();
             }
         }
+
+        private void DefectiveTxtBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void QuantityTxtBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
