@@ -89,12 +89,12 @@ namespace GestionnaireDeStockApp.Windows
 
         private void DefectiveTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            //Not yet implemented
         }
 
         private void QuantityTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            //Not yet implemented
         }
     }
 }
