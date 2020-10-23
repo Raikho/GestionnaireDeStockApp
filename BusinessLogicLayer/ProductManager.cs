@@ -72,10 +72,10 @@ namespace BusinessLogicLayer
 
             foreach (var product in productsList)
             {
-                if (product.Reference.ToString().ToLower().Contains(input.ToString().ToLower())
-                    || product.Name.ToString().ToLower().Contains(input.ToString().ToLower())
-                    || product.Price.ToString().ToLower().Contains(input.ToString().ToLower())
-                    || product.Quantity.ToString().ToLower().Contains(input.ToString().ToLower()))
+                if (product.Reference.ToLower().Contains(input.ToLower())
+                    || product.Name.ToLower().Contains(input.ToLower())
+                    || product.Price.ToString().ToLower().Contains(input.ToLower())
+                    || product.Quantity.ToString().ToLower().Contains(input.ToLower()))
                 {
                     productViewsList.Add(new ProductView
                     {

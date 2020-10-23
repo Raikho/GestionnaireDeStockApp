@@ -183,7 +183,7 @@ namespace GestionnaireDeStockApp
 
                         MessageBox.Show("Profil crée avec succés!");
                         Close();
-                        MainWindow mainWindow = new MainWindow();
+                        new MainWindow();
                     }
                 }
             }

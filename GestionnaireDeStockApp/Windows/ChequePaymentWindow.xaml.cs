@@ -102,7 +102,7 @@ namespace GestionnaireDeStockApp
 
         private void ChqTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            //Not yet implemented
         }
     }
 }

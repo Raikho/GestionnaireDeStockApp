@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using DataLayer;
 using Microsoft.AspNet.OData;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -13,7 +9,7 @@ namespace WebApi.Controllers
     [ApiController]
     public class UsersController : ODataController
     {
-        private StockContext _db;
+        readonly private StockContext _db;
 
         public UsersController(StockContext context)
         {
