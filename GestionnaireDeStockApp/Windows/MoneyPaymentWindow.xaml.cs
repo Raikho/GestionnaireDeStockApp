@@ -11,7 +11,9 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class MoneyPaymentWindow : Window
     {
+        private double MoneyAmount;
         public bool CloseWithPayment { get; set; }
+        public double MoneyAmount1 { get => MoneyAmount; set => MoneyAmount = value; }
 
         public MoneyPaymentWindow(Payment payment)
         {
@@ -77,26 +79,24 @@ namespace GestionnaireDeStockApp
             }
         }
 
-        private double SetAMoneyAmount()
+        private void SetAMoneyAmount()
         {
             try
             {
                 CheckInputService.CheckDoubleTypeInput(MoneyTxtBox);
                 if (CheckInputService.CorrectPickedChara == false || MoneyTxtBox.Text == "")
                 {
-                    return 0;
+                    MoneyAmount = 0;
                 }
                 else
                 {
-                    return SalesManagementPage.Payment.MoneyPayment = Convert.ToDouble(MoneyTxtBox.Text);
+                    SalesManagementPage.Payment.MoneyPayment = Convert.ToDouble(MoneyTxtBox.Text);
+                    MoneyAmount = Convert.ToDouble(MoneyTxtBox.Text);
                 }
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message);
-                {
-                    return 0;
-                }
             }
         }
 

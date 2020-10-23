@@ -13,8 +13,14 @@ namespace GestionnaireDeStockApp
     public partial class SalesParametersWindow : Window
     {
         private static SalesParameter salesParameter = new SalesParameter();
+        private double quantityParameter;
+        private double pourcentDiscountParamater;
+        private double discountParameter;
         public static SalesParameter SalesParameter { get => salesParameter; set => salesParameter = value; }
         public bool rightParameters { get; set; }
+        public double QuantityParameter { get => quantityParameter; set => quantityParameter = value; }
+        public double PourcentDiscountParamater { get => pourcentDiscountParamater; set => pourcentDiscountParamater = value; }
+        public double DiscountParameter { get => discountParameter; set => discountParameter = value; }
 
         public SalesParametersWindow()
         {
@@ -150,43 +156,46 @@ namespace GestionnaireDeStockApp
             }
             return paramater;
         }
-
-        private double SetQuantityParameter()
+        
+        private void SetQuantityParameter()
         {
             CheckInputService.CheckDoubleTypeInput(QuantParamTxtBox);
             if (CheckInputService.CorrectPickedChara == false || QuantParamTxtBox.Text == "")
             {
-                return 0;
+                QuantityParameter = 0;
             }
             else
             {
-                return SalesParameter.Quantity = Convert.ToInt32(QuantParamTxtBox.Text);
+                SalesParameter.Quantity = Convert.ToInt32(QuantParamTxtBox.Text);
+                QuantityParameter = Convert.ToInt32(QuantParamTxtBox.Text);
             }
         }
 
-        private double SetPourcentDiscountParamater()
+        private void SetPourcentDiscountParamater()
         {
             CheckInputService.CheckDoubleTypeInput(PourcentDiscountTxtBox);
             if (CheckInputService.CorrectPickedChara == false || PourcentDiscountTxtBox.Text == "")
             {
-                return 0;
+                PourcentDiscountParamater = 0;
             }
             else
             {
-                return SalesParameter.PourcentDiscount = Convert.ToInt32(PourcentDiscountTxtBox.Text);
+                SalesParameter.PourcentDiscount = Convert.ToInt32(PourcentDiscountTxtBox.Text);
+                PourcentDiscountParamater = Convert.ToInt32(PourcentDiscountTxtBox.Text);
             }
         }
 
-        private double SetDiscountParameter()
+        private void SetDiscountParameter()
         {
             CheckInputService.CheckDoubleTypeInput(DiscountTxtBox);
             if (CheckInputService.CorrectPickedChara == false || DiscountTxtBox.Text == "")
             {
-                return 0;
+                DiscountParameter = 0;
             }
             else
             {
-                return SalesParameter.Discount = Convert.ToInt32(DiscountTxtBox.Text);
+                SalesParameter.Discount = Convert.ToInt32(DiscountTxtBox.Text);
+                DiscountParameter = Convert.ToInt32(DiscountTxtBox.Text);
             }
         }
     }

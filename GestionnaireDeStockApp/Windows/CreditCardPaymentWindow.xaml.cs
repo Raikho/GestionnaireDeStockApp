@@ -11,7 +11,10 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class CreditCardPaymentWindow : Window
     {
+        private double cbAmount;
+
         public bool CloseWithPayment { get; set; }
+        public double CbAmount { get => cbAmount; set => cbAmount = value; }
 
         public CreditCardPaymentWindow(Payment payment)
         {
@@ -77,26 +80,24 @@ namespace GestionnaireDeStockApp
             }
         }
 
-        private double SetACbAmount()
+        private void SetACbAmount()
         {
             try
             {
                 CheckInputService.CheckDoubleTypeInput(CBTxtBox);
                 if (CheckInputService.CorrectPickedChara == false || CBTxtBox.Text == "")
                 {
-                    return 0;
+                    CbAmount = 0;
                 }
                 else
                 {
-                    return SalesManagementPage.Payment.CBPayment = Convert.ToDouble(CBTxtBox.Text);
+                    SalesManagementPage.Payment.CBPayment = Convert.ToDouble(CBTxtBox.Text);
+                    CbAmount = Convert.ToDouble(CBTxtBox.Text);
                 }
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message);
-                {
-                    return 0;
-                }
             }
 
         }

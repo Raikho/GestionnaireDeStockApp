@@ -11,7 +11,10 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class ChequePaymentWindow : Window
     {
+        private double chequeAmount;
+
         public bool CloseWithPayment { get; set; }
+        public double ChequeAmount { get => chequeAmount; set => chequeAmount = value; }
 
         public ChequePaymentWindow(Payment payment)
         {
@@ -77,26 +80,24 @@ namespace GestionnaireDeStockApp
             }
         }
 
-        private double SetAChequeAmount()
+        private void SetAChequeAmount()
         {
             try
             {
                 CheckInputService.CheckDoubleTypeInput(ChqTxtBox);
                 if (CheckInputService.CorrectPickedChara == false || ChqTxtBox.Text == "")
                 {
-                    return 0;
+                    ChequeAmount = 0;
                 }
                 else
                 {
-                    return SalesManagementPage.Payment.ChequePayment = Convert.ToDouble(ChqTxtBox.Text);
+                    SalesManagementPage.Payment.ChequePayment = Convert.ToDouble(ChqTxtBox.Text);
+                    ChequeAmount = Convert.ToDouble(ChqTxtBox.Text);
                 }
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message);
-                {
-                    return 0;
-                }
             }
         }
 
