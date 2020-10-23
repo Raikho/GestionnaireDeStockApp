@@ -49,11 +49,6 @@ namespace GestionnaireDeStockApp
             Close();
         }
 
-        private void ChqTxtBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void ChqTxtBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)

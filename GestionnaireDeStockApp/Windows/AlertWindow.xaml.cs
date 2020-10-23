@@ -9,7 +9,7 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class AlertWindow : Window
     {
-        AlertWindowManager AlertWindowManager = new AlertWindowManager();
+        readonly AlertWindowManager AlertWindowManager = new AlertWindowManager();
 
         public AlertWindow()
         {

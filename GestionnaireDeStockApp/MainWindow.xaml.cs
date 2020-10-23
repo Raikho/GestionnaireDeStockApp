@@ -44,7 +44,6 @@ namespace GestionnaireDeStockApp
                 LogoTxtBlock.FontSize = 5;
                 ConnectedCircle.Width = 30;
             }
-
             MenuClosed = !MenuClosed;
         }
 
@@ -53,11 +52,11 @@ namespace GestionnaireDeStockApp
             loginWindow = new LoginWindow();
             loginWindow.ShowDialog();
 
-            LeftMenu.IsEnabled = LoginManager._loginSession.ConnectionState;
+            LeftMenu.IsEnabled = LoginManager.LoginSession.ConnectionState;
             if (LeftMenu.IsEnabled == true)
             {
                 ShowAllItems();
-                ShowCurrentUserName(LoginManager._loginSession.UserName);
+                ShowCurrentUserName(LoginManager.LoginSession.UserName);
                 MainFrame.Content = new ArticlesListManagementPage();
             }
         }
@@ -72,7 +71,9 @@ namespace GestionnaireDeStockApp
         private void TopGridBar_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
+            {
                 DragMove();
+            }
         }
 
         private void PowerButton_Click(object sender, RoutedEventArgs e)
@@ -104,9 +105,13 @@ namespace GestionnaireDeStockApp
             get
             {
                 if (WindowState == WindowState.Maximized)
+                {
                     return true;
+                }
                 else
+                {
                     return false;
+                }
             }
         }
 
@@ -125,7 +130,7 @@ namespace GestionnaireDeStockApp
         {
             LoginWindow loginWindow = new LoginWindow();
             loginWindow.ShowDialog();
-            ShowCurrentUserName(LoginManager._loginSession.UserName);
+            ShowCurrentUserName(LoginManager.LoginSession.UserName);
         }
 
         private void ShowArticleListManagement_Click(object sender, RoutedEventArgs e)
@@ -163,10 +168,12 @@ namespace GestionnaireDeStockApp
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (LoginManager._loginSession.ConnectionState == false)
+            if (LoginManager.LoginSession.ConnectionState == false)
             {
                 if (e.Key == Key.F6)
+                {
                     ShowLoginWindow();
+                }
                 else if (e.Key == Key.Escape)
                 {
                     if (MessageBox.Show("Voulez-vous quitter l'application?", "Gestionnaire de stock", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
@@ -175,7 +182,9 @@ namespace GestionnaireDeStockApp
                     }
                 }
                 else
+                {
                     MessageBox.Show("Veuillez vous connecter.");
+                }
             }
             else
             {
@@ -188,7 +197,9 @@ namespace GestionnaireDeStockApp
                 }
 
                 if (e.Key == Key.F1)
+                {
                     MainFrame.Content = new ArticlesListManagementPage();
+                }
 
                 if (e.Key == Key.F2)
                 {
@@ -196,7 +207,9 @@ namespace GestionnaireDeStockApp
                 }
 
                 if (e.Key == Key.F3)
+                {
                     MainFrame.Content = new InventoryManagementPage();
+                }
 
                 if (e.Key == Key.F5)
                 {
@@ -205,7 +218,9 @@ namespace GestionnaireDeStockApp
                 }
 
                 if (e.Key == Key.F6)
+                {
                     ShowLoginWindow();
+                }
 
                 if (e.Key == Key.F7)
                 {
@@ -217,7 +232,7 @@ namespace GestionnaireDeStockApp
 
         private void DashBoardButton_Click(object sender, RoutedEventArgs e)
         {
-
+            //Not yet implemented
         }
     }
 }

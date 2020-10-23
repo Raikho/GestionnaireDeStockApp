@@ -49,11 +49,6 @@ namespace GestionnaireDeStockApp
             Close();
         }
 
-        private void MoneyTxtBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void MoneyTxtBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)

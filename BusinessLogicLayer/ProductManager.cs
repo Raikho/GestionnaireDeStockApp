@@ -9,6 +9,11 @@ namespace BusinessLogicLayer
 {
     public class ProductManager
     {
+        public ProductManager()
+        {
+
+        }
+
         public static InvoiceView selectedProductLine { get; private set; }
 
         public static Product AddANewProductByRefChecking(string newProductRef,

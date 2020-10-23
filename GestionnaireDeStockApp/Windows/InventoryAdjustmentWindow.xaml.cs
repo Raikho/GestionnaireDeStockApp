@@ -48,11 +48,6 @@ namespace GestionnaireDeStockApp.Windows
             SelectContentOnFocus(QuantityTxtBox);
         }
 
-        private void QuantityTxtBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void QuantityTxtBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -69,11 +64,6 @@ namespace GestionnaireDeStockApp.Windows
         private void DefectiveTxtBox_GotMouseCapture(object sender, MouseEventArgs e)
         {
             SelectContentOnFocus(DefectiveTxtBox);
-        }
-
-        private void DefectiveTxtBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void DefectiveTxtBox_KeyDown(object sender, KeyEventArgs e)
