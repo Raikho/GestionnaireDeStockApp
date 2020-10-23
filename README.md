@@ -1,0 +1,2 @@
+# GestionnaireDeStockApp
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/03a3b5950bd3480390d06307faa2fddf)](https://app.codacy.com/gh/Hammana-Charif/GestionnaireDeStockApp?utm_source=github.com&utm_medium=referral&utm_content=Hammana-Charif/GestionnaireDeStockApp&utm_campaign=Badge_Grade_Settings)
