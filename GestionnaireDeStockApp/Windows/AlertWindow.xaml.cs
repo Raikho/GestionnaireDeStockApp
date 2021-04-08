@@ -9,12 +9,13 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class AlertWindow : Window
     {
-        readonly AlertWindowManager AlertWindowManager = new AlertWindowManager();
+        private readonly AlertWindowManager _alertWindowManager;
 
         public AlertWindow()
         {
+            _alertWindowManager = new AlertWindowManager();
             InitializeComponent();
-            productsDataGrid.ItemsSource = AlertWindowManager.AddProductsInRows();
+            productsDataGrid.ItemsSource = _alertWindowManager.AddProductsInRows();
         }
 
         private void MainGrid_MouseDown(object sender, MouseButtonEventArgs e)

@@ -2,7 +2,7 @@
 
 namespace Repository
 {
-    public class ProductRepository : Repository<Product>
+    public class StockRepository : Repository<ProductStock>
     {
 
     }

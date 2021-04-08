@@ -14,8 +14,8 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class SalesManagementPage : Page
     {
-        private static Payment payment = new Payment();
-        public static Payment Payment { get => payment; set => payment = value; }
+        public static Payment Payment { get; set; } = new Payment();
+
         CashRegisterManager CashRegisterManager { get; }
 
         readonly InvoiceManager InvoiceManager = new InvoiceManager();
@@ -86,7 +86,7 @@ namespace GestionnaireDeStockApp
                 SalesParametersWindow salesParametersWindow = new SalesParametersWindow();
                 salesParametersWindow.ShowDialog();
 
-                if (salesParametersWindow.rightParameters == true)
+                if (salesParametersWindow.RightParameters == true)
                 {
                     CalculateTheTicketPrice();
                     ProductViewManager.JoinProductAndProductStockTables();

@@ -11,10 +11,9 @@ namespace GestionnaireDeStockApp.Windows
     /// </summary>
     public partial class GiftChequeWindow : Window
     {
-        private double giftChqAmount;
-
         public bool CloseWithPayment { get; set; }
-        public double GiftChqAmount { get => giftChqAmount; set => giftChqAmount = value; }
+
+        public double GiftChqAmount { get; set; }
 
         public GiftChequeWindow(Payment payment)
         {

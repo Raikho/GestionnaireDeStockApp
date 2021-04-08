@@ -7,8 +7,7 @@ namespace BusinessLogicLayer
 {
     public class LoginManager
     {
-        private static LoginSession loginSession = new LoginSession();
-        public static LoginSession LoginSession { get => loginSession; set => loginSession = value; }
+        public static LoginSession LoginSession { get; set; } = new LoginSession();
 
         /// <summary>
         /// 

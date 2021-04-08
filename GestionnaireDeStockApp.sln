@@ -14,15 +14,14 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi\WebApi.csproj", "{2F03145E-E93F-4D45-8365-A942ECFF2372}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{CAD2A772-9E56-47A2-B835-28F58D2A0755}"
-	ProjectSection(ProjectDependencies) = postProject
-		{0DC855B7-B673-4135-A837-BA69A491AEFC} = {0DC855B7-B673-4135-A837-BA69A491AEFC}
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataTransfertObject", "DataTransfertObject\DataTransfertObject.csproj", "{CDAE4783-1F6B-4FF2-92CB-6B88A93B769F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogicLayer", "BusinessLogicLayer\BusinessLogicLayer.csproj", "{0C4038A5-BAF2-4E66-9ED0-916E5AC0C48F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ClassLibrary", "ClassLibrary", "{7D1E033F-7A3B-46DA-B165-20BDC59A65A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{37AF92EC-59B8-4588-BF7D-EB4041772DF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +53,10 @@ Global
 		{0C4038A5-BAF2-4E66-9ED0-916E5AC0C48F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C4038A5-BAF2-4E66-9ED0-916E5AC0C48F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C4038A5-BAF2-4E66-9ED0-916E5AC0C48F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37AF92EC-59B8-4588-BF7D-EB4041772DF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37AF92EC-59B8-4588-BF7D-EB4041772DF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37AF92EC-59B8-4588-BF7D-EB4041772DF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37AF92EC-59B8-4588-BF7D-EB4041772DF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -33,9 +33,18 @@
                         Click="Button_Click"/>
             </StackPanel>
 
-            <StackPanel Height="350" Width="710" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <ScrollViewer Height="350" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                    <DataGrid x:Name="productsDataGrid" AutoGenerateColumns="False" Background="Transparent">
+            <StackPanel Height="350" 
+                        Width="710" 
+                        VerticalAlignment="Center" 
+                        HorizontalAlignment="Center">
+                <ScrollViewer Height="350" 
+                              Width="710"
+                              VerticalScrollBarVisibility="Auto" 
+                              HorizontalScrollBarVisibility="Disabled">
+                    <DataGrid x:Name="productsDataGrid" 
+                              Height="350"
+                              AutoGenerateColumns="False" 
+                              Background="Transparent">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Référence" 
                                                 Width="200" 
