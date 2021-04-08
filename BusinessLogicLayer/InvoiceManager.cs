@@ -1,5 +1,6 @@
 ﻿using DataLayer;
 using DataTransfertObject;
+using Repository;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,24 +10,25 @@ namespace BusinessLogicLayer
 {
     public class InvoiceManager
     {
-        private ObservableCollection<PaymentMethod> paymentMethods = new ObservableCollection<PaymentMethod>();
-        private StockContext invoices = new StockContext();
-        private Invoice ticket = new Invoice();
+        public ObservableCollection<PaymentMethod> PaymentMethods { get; set; } = new ObservableCollection<PaymentMethod>();
 
-        public ObservableCollection<PaymentMethod> PaymentMethods { get => paymentMethods; set => paymentMethods = value; }
-        public StockContext Invoices { get => invoices; set => invoices = value; }
-        public Invoice Ticket { get => ticket; set => ticket = value; }
+        public StockContext Invoices { get; set; } = new StockContext();
+
+        public Invoice Ticket { get; set; } = new Invoice();
 
         public List<Invoice> LoadInvoiceDataBase()
         {
-            List<Invoice> invoicesList = new List<Invoice>();
-            var dbContext = Invoices;
-            var invoicesStore = dbContext.Invoices;
-            foreach (var invoice in invoicesStore)
-            {
-                invoicesList.Add(invoice);
-            }
-            return invoicesList;
+            var invoiceList = new InvoiceRepository();
+            return invoiceList.GetAll().ToList();
+
+            //List<Invoice> invoicesList = new List<Invoice>();
+            //var dbContext = Invoices;
+            //var invoicesStore = dbContext.Invoices;
+            //foreach (var invoice in invoicesStore)
+            //{
+            //    invoicesList.Add(invoice);
+            //}
+            //return invoicesList;
         }
 
         public Invoice SaveInvoiceToDataBase()
@@ -85,7 +87,7 @@ namespace BusinessLogicLayer
 
         public void MakeTheTicketPaymentsMethod()
         {
-            foreach (var paymentMethod in paymentMethods)
+            foreach (var paymentMethod in PaymentMethods)
             {
                 Ticket.PaymentMethods.Add(paymentMethod);
             }

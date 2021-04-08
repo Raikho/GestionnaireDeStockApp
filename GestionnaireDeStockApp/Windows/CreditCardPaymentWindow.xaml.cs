@@ -11,10 +11,8 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class CreditCardPaymentWindow : Window
     {
-        private double cbAmount;
-
         public bool CloseWithPayment { get; set; }
-        public double CbAmount { get => cbAmount; set => cbAmount = value; }
+        public double CbAmount { get; set; }
 
         public CreditCardPaymentWindow(Payment payment)
         {

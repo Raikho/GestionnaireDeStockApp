@@ -8,7 +8,7 @@ namespace Repository
         Entity GetSingleById(int Id);
         void Insert(Entity obj);
         void Update(Entity obj);
-        void Delete(int Id);
+        void Delete(Entity obj);
         void Save();
     }
 }

@@ -11,10 +11,9 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class ChequePaymentWindow : Window
     {
-        private double chequeAmount;
-
         public bool CloseWithPayment { get; set; }
-        public double ChequeAmount { get => chequeAmount; set => chequeAmount = value; }
+
+        public double ChequeAmount { get; set; }
 
         public ChequePaymentWindow(Payment payment)
         {

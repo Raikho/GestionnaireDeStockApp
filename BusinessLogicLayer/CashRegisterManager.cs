@@ -9,15 +9,14 @@ namespace BusinessLogicLayer
 {
     public class CashRegisterManager
     {
-        private ObservableCollection<InvoiceView> invoiceViewsList = new ObservableCollection<InvoiceView>();
-        private ObservableCollection<ProductLine> productLinesList = new ObservableCollection<ProductLine>();
-        private ObservableCollection<Discount> totalDiscountsList = new ObservableCollection<Discount>();
-        private ObservableCollection<PaymentMethod> paymentMethodsList = new ObservableCollection<PaymentMethod>();
+        public ObservableCollection<InvoiceView> InvoiceViewsList { get; set; } = new ObservableCollection<InvoiceView>();
 
-        public ObservableCollection<InvoiceView> InvoiceViewsList { get => invoiceViewsList; set => invoiceViewsList = value; }
-        public ObservableCollection<ProductLine> ProductLinesList { get => productLinesList; set => productLinesList = value; }
-        public ObservableCollection<Discount> TotalDiscountsList { get => totalDiscountsList; set => totalDiscountsList = value; }
-        public ObservableCollection<PaymentMethod> PaymentMethodsList { get => paymentMethodsList; set => paymentMethodsList = value; }
+        public ObservableCollection<ProductLine> ProductLinesList { get; set; } = new ObservableCollection<ProductLine>();
+
+        public ObservableCollection<Discount> TotalDiscountsList { get; set; } = new ObservableCollection<Discount>();
+
+        public ObservableCollection<PaymentMethod> PaymentMethodsList { get; set; } = new ObservableCollection<PaymentMethod>();
+
 
         public void MakeASalesCycle(ProductView productView,
                                     CashRegisterManager cashRegisterManager,

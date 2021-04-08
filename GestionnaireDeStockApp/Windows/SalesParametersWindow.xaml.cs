@@ -12,15 +12,11 @@ namespace GestionnaireDeStockApp
     /// </summary>
     public partial class SalesParametersWindow : Window
     {
-        private static SalesParameter salesParameter = new SalesParameter();
-        private double quantityParameter;
-        private double pourcentDiscountParamater;
-        private double discountParameter;
-        public static SalesParameter SalesParameter { get => salesParameter; set => salesParameter = value; }
-        public bool rightParameters { get; set; }
-        public double QuantityParameter { get => quantityParameter; set => quantityParameter = value; }
-        public double PourcentDiscountParamater { get => pourcentDiscountParamater; set => pourcentDiscountParamater = value; }
-        public double DiscountParameter { get => discountParameter; set => discountParameter = value; }
+        public static SalesParameter SalesParameter { get; set; } = new SalesParameter();
+        public bool RightParameters { get; set; }
+        public double QuantityParameter { get; set; }
+        public double PourcentDiscountParamater { get; set; }
+        public double DiscountParameter { get; set; }
 
         public SalesParametersWindow()
         {
@@ -131,11 +127,11 @@ namespace GestionnaireDeStockApp
             if (paramBool == true && SalesParameter.Quantity != 0)
             {
                 Close();
-                return rightParameters = true;
+                return RightParameters = true;
             }
             else
             {
-                return rightParameters = false;
+                return RightParameters = false;
             }
         }
 
